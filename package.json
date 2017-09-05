@@ -1,0 +1,35 @@
+{
+  "name": "poi-contributors",
+  "version": "1.0.0",
+  "description": "Contributor data for poi project and community",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poooi/contributors.git"
+  },
+  "keywords": [
+    "poi",
+    "contributor"
+  ],
+  "author": "かがみ",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/poooi/contributors/issues"
+  },
+  "homepage": "https://github.com/poooi/contributors#readme",
+  "devDependencies": {
+    "eslint": "^3.19.0 || ^4.3.0",
+    "eslint-config-airbnb": "^15.1.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.1.0",
+    "fs-extra": "^4.0.1",
+    "node-fetch": "^1.7.2",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  },
+  "dependencies": {}
+}
