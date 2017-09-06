@@ -19,6 +19,10 @@ const MORE_REPO = [
   'Artoria-0x04/paperblack',
 ]
 
+const ALIAS = {
+  dazzyd: 'yukixz',
+}
+
 const AUTH = process.env.auth || ''
 
 const fetchOptions = {}
@@ -63,7 +67,8 @@ const main = async () => {
   const contributors = {}
 
   _.each(_.toPairs(contributorPerRepo), ([repoName, people]) => {
-    _.each(people, ({ total, weeks, author: { login, id, avatar_url, html_url } }) => {
+    _.each(people, ({ total, weeks, author: { login: _login, id, avatar_url, html_url } }) => {
+      const login = ALIAS[_login] || _login
       if (!contributors[login]) {
         contributors[login] = {
           login,

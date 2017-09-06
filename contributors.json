@@ -569,11 +569,11 @@
     "id": 3337921,
     "avatar_url": "https://avatars1.githubusercontent.com/u/3337921?v=4",
     "html_url": "https://github.com/yukixz",
-    "total": 839,
+    "total": 840,
     "stat": {
-      "a": 27733,
+      "a": 27937,
       "d": 19193,
-      "c": 839
+      "c": 840
     },
     "firstCommitTime": 1435449600,
     "perRepo": {
@@ -657,7 +657,7 @@
     "html_url": "https://github.com/KagamiChan",
     "total": 1283,
     "stat": {
-      "a": 521155,
+      "a": 520340,
       "d": 333012,
       "c": 1283
     },
@@ -875,22 +875,6 @@
     "firstCommitTime": 1472342400,
     "perRepo": {
       "poooi/plugin-quest": 10
-    }
-  },
-  "dazzyd": {
-    "login": "dazzyd",
-    "id": 17616866,
-    "avatar_url": "https://avatars1.githubusercontent.com/u/17616866?v=4",
-    "html_url": "https://github.com/dazzyd",
-    "total": 1,
-    "stat": {
-      "a": 204,
-      "d": 0,
-      "c": 1
-    },
-    "firstCommitTime": 1437264000,
-    "perRepo": {
-      "poooi/plugin-secretary": 1
     }
   },
   "tengattack": {
