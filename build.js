@@ -105,8 +105,9 @@ const main = async () => {
 }
 
 const AVATAR_SIZE = 64
-const MARGIN = 5
-const IMAGE_WIDTH = 870
+const MARGIN = 10
+const COLS = 10
+const IMAGE_WIDTH = (AVATAR_SIZE * COLS) + (MARGIN * (COLS + 1))
 const ROUND = new Buffer(
   `<svg><rect x="0" y="0" width="${AVATAR_SIZE}" height="${AVATAR_SIZE}" rx="${AVATAR_SIZE / 2}" ry="${AVATAR_SIZE / 2}"/></svg>`
 )
@@ -135,7 +136,10 @@ const buildSvg = async (contributors) => {
     }
 
     const image = `<image x="${posX}" y="${posY}" width="${AVATAR_SIZE}" height="${AVATAR_SIZE}" xlink:href="data:png;base64,${data[index]}"/>`
-    imgs.push(`<a xlink:href="${p.html_url}" target="_blank" id="${p.login}">${image}</a>`)
+    imgs.push(`<a xlink:href="${p.html_url}" target="_blank" id="${p.login}">
+      ${image}
+      <rect x="${posX - 2}" y="${posY - 2}" width="${AVATAR_SIZE + 4}" height="${AVATAR_SIZE + 4}" stroke="#B3E5FC" stroke-width="2" fill="none" rx="${(AVATAR_SIZE / 2) + 2}" ry="${(AVATAR_SIZE / 2) + 2}" />
+    </a>`)
 
     posX += AVATAR_SIZE + MARGIN
   })
