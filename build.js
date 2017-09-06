@@ -4,6 +4,7 @@ const { join } = require('path')
 const Promise = require('bluebird')
 const fs = require('fs-extra')
 const HttpsProxyAgent = require('https-proxy-agent')
+const sharp = require('sharp')
 
 const proxy = process.env.https_proxy || process.env.http_proxy || ''
 
@@ -97,6 +98,51 @@ const main = async () => {
   // await fs.outputJson(join(__dirname, 'per-repo.json'), contributorPerRepo, { spaces: 2 })
   await fs.outputJson(join(__dirname, 'contributors.json'), contributors, { spaces: 2 })
   await fs.outputJson(join(__dirname, 'contributors-sorted.json'), _.sortBy(contributors, p => p.firstCommitTime), { spaces: 2 })
+
+  const img = await buildSvg(_.sortBy(contributors, p => p.firstCommitTime))
+
+  await fs.outputFile(join(__dirname, 'contributors.svg'), img)
+}
+
+const AVATAR_SIZE = 64
+const MARGIN = 5
+const IMAGE_WIDTH = 870
+const ROUND = new Buffer(
+  `<svg><rect x="0" y="0" width="${AVATAR_SIZE}" height="${AVATAR_SIZE}" rx="${AVATAR_SIZE / 2}" ry="${AVATAR_SIZE / 2}"/></svg>`
+)
+
+const buildSvg = async (contributors) => {
+  const data = await Promise.map(contributors,
+    async ({ avatar_url}) => {
+      try {
+        const resp = await fetch(avatar_url, fetchOptions)
+        const buf = await resp.buffer()
+        const img = await sharp(buf).resize(AVATAR_SIZE).overlayWith(ROUND, { cutout: true }).png().toBuffer()
+        return img.toString('base64')
+      } catch (e) {
+        console.error(`${avatar_url}&size=${AVATAR_SIZE}`, e)
+        return ''
+      }
+    },
+  )
+  let posX = MARGIN
+  let posY = MARGIN
+  const imgs = []
+  _.each(contributors, (p, index) => {
+    if (posX + MARGIN + AVATAR_SIZE > IMAGE_WIDTH) {
+      posY += AVATAR_SIZE + MARGIN
+      posX = MARGIN
+    }
+
+    const image = `<image x="${posX}" y="${posY}" width="${AVATAR_SIZE}" height="${AVATAR_SIZE}" xlink:href="data:png;base64,${data[index]}"/>`
+    imgs.push(`<a xlink:href="${p.html_url}" target="_blank" id="${p.login}">${image}</a>`)
+
+    posX += AVATAR_SIZE + MARGIN
+  })
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${IMAGE_WIDTH}" height="${posY + AVATAR_SIZE + MARGIN}">
+${imgs.join('\n')}
+</svg>`
 }
 
 main()
