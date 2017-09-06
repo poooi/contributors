@@ -18,6 +18,21 @@ const MORE_REPO = [
   'Artoria-0x04/poi-theme-lumendark',
   'govizlora/theme-papercyan',
   'Artoria-0x04/paperblack',
+  'kcwikizh/poi-plugin-subtitle',
+  'kcwikizh/poi-statistics',
+]
+
+const MORE_PEOPLE = [
+  {
+    login: 'Season千',
+    avatar_url: 'http://7xkd7e.com1.z0.glb.clouddn.com/season.jpg',
+    html_url: 'http://www.pixiv.net/member.php?id=3991162',
+  },
+  {
+    login: 'edwardaaaa',
+    avatar_url: 'https://avatars1.githubusercontent.com/u/11089376?v=4',
+    html_url: 'https://github.com/edwardaaaa',
+  },
 ]
 
 const ALIAS = {
@@ -99,14 +114,14 @@ const main = async () => {
   await fs.outputJson(join(__dirname, 'contributors.json'), contributors, { spaces: 2 })
   await fs.outputJson(join(__dirname, 'contributors-sorted.json'), _.sortBy(contributors, p => p.firstCommitTime), { spaces: 2 })
 
-  const img = await buildSvg(_.sortBy(contributors, p => p.firstCommitTime))
+  const img = await buildSvg([...MORE_PEOPLE, ..._.sortBy(contributors, p => p.firstCommitTime)])
 
   await fs.outputFile(join(__dirname, 'contributors.svg'), img)
 }
 
 const AVATAR_SIZE = 64
 const MARGIN = 10
-const COLS = 10
+const COLS = 12
 const IMAGE_WIDTH = (AVATAR_SIZE * COLS) + (MARGIN * (COLS + 1))
 const ROUND = new Buffer(
   `<svg><rect x="0" y="0" width="${AVATAR_SIZE}" height="${AVATAR_SIZE}" rx="${AVATAR_SIZE / 2}" ry="${AVATAR_SIZE / 2}"/></svg>`

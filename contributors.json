@@ -655,11 +655,11 @@
     "id": 3816900,
     "avatar_url": "https://avatars1.githubusercontent.com/u/3816900?v=4",
     "html_url": "https://github.com/KagamiChan",
-    "total": 1285,
+    "total": 1286,
     "stat": {
-      "a": 520626,
-      "d": 333044,
-      "c": 1285
+      "a": 520638,
+      "d": 333052,
+      "c": 1286
     },
     "firstCommitTime": 1449360000,
     "perRepo": {
@@ -686,7 +686,7 @@
       "poooi/plugin-navy-staff": 52,
       "poooi/poi-util-transpile": 10,
       "poooi/poi-asset-themes": 13,
-      "poooi/contributors": 4
+      "poooi/contributors": 5
     }
   },
   "magicae": {
@@ -694,11 +694,11 @@
     "id": 6753092,
     "avatar_url": "https://avatars1.githubusercontent.com/u/6753092?v=4",
     "html_url": "https://github.com/magicae",
-    "total": 885,
+    "total": 887,
     "stat": {
-      "a": 552952,
-      "d": 466331,
-      "c": 885
+      "a": 552955,
+      "d": 466334,
+      "c": 887
     },
     "firstCommitTime": 1414281600,
     "perRepo": {
@@ -718,7 +718,8 @@
       "poooi/plugin-map-hp": 6,
       "poooi/plugin-hello-es2016": 2,
       "magicae/poi-nwjs": 68,
-      "ruiii/poi_theme_paper_dark": 9
+      "ruiii/poi_theme_paper_dark": 9,
+      "kcwikizh/poi-statistics": 2
     }
   },
   "KochiyaOcean": {
@@ -726,11 +727,11 @@
     "id": 8194131,
     "avatar_url": "https://avatars3.githubusercontent.com/u/8194131?v=4",
     "html_url": "https://github.com/KochiyaOcean",
-    "total": 1792,
+    "total": 1797,
     "stat": {
-      "a": 76070,
-      "d": 44799,
-      "c": 1792
+      "a": 76091,
+      "d": 44822,
+      "c": 1797
     },
     "firstCommitTime": 1433635200,
     "perRepo": {
@@ -761,7 +762,8 @@
       "poooi/poi-asset-themes": 2,
       "ruiii/plugin-Hairstrength": 5,
       "dkwingsmt/plugin-wheres-my-fuel-gone": 2,
-      "ruiii/poi_theme_paper_dark": 2
+      "ruiii/poi_theme_paper_dark": 2,
+      "kcwikizh/poi-plugin-subtitle": 5
     }
   },
   "DavidDiao": {
@@ -866,15 +868,16 @@
     "id": 1572561,
     "avatar_url": "https://avatars1.githubusercontent.com/u/1572561?v=4",
     "html_url": "https://github.com/Gizeta",
-    "total": 10,
+    "total": 254,
     "stat": {
-      "a": 10811,
-      "d": 6076,
-      "c": 10
+      "a": 39315,
+      "d": 21556,
+      "c": 254
     },
-    "firstCommitTime": 1472342400,
+    "firstCommitTime": 1437868800,
     "perRepo": {
-      "poooi/plugin-quest": 10
+      "poooi/plugin-quest": 10,
+      "kcwikizh/poi-statistics": 244
     }
   },
   "tengattack": {
@@ -907,6 +910,22 @@
     "firstCommitTime": 1439683200,
     "perRepo": {
       "govizlora/theme-papercyan": 22
+    }
+  },
+  "grzhan": {
+    "login": "grzhan",
+    "id": 2235314,
+    "avatar_url": "https://avatars2.githubusercontent.com/u/2235314?v=4",
+    "html_url": "https://github.com/grzhan",
+    "total": 138,
+    "stat": {
+      "a": 172273,
+      "d": 146701,
+      "c": 138
+    },
+    "firstCommitTime": 1455408000,
+    "perRepo": {
+      "kcwikizh/poi-plugin-subtitle": 138
     }
   }
 }
