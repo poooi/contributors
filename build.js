@@ -111,12 +111,12 @@ const main = async () => {
   console.log(_.sortBy(contributors, 'total').length, 'contributors')
 
   // await fs.outputJson(join(__dirname, 'per-repo.json'), contributorPerRepo, { spaces: 2 })
-  await fs.outputJson(join(__dirname, 'contributors.json'), contributors, { spaces: 2 })
-  await fs.outputJson(join(__dirname, 'contributors-sorted.json'), _.sortBy(contributors, p => p.firstCommitTime), { spaces: 2 })
+  await fs.outputJson(join(__dirname, 'dist', 'contributors.json'), contributors, { spaces: 2 })
+  // await fs.outputJson(join(__dirname, 'contributors-sorted.json'), _.sortBy(contributors, p => p.firstCommitTime), { spaces: 2 })
 
   const img = await buildSvg([...MORE_PEOPLE, ..._.sortBy(contributors, p => p.firstCommitTime)])
 
-  await fs.outputFile(join(__dirname, 'contributors.svg'), img)
+  await fs.outputFile(join(__dirname, 'dist', 'contributors.svg'), img)
 }
 
 const AVATAR_SIZE = 64

@@ -655,11 +655,11 @@
     "id": 3816900,
     "avatar_url": "https://avatars1.githubusercontent.com/u/3816900?v=4",
     "html_url": "https://github.com/KagamiChan",
-    "total": 1286,
+    "total": 1281,
     "stat": {
-      "a": 520638,
-      "d": 333052,
-      "c": 1286
+      "a": 517884,
+      "d": 333009,
+      "c": 1281
     },
     "firstCommitTime": 1449360000,
     "perRepo": {
@@ -685,8 +685,7 @@
       "poooi/plugin-anchorage-repair": 68,
       "poooi/plugin-navy-staff": 52,
       "poooi/poi-util-transpile": 10,
-      "poooi/poi-asset-themes": 13,
-      "poooi/contributors": 5
+      "poooi/poi-asset-themes": 13
     }
   },
   "magicae": {
