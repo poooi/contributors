@@ -91,6 +91,7 @@ const get = async (url) => {
     const resp = await fetch(url, fetchOptions)
     return resp.json()
   } catch (e) {
+    console.log(e)
     return Promise.reject(e)
   }
 }
@@ -113,7 +114,7 @@ const ROUND = new Buffer(
 
 const buildSvg = async (contributors) => {
   const data = await Promise.map(contributors,
-    async ({ avatar_url}) => {
+    async ({ avatar_url }) => {
       try {
         const resp = await fetch(avatar_url, fetchOptions)
         const buf = await resp.buffer()
@@ -150,57 +151,61 @@ ${imgs.join('\n')}
 }
 
 const main = async () => {
-  const repos = await get(ORG_REPOS)
-  console.log('⚡️', ORG_REPOS)
+  try {
+    const repos = await get(ORG_REPOS)
+    console.log('⚡️', ORG_REPOS)
 
-  const contributorPerRepo = _.fromPairs(
-    await Promise.map((repos.map(r => r.full_name).concat(MORE_REPO)), async (name) => {
-      const url = `https://api.github.com/repos/${name}/stats/contributors`
-      const people = await get(url)
-      console.log('⚡️', url)
-      return [name, people]
-    })
-  )
+    const contributorPerRepo = _.fromPairs(
+      await Promise.map((repos.map(r => r.full_name).concat(MORE_REPO)), async (name) => {
+        const url = `https://api.github.com/repos/${name}/stats/contributors`
+        const people = await get(url)
+        console.log('⚡️', url)
+        return [name, people]
+      })
+    )
 
-  const contributors = {}
+    const contributors = {}
 
-  await Promise.each(_.toPairs(contributorPerRepo), async ([repoName, people]) =>
-    Promise.each(people, async ({ total, weeks, author: { login: _login, id, avatar_url, html_url } }) => {
-      const login = ALIAS[_login] || _login
-      if (!contributors[login]) {
-        console.log(login)
-        const user = await get(`https://api.github.com/users/${login}`)
-        contributors[login] = {
-          login,
-          name: user.name,
-          id,
-          avatar_url,
-          html_url,
-          total,
-          stat: reduceStat(weeks),
-          firstCommitTime: getFirstCommitTime(weeks),
-          perRepo: {
-            [repoName]: total,
-          },
+    await Promise.each(_.toPairs(contributorPerRepo), async ([repoName, people]) =>
+      Promise.each(people, async ({ total, weeks, author: { login: _login, id, avatar_url, html_url } }) => {
+        const login = ALIAS[_login] || _login
+        if (!contributors[login]) {
+          console.log(login)
+          const user = await get(`https://api.github.com/users/${login}`)
+          contributors[login] = {
+            login,
+            name: user.name,
+            id,
+            avatar_url,
+            html_url,
+            total,
+            stat: reduceStat(weeks),
+            firstCommitTime: getFirstCommitTime(weeks),
+            perRepo: {
+              [repoName]: total,
+            },
+          }
+        } else {
+          contributors[login].total += total
+          contributors[login].stat = reduceStat(weeks, contributors[login].stat)
+          contributors[login].perRepo[repoName] = total
+          contributors[login].firstCommitTime =
+            Math.min(contributors[login].firstCommitTime, getFirstCommitTime(weeks))
         }
-      } else {
-        contributors[login].total += total
-        contributors[login].stat = reduceStat(weeks, contributors[login].stat)
-        contributors[login].perRepo[repoName] = total
-        contributors[login].firstCommitTime =
-          Math.min(contributors[login].firstCommitTime, getFirstCommitTime(weeks))
-      }
-    })
-  )
+      })
+    )
 
-  const data = [...MORE_PEOPLE, ..._.sortBy(_.merge(contributors, OVERWRITES), p => p.firstCommitTime)]
-  // await fs.outputJson(join(__dirname, 'per-repo.json'), contributorPerRepo, { spaces: 2 })
-  await fs.outputJson(join(__dirname, 'dist', 'contributors.json'), data, { spaces: 2 })
-  // await fs.outputJson(join(__dirname, 'contributors-sorted.json'), _.sortBy(contributors, p => p.firstCommitTime), { spaces: 2 })
+    const data = [...MORE_PEOPLE, ..._.sortBy(_.merge(contributors, OVERWRITES), p => p.firstCommitTime)]
+    // await fs.outputJson(join(__dirname, 'per-repo.json'), contributorPerRepo, { spaces: 2 })
+    await fs.outputJson(join(__dirname, 'dist', 'contributors.json'), data, { spaces: 2 })
+    // await fs.outputJson(join(__dirname, 'contributors-sorted.json'), _.sortBy(contributors, p => p.firstCommitTime), { spaces: 2 })
 
-  const img = await buildSvg(data)
+    const img = await buildSvg(data)
 
-  await fs.outputFile(join(__dirname, 'dist', 'graph.svg'), img)
+    await fs.outputFile(join(__dirname, 'dist', 'graph.svg'), img)
+  } catch (e) {
+    console.warn(e)
+  }
 }
 
 main()
