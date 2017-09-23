@@ -1,6 +1,6 @@
 {
   "name": "poi-asset-contributor-data",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Contributor data for poi project and community",
   "main": "index.js",
   "scripts": {
