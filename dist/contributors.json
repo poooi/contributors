@@ -179,22 +179,22 @@
     "id": 8194131,
     "avatar_url": "https://avatars3.githubusercontent.com/u/8194131?v=4",
     "html_url": "http://www.kochiyaocean.org",
-    "total": 1815,
+    "total": 1825,
     "stat": {
-      "a": 76332,
-      "d": 44968,
-      "c": 1815
+      "a": 76463,
+      "d": 45076,
+      "c": 1825
     },
     "firstCommitTime": 1433635200,
     "perRepo": {
-      "poooi/poi": 1326,
+      "poooi/poi": 1332,
       "poooi/plugin-exp-calculator": 4,
       "poooi/plugin-report": 9,
-      "poooi/poi-server": 46,
+      "poooi/poi-server": 47,
       "poooi/plugin-prophet": 89,
       "poooi/plugin-item-improvement": 57,
       "poooi/plugin-expedition": 7,
-      "poooi/plugin-ship-info": 27,
+      "poooi/plugin-ship-info": 30,
       "poooi/plugin-item-info": 8,
       "poooi/plugin-new-window": 100,
       "poooi/plugin-Akashic-records": 5,
@@ -241,18 +241,18 @@
     "id": 3337921,
     "avatar_url": "https://avatars1.githubusercontent.com/u/3337921?v=4",
     "html_url": "http://dazzyd.org/",
-    "total": 841,
+    "total": 842,
     "stat": {
-      "a": 27958,
-      "d": 19194,
-      "c": 841
+      "a": 27960,
+      "d": 19195,
+      "c": 842
     },
     "firstCommitTime": 1435449600,
     "perRepo": {
       "poooi/poi": 136,
       "poooi/plugin-exp-calculator": 2,
       "poooi/plugin-report": 37,
-      "poooi/poi-server": 20,
+      "poooi/poi-server": 21,
       "poooi/plugin-prophet": 41,
       "poooi/plugin-item-improvement": 32,
       "poooi/plugin-expedition": 1,
@@ -316,16 +316,16 @@
     "id": 1572561,
     "avatar_url": "https://avatars1.githubusercontent.com/u/1572561?v=4",
     "html_url": "https://github.com/Gizeta",
-    "total": 255,
+    "total": 257,
     "stat": {
-      "a": 39731,
-      "d": 22053,
-      "c": 255
+      "a": 39811,
+      "d": 22055,
+      "c": 257
     },
     "firstCommitTime": 1437868800,
     "perRepo": {
       "poooi/plugin-quest": 10,
-      "kcwikizh/poi-statistics": 245
+      "kcwikizh/poi-statistics": 247
     }
   },
   {
@@ -577,11 +577,11 @@
     "id": 3816900,
     "avatar_url": "https://avatars1.githubusercontent.com/u/3816900?v=4",
     "html_url": "https://github.com/KagamiChan",
-    "total": 1326,
+    "total": 1332,
     "stat": {
-      "a": 524085,
-      "d": 335759,
-      "c": 1326
+      "a": 524228,
+      "d": 335891,
+      "c": 1332
     },
     "firstCommitTime": 1449360000,
     "perRepo": {
@@ -592,8 +592,8 @@
       "poooi/plugin-prophet": 222,
       "poooi/plugin-item-improvement": 38,
       "poooi/plugin-expedition": 12,
-      "poooi/plugin-ship-info": 305,
-      "poooi/plugin-item-info": 40,
+      "poooi/plugin-ship-info": 307,
+      "poooi/plugin-item-info": 42,
       "poooi/plugin-new-window": 1,
       "poooi/plugin-Akashic-records": 5,
       "poooi/plugin-almanac": 1,
@@ -608,7 +608,7 @@
       "poooi/plugin-navy-staff": 52,
       "poooi/poi-util-transpile": 10,
       "poooi/poi-asset-themes": 13,
-      "poooi/contributors": 11
+      "poooi/contributors": 13
     }
   },
   {
@@ -845,7 +845,7 @@
   },
   {
     "login": "AlanJager",
-    "name": "Alan Jager",
+    "name": "AlanJager",
     "id": 8843214,
     "avatar_url": "https://avatars1.githubusercontent.com/u/8843214?v=4",
     "html_url": "https://github.com/AlanJager",
@@ -984,6 +984,23 @@
     "firstCommitTime": 1503187200,
     "perRepo": {
       "poooi/poi": 3
+    }
+  },
+  {
+    "login": "drelatgithub",
+    "name": null,
+    "id": 11714395,
+    "avatar_url": "https://avatars2.githubusercontent.com/u/11714395?v=4",
+    "html_url": "https://github.com/drelatgithub",
+    "total": 1,
+    "stat": {
+      "a": 20,
+      "d": 2,
+      "c": 1
+    },
+    "firstCommitTime": 1506211200,
+    "perRepo": {
+      "poooi/plugin-item-info": 1
     }
   }
 ]
