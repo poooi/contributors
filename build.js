@@ -20,6 +20,7 @@ const MORE_REPO = [
   'Artoria-0x04/paperblack',
   'kcwikizh/poi-plugin-subtitle',
   'kcwikizh/poi-statistics',
+  'Javran/poi-plugin-mo2',
 ]
 
 const MORE_PEOPLE = [

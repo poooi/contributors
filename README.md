@@ -17,6 +17,7 @@ All repositories under poooi organization, plus:
 | Artoria-0x04/paperblack | Theme |
 | kcwikizh/poi-plugin-subtitle | Plugin |
 | kcwikizh/poi-statistics | Plugin |
+| Javran/poi-plugin-mo2 | Plugin |
 
 ## Questions
 
