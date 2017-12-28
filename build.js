@@ -40,6 +40,10 @@ const ALIAS = {
   dazzyd: 'yukixz',
 }
 
+const IGNORES = [
+  'codacy-badger',
+]
+
 const OVERWRITES = {
   Javran: {
     avatar_url: 'https://gist.githubusercontent.com/Javran/02ac7ebefc307829d02e5dc942f8ef28/raw/250x250.png',
@@ -196,7 +200,7 @@ const main = async () => {
       })
     )
 
-    const data = [...MORE_PEOPLE, ..._.sortBy(_.merge(contributors, OVERWRITES), p => p.firstCommitTime)]
+    const data = [...MORE_PEOPLE, ..._.sortBy(_.merge(contributors, OVERWRITES), p => p.firstCommitTime)].filter(p => !IGNORES.includes(p.login))
     // await fs.outputJson(join(__dirname, 'per-repo.json'), contributorPerRepo, { spaces: 2 })
     await fs.outputJson(join(__dirname, 'dist', 'contributors.json'), data, { spaces: 2 })
     // await fs.outputJson(join(__dirname, 'contributors-sorted.json'), _.sortBy(contributors, p => p.firstCommitTime), { spaces: 2 })
