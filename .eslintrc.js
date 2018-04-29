@@ -1,5 +1,5 @@
 module.exports = {
-  'extends': 'airbnb',
+  'extends': 'airbnb-base',
   'plugins': [
     'import'
   ],
@@ -9,5 +9,7 @@ module.exports = {
     'semi': ['error', 'never'],
     'import/no-extraneous-dependencies': ['error', { 'devDependencies': true }],
     'no-console': 'off',
+    'object-curly-newline': 'off',
+    'function-paren-newline': 'off',
   }
 }

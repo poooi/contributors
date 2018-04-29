@@ -93,7 +93,7 @@ const fetchOptions = {}
 fetchOptions.agent = proxy ? new HttpsProxyAgent(proxy) : null
 if (AUTH) {
   fetchOptions.headers = {
-    Authorization: `Basic ${new Buffer(AUTH).toString('base64')}`,
+    Authorization: `Basic ${Buffer.from(AUTH).toString('base64')}`,
   }
 }
 
@@ -101,7 +101,7 @@ const AVATAR_SIZE = 64
 const MARGIN = 10
 const COLS = 12
 const IMAGE_WIDTH = (AVATAR_SIZE * COLS) + (MARGIN * (COLS + 1))
-const ROUND = new Buffer(
+const ROUND = Buffer.from(
   `<svg><rect x="0" y="0" width="${AVATAR_SIZE}" height="${AVATAR_SIZE}" rx="${AVATAR_SIZE / 2}" ry="${AVATAR_SIZE / 2}"/></svg>`
 )
 
