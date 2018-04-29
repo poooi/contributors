@@ -102,7 +102,11 @@ const get = async (url) => {
 }
 
 const reduceStat = (weeks, initStat = { a: 0, d: 0, c: 0 }) =>
-  _.reduce(weeks, ({ a: _a, d: _d, c: _c }, { a, d, c }) => ({ a: a + _a, d: d + _d, c: c + _c }), initStat)
+  _.reduce(
+    weeks,
+    ({ a: _a, d: _d, c: _c }, { a, d, c }) => ({ a: a + _a, d: d + _d, c: c + _c }),
+    initStat,
+  )
 
 const getFirstCommitTime = (weeks) => {
   const first = _.find(weeks, week => week.c > 0) || {}
@@ -119,15 +123,19 @@ const ROUND = new Buffer(
 
 const buildSvg = async (contributors) => {
   const data = await Promise.map(contributors,
-    async ({ avatar_url }) => {
+    async ({ avatar_url: avatarUrl }) => {
       try {
-        const resp = await fetch(avatar_url, fetchOptions)
+        const resp = await fetch(avatarUrl, fetchOptions)
         const buf = await resp.buffer()
-        const img = await sharp(buf).resize(AVATAR_SIZE).overlayWith(ROUND, { cutout: true }).png().toBuffer()
-        console.log('🎆', avatar_url)
+        const img = await sharp(buf)
+          .resize(AVATAR_SIZE)
+          .overlayWith(ROUND, { cutout: true })
+          .png()
+          .toBuffer()
+        console.log('🎆', avatarUrl)
         return img.toString('base64')
       } catch (e) {
-        console.error(`${avatar_url}&size=${AVATAR_SIZE}`, e)
+        console.error(`${avatarUrl}&size=${AVATAR_SIZE}`, e)
         return ''
       }
     },
@@ -172,8 +180,12 @@ const main = async () => {
     const contributors = {}
 
     await Promise.each(_.toPairs(contributorPerRepo), async ([repoName, people]) =>
-      Promise.each(people, async ({ total, weeks, author: { login: _login, id, avatar_url, html_url } }) => {
-        const login = ALIAS[_login] || _login
+      Promise.each(people, async ({
+        total
+        , weeks,
+        author: { login: originalLogin, id, avatar_url, html_url },
+      }) => {
+        const login = ALIAS[originalLogin] || originalLogin
         if (!contributors[login]) {
           console.log(login)
           const user = await get(`https://api.github.com/users/${login}`)
@@ -200,10 +212,16 @@ const main = async () => {
       })
     )
 
-    const data = [...MORE_PEOPLE, ..._.sortBy(_.merge(contributors, OVERWRITES), p => p.firstCommitTime)].filter(p => !IGNORES.includes(p.login))
+    const data = [
+      ...MORE_PEOPLE,
+      ..._.sortBy(_.merge(contributors, OVERWRITES), p => p.firstCommitTime),
+    ].filter(p => !IGNORES.includes(p.login))
     // await fs.outputJson(join(__dirname, 'per-repo.json'), contributorPerRepo, { spaces: 2 })
     await fs.outputJson(join(__dirname, 'dist', 'contributors.json'), data, { spaces: 2 })
-    // await fs.outputJson(join(__dirname, 'contributors-sorted.json'), _.sortBy(contributors, p => p.firstCommitTime), { spaces: 2 })
+    // await fs.outputJson(
+    //   join(__dirname, 'contributors-sorted.json'),
+    //   _.sortBy(contributors, p => p.firstCommitTime),
+    // { spaces: 2 })
 
     const img = await buildSvg(data)
 
