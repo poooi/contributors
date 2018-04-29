@@ -5,6 +5,12 @@ const Promise = require('bluebird')
 const fs = require('fs-extra')
 const HttpsProxyAgent = require('https-proxy-agent')
 const sharp = require('sharp')
+const util = require('util')
+const childProcess = require('child_process')
+const chalk = require('chalk')
+const pRetry = require('p-retry')
+
+const execAsync = util.promisify(childProcess.exec)
 
 const proxy = process.env.https_proxy || process.env.http_proxy || ''
 
@@ -80,7 +86,7 @@ const OVERWRITES = {
   },
 }
 
-const AUTH = process.env.auth || ''
+const AUTH = process.env.AUTH || ''
 
 const fetchOptions = {}
 
@@ -91,15 +97,47 @@ if (AUTH) {
   }
 }
 
-const get = async (url) => {
+const AVATAR_SIZE = 64
+const MARGIN = 10
+const COLS = 12
+const IMAGE_WIDTH = (AVATAR_SIZE * COLS) + (MARGIN * (COLS + 1))
+const ROUND = new Buffer(
+  `<svg><rect x="0" y="0" width="${AVATAR_SIZE}" height="${AVATAR_SIZE}" rx="${AVATAR_SIZE / 2}" ry="${AVATAR_SIZE / 2}"/></svg>`
+)
+
+const get = url => pRetry(async () => {
   try {
     const resp = await fetch(url, fetchOptions)
-    return resp.json()
+    if (!resp.ok) {
+      throw new Error('invalid response')
+    }
+    const data = await resp.json()
+    if (!data) {
+      throw new Error('falsy response')
+    }
+    return data
   } catch (e) {
     console.log(e)
     return Promise.reject(e)
   }
-}
+}, { retries: 5 })
+
+const getImage = url => pRetry(async () => {
+  try {
+    const resp = await fetch(url, fetchOptions)
+    const buf = await resp.buffer()
+    const img = await sharp(buf)
+      .resize(AVATAR_SIZE)
+      .overlayWith(ROUND, { cutout: true })
+      .png()
+      .toBuffer()
+    console.log('🎆', url)
+    return img.toString('base64')
+  } catch (e) {
+    console.error(`${url}&size=${AVATAR_SIZE}`, e)
+    return Promise.eject(e)
+  }
+}, { retries: 5 })
 
 const reduceStat = (weeks, initStat = { a: 0, d: 0, c: 0 }) =>
   _.reduce(
@@ -113,32 +151,9 @@ const getFirstCommitTime = (weeks) => {
   return first.w || Infinity
 }
 
-const AVATAR_SIZE = 64
-const MARGIN = 10
-const COLS = 12
-const IMAGE_WIDTH = (AVATAR_SIZE * COLS) + (MARGIN * (COLS + 1))
-const ROUND = new Buffer(
-  `<svg><rect x="0" y="0" width="${AVATAR_SIZE}" height="${AVATAR_SIZE}" rx="${AVATAR_SIZE / 2}" ry="${AVATAR_SIZE / 2}"/></svg>`
-)
-
 const buildSvg = async (contributors) => {
   const data = await Promise.map(contributors,
-    async ({ avatar_url: avatarUrl }) => {
-      try {
-        const resp = await fetch(avatarUrl, fetchOptions)
-        const buf = await resp.buffer()
-        const img = await sharp(buf)
-          .resize(AVATAR_SIZE)
-          .overlayWith(ROUND, { cutout: true })
-          .png()
-          .toBuffer()
-        console.log('🎆', avatarUrl)
-        return img.toString('base64')
-      } catch (e) {
-        console.error(`${avatarUrl}&size=${AVATAR_SIZE}`, e)
-        return ''
-      }
-    },
+    ({ avatar_url: avatarUrl }) => getImage(avatarUrl),
   )
   let posX = MARGIN
   let posY = MARGIN
@@ -163,71 +178,93 @@ ${imgs.join('\n')}
 </svg>`
 }
 
+const build = async () => {
+  const repos = await get(ORG_REPOS)
+  console.log('⚡️', ORG_REPOS)
+
+  const contributorPerRepo = await Promise.map(
+    (repos.map(r => r.full_name).concat(MORE_REPO)), async (name) => {
+      const url = `https://api.github.com/repos/${name}/stats/contributors`
+      const people = await get(url)
+      console.log('⚡️', url)
+      return [name, people]
+    })
+
+  const contributors = {}
+
+  await Promise.each(contributorPerRepo, async ([repoName, people]) =>
+    Promise.each(people, async ({
+      total
+      , weeks,
+      author: { login: originalLogin, id, avatar_url: avatarUrl, html_url: htmlUrl },
+    }) => {
+      const login = ALIAS[originalLogin] || originalLogin
+      if (!contributors[login]) {
+        console.log(login)
+        const user = await get(`https://api.github.com/users/${login}`)
+        contributors[login] = {
+          login,
+          name: user.name,
+          id,
+          avatar_url: avatarUrl,
+          html_url: htmlUrl,
+          total,
+          stat: reduceStat(weeks),
+          firstCommitTime: getFirstCommitTime(weeks),
+          perRepo: {
+            [repoName]: total,
+          },
+        }
+      } else {
+        contributors[login].total += total
+        contributors[login].stat = reduceStat(weeks, contributors[login].stat)
+        contributors[login].perRepo[repoName] = total
+        contributors[login].firstCommitTime =
+          Math.min(contributors[login].firstCommitTime, getFirstCommitTime(weeks))
+      }
+    })
+  )
+
+  const data = [
+    ...MORE_PEOPLE,
+    ..._.sortBy(_.merge(contributors, OVERWRITES), p => p.firstCommitTime),
+  ].filter(p => !IGNORES.includes(p.login))
+
+  await fs.outputJson(join(__dirname, 'dist', 'contributors.json'), data, { spaces: 2 })
+
+  const img = await buildSvg(data)
+  await fs.outputFile(join(__dirname, 'dist', 'graph.svg'), img)
+
+  const { stdout: gitStatus } = await execAsync('git status -s')
+  console.log(gitStatus)
+  if (gitStatus) {
+    console.log(chalk.red('some files updated, please check and commit them'))
+    //  auto commit the changes or notify error in CI
+    if (process.env.CI) {
+      const {
+        TRAVIS_EVENT_TYPE, TRAVIS_REPO_SLUG, TRAVIS_BRANCH, TRAVIS_PULL_REQUEST_BRANCH,
+      } = process.env
+      console.log(TRAVIS_EVENT_TYPE, TRAVIS_REPO_SLUG, TRAVIS_BRANCH, TRAVIS_PULL_REQUEST_BRANCH)
+      if (TRAVIS_EVENT_TYPE !== 'cron') { // we only auto commit when doing cron job
+        throw new Error('Not in cron mode')
+      }
+
+      await execAsync(`git remote add target git@github.com:${TRAVIS_REPO_SLUG}.git`)
+      await execAsync(`git commit -a -m "chore: auto update ${Date.now()}"`)
+
+      const { stdout: remoteInfo } = await execAsync('git remote show target')
+      console.log(remoteInfo)
+      await execAsync(`git push target HEAD:${TRAVIS_PULL_REQUEST_BRANCH || TRAVIS_BRANCH}`)
+    }
+  }
+}
+
 const main = async () => {
   try {
-    const repos = await get(ORG_REPOS)
-    console.log('⚡️', ORG_REPOS)
-
-    const contributorPerRepo = _.fromPairs(
-      await Promise.map((repos.map(r => r.full_name).concat(MORE_REPO)), async (name) => {
-        const url = `https://api.github.com/repos/${name}/stats/contributors`
-        const people = await get(url)
-        console.log('⚡️', url)
-        return [name, people]
-      })
-    )
-
-    const contributors = {}
-
-    await Promise.each(_.toPairs(contributorPerRepo), async ([repoName, people]) =>
-      Promise.each(people, async ({
-        total
-        , weeks,
-        author: { login: originalLogin, id, avatar_url, html_url },
-      }) => {
-        const login = ALIAS[originalLogin] || originalLogin
-        if (!contributors[login]) {
-          console.log(login)
-          const user = await get(`https://api.github.com/users/${login}`)
-          contributors[login] = {
-            login,
-            name: user.name,
-            id,
-            avatar_url,
-            html_url,
-            total,
-            stat: reduceStat(weeks),
-            firstCommitTime: getFirstCommitTime(weeks),
-            perRepo: {
-              [repoName]: total,
-            },
-          }
-        } else {
-          contributors[login].total += total
-          contributors[login].stat = reduceStat(weeks, contributors[login].stat)
-          contributors[login].perRepo[repoName] = total
-          contributors[login].firstCommitTime =
-            Math.min(contributors[login].firstCommitTime, getFirstCommitTime(weeks))
-        }
-      })
-    )
-
-    const data = [
-      ...MORE_PEOPLE,
-      ..._.sortBy(_.merge(contributors, OVERWRITES), p => p.firstCommitTime),
-    ].filter(p => !IGNORES.includes(p.login))
-    // await fs.outputJson(join(__dirname, 'per-repo.json'), contributorPerRepo, { spaces: 2 })
-    await fs.outputJson(join(__dirname, 'dist', 'contributors.json'), data, { spaces: 2 })
-    // await fs.outputJson(
-    //   join(__dirname, 'contributors-sorted.json'),
-    //   _.sortBy(contributors, p => p.firstCommitTime),
-    // { spaces: 2 })
-
-    const img = await buildSvg(data)
-
-    await fs.outputFile(join(__dirname, 'dist', 'graph.svg'), img)
+    await build()
   } catch (e) {
-    console.warn(e)
+    console.error(e)
+    process.exitCode = 1
   }
 }
 

@@ -24,6 +24,8 @@
   "devDependencies": {
     "babel-eslint": "^7.2.3",
     "bluebird": "^3.5.0",
+    "chalk": "^2.4.1",
+    "detect-newline": "^2.1.0",
     "eslint": "^3.19.0 || ^4.3.0",
     "eslint-config-airbnb": "^15.1.0",
     "eslint-plugin-import": "^2.7.0",
@@ -34,6 +36,7 @@
     "https-proxy-agent": "^2.1.0",
     "lodash": "^4.17.4",
     "node-fetch": "^1.7.2",
+    "p-retry": "^2.0.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "sharp": "^0.18.2"

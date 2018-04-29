@@ -1,0 +1,18 @@
+dist: trusty
+env:
+  global:
+  - CXX=g++-4.8
+  - GIT_AUTHOR_NAME="Llenn ちゃん"
+  - GIT_AUTHOR_EMAIL="bot@kagami.me"
+  - secure: nqe+d14sppB3+mEBYek0dD8U/piSMPgVhmo7hwmeFN0bdOw3wdw7g3c7t2qpj8cPhTK0A5MxAAytBytkFiu5W7xgxusG/+5E2lsLILyvsMP2DH1A69iesepQ/uDAlBAEeq/FoX4t7MnBBY8TsF3SVwNiwu5P6IpFcBt4Fs2EdnIglaLv/feal/t4tjSAV4EVqlUkg+apbacPwGIq5HX2IpWv1E/cPyFhZD3ND0eJgwmgrmZh6PLfUbnwOe/ryQspWiX9r9tzI1lLnaz2gfJbMC5JDOynG6o7Pwq/YAM+ilmipOgEuXjewraHsZdmfVTQjNleK+TU8XFnUmcXg+Fxu7a/xMDpOwIAis/H51+3RkTxkkLQIOn2HrCnVe45ep5kMc7NKYx7u9uV0RCxUGDX8eaGB0iWl7h7POkPq7AZMmbo+kbuaQi9s7c6nScNLGOK5rZXKWTKws4/+qFqyXIRvsSMhF0vgApSgYiSGTHs4hJ38gSNCRK284TtEwanOibfyRcGqMExxDjd5ZkwaZl1uVvsxOo3BZYBSlvpFn4KIOkbvvvEVekkIoHVI2F2cB2gSkQN6SQRDlXx8MsJlBDNF8l+OvjVgjgVOpWXhE5npjfFoWkhGLLxi5oHE4DaSFUY8uNy0Vlg6KGgVkpM6TGZ9E9cEDFGdN1QWonBN3PKOg8=
+language: node_js
+node_js:
+- '9'
+before_install:
+- if [ "$TRAVIS_EVENT_TYPE" = "cron" ]; then bash .travis/cron-setup.sh; fi
+before_script:
+- yarn
+script:
+- node build.js
+after_script:
+- if [ "$TRAVIS_EVENT_TYPE" = "cron" ]; then bash .travis/cron-deploy.sh; fi
