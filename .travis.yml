@@ -9,7 +9,7 @@ env:
 language: node_js
 node_js:
 - '9'
-install:
+before_script:
 - yarn
 after_success:
 - node build.js
