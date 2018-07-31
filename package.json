@@ -4,7 +4,7 @@
   "description": "Contributor data for poi project and community",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"Warn: no test specified\" && exit 0",
     "deploy": "gh-pages -d dist"
   },
   "repository": {
@@ -37,7 +37,7 @@
     "p-retry": "^2.0.0",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
-    "sharp": "^0.20.2"
-  },
-  "dependencies": {}
+    "sharp": "^0.20.2",
+    "socks-proxy-agent": "^4.0.1"
+  }
 }

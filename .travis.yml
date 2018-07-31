@@ -5,14 +5,28 @@ env:
   - GIT_AUTHOR_NAME="Llenn ちゃん"
   - GIT_AUTHOR_EMAIL="bot@kagami.me"
   - secure: nqe+d14sppB3+mEBYek0dD8U/piSMPgVhmo7hwmeFN0bdOw3wdw7g3c7t2qpj8cPhTK0A5MxAAytBytkFiu5W7xgxusG/+5E2lsLILyvsMP2DH1A69iesepQ/uDAlBAEeq/FoX4t7MnBBY8TsF3SVwNiwu5P6IpFcBt4Fs2EdnIglaLv/feal/t4tjSAV4EVqlUkg+apbacPwGIq5HX2IpWv1E/cPyFhZD3ND0eJgwmgrmZh6PLfUbnwOe/ryQspWiX9r9tzI1lLnaz2gfJbMC5JDOynG6o7Pwq/YAM+ilmipOgEuXjewraHsZdmfVTQjNleK+TU8XFnUmcXg+Fxu7a/xMDpOwIAis/H51+3RkTxkkLQIOn2HrCnVe45ep5kMc7NKYx7u9uV0RCxUGDX8eaGB0iWl7h7POkPq7AZMmbo+kbuaQi9s7c6nScNLGOK5rZXKWTKws4/+qFqyXIRvsSMhF0vgApSgYiSGTHs4hJ38gSNCRK284TtEwanOibfyRcGqMExxDjd5ZkwaZl1uVvsxOo3BZYBSlvpFn4KIOkbvvvEVekkIoHVI2F2cB2gSkQN6SQRDlXx8MsJlBDNF8l+OvjVgjgVOpWXhE5npjfFoWkhGLLxi5oHE4DaSFUY8uNy0Vlg6KGgVkpM6TGZ9E9cEDFGdN1QWonBN3PKOg8=
+  - secure: Acg8EFWvYu+RO/QvGlXxvgjzSaF8JbR6WpLoAV97hPcAQoTrZITo0p5E0XDhl/QGiI43UdJ4JwqMIpY3DaQArDMg+UhHr0PqIx21SdSiXT6TlPq8ZZxZj92sIdAyCjMEF1YWRqAyclpfHi2t1SW+OkCvEd3ACbLI7oVIGQEDzvFGENNezPezs6yXIsMhPQYTLFWDoZkNdiOFRc4i1rEQVidmsioY6+P2QjODue8/CMaXnrXOFQSw8zJx0113nLTuV6lDBrcou0cbEMCOM3TPAjCEojlUfVk/N6U62mHUJxqAwPAHU8kK1D+CsL57K0eZo260IF2i4FKOm6+qt0qPl+6z03Xsx2La62bKFa4F2QcfT/1DnZVO/mdnO0KO5R7yrOMco3iDu5OWyYBsuk2ZWAcTu3U4hFOo93C/0Rzwg6pQLdko5ku3wbfAihgAUbXCEcB/6ipYdHN7HqCbs6lorpGptKkKaZs/MgClsol+0CcNPM4i6sGBDePbk4lR3gSJxA83pghWJlF2jeUTWPnrgBTVSeAeR1FZuYmbTAkHTel8DR6I4XfWtcOjdN/qiFeDJuqchaAKFnna5ISXV5w4hYJSHpOudzYw0t8G8J1zw8j51CGPH7TfQ3C20ojURun2I7M0M8QOh5BVmAtxzQjD+lqy+ITEJkUlHoXinamIBhw=
 language: node_js
 node_js:
 - '9'
-before_install:
-- if [ "$TRAVIS_EVENT_TYPE" = "cron" ]; then bash .travis/cron-setup.sh; fi
-before_script:
+install:
 - yarn
-script:
+after_success:
 - node build.js
-after_script:
-- if [ "$TRAVIS_EVENT_TYPE" = "cron" ]; then bash .travis/cron-deploy.sh; fi
+deploy:
+- provider: pages
+  local-dir: dist
+  skip_cleanup: true
+  github_token: "$SORAYAMA_TOKEN"
+  keep-history: true
+  on:
+    branch: master
+    condition: $TRAVIS_EVENT_TYPE = cron
+- provider: pages
+  target_branch: master
+  skip_cleanup: true
+  github_token: "$SORAYAMA_TOKEN"
+  keep-history: true
+  on:
+    branch: master
+    condition: $TRAVIS_EVENT_TYPE = cron

@@ -4,6 +4,7 @@ const { join } = require('path')
 const Promise = require('bluebird')
 const fs = require('fs-extra')
 const HttpsProxyAgent = require('https-proxy-agent')
+const SocksProxyAgent = require('socks-proxy-agent')
 const sharp = require('sharp')
 const util = require('util')
 const childProcess = require('child_process')
@@ -13,7 +14,6 @@ const pRetry = require('p-retry')
 const execAsync = util.promisify(childProcess.exec)
 
 const proxy = process.env.https_proxy || process.env.http_proxy || ''
-
 const ORG_REPOS = 'https://api.github.com/orgs/poooi/repos?per_page=100'
 
 const MORE_REPO = [
@@ -90,7 +90,12 @@ const AUTH = process.env.AUTH || ''
 
 const fetchOptions = {}
 
-fetchOptions.agent = proxy ? new HttpsProxyAgent(proxy) : null
+if (proxy) {
+  const agent = proxy.match(/^socks/i) ? new SocksProxyAgent(proxy) : new HttpsProxyAgent(proxy)
+  fetchOptions.agent = agent
+}
+
+// fetchOptions.agent = proxy ? new HttpsProxyAgent(proxy) : null
 if (AUTH) {
   fetchOptions.headers = {
     Authorization: `Basic ${Buffer.from(AUTH).toString('base64')}`,
@@ -109,11 +114,13 @@ const get = url => pRetry(async () => {
   try {
     const resp = await fetch(url, fetchOptions)
     if (!resp.ok) {
-      throw new Error('invalid response')
+      const parsed = await resp.json()
+      console.error(chalk.red(`[ERROR] url: ${url}`), parsed)
+      throw new Error(chalk.red('invalid response'))
     }
     const data = await resp.json()
     if (!data) {
-      throw new Error('falsy response')
+      throw new Error(chalk.red('falsy response'))
     }
     return data
   } catch (e) {
@@ -187,6 +194,9 @@ const build = async () => {
       const url = `https://api.github.com/repos/${name}/stats/contributors`
       const people = await get(url)
       console.log('⚡️', url)
+      if (!people) {
+        console.warn(chalk.yellow('[WARN]', url))
+      }
       return [name, people]
     })
 
