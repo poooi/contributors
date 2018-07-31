@@ -14,7 +14,6 @@ const pRetry = require('p-retry')
 const execAsync = util.promisify(childProcess.exec)
 
 const proxy = process.env.https_proxy || process.env.http_proxy || ''
-console.log(proxy)
 const ORG_REPOS = 'https://api.github.com/orgs/poooi/repos?per_page=100'
 
 const MORE_REPO = [
@@ -121,7 +120,7 @@ const get = url => pRetry(async () => {
     }
     const data = await resp.json()
     if (!data) {
-      throw new Error('falsy response')
+      throw new Error(chalk.red('falsy response'))
     }
     return data
   } catch (e) {
