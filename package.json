@@ -37,7 +37,7 @@
     "p-retry": "^2.0.0",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
-    "sharp": "^0.20.2"
-  },
-  "dependencies": {}
+    "sharp": "^0.20.2",
+    "socks-proxy-agent": "^4.0.1"
+  }
 }
