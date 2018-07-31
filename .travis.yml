@@ -20,11 +20,13 @@ deploy:
   github_token: "$SORAYAMA_TOKEN"
   keep-history: true
   on:
-    branch: ci-test
+    branch: master
+    condition: $TRAVIS_EVENT_TYPE = cron
 - provider: pages
   target_branch: master
   skip_cleanup: true
   github_token: "$SORAYAMA_TOKEN"
   keep-history: true
   on:
-    branch: ci-test
+    branch: master
+    condition: $TRAVIS_EVENT_TYPE = cron
