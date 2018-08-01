@@ -579,11 +579,11 @@
     "id": 3816900,
     "avatar_url": "https://avatars1.githubusercontent.com/u/3816900?v=4",
     "html_url": "https://github.com/KagamiChan",
-    "total": 2177,
+    "total": 2181,
     "stat": {
-      "a": 687051,
-      "d": 431985,
-      "c": 2177
+      "a": 687060,
+      "d": 431990,
+      "c": 2181
     },
     "firstCommitTime": 1449360000,
     "perRepo": {
@@ -594,7 +594,7 @@
       "poooi/plugin-prophet": 342,
       "poooi/plugin-item-improvement": 64,
       "poooi/plugin-expedition": 27,
-      "poooi/plugin-ship-info": 401,
+      "poooi/plugin-ship-info": 403,
       "poooi/plugin-item-info": 48,
       "poooi/plugin-new-window": 15,
       "poooi/plugin-Akashic-records": 6,
@@ -604,7 +604,7 @@
       "poooi/plugin-secretary": 52,
       "poooi/plugin-hensei-nikki": 6,
       "poooi/plugin-battle-detail": 26,
-      "poooi/plugin-translator": 85,
+      "poooi/plugin-translator": 87,
       "poooi/plugin-k2badge": 6,
       "poooi/plugin-navy-album": 2,
       "poooi/lib-battle": 29,
@@ -779,11 +779,11 @@
     "id": 20397245,
     "avatar_url": "https://avatars1.githubusercontent.com/u/20397245?v=4",
     "html_url": "https://github.com/SoraYama",
-    "total": 48,
+    "total": 55,
     "stat": {
-      "a": 9470,
-      "d": 54259,
-      "c": 48
+      "a": 9807,
+      "d": 54485,
+      "c": 55
     },
     "firstCommitTime": 1468713600,
     "perRepo": {
@@ -795,6 +795,7 @@
       "poooi/plugin-Akashic-records": 4,
       "poooi/plugin-quest": 6,
       "poooi/plugin-map-hp": 1,
+      "poooi/contributors": 7,
       "dkwingsmt/plugin-wheres-my-fuel-gone": 5
     }
   },
