@@ -11,8 +11,11 @@ node_js:
 - '9'
 install:
 - yarn
-after_success:
-- node build.js
+before_script:
+- yarn tsc --project ./ --noEmit
+- yarn tslint --project ./
+script:
+- yarn build
 deploy:
 - provider: pages
   local-dir: dist
