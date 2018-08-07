@@ -789,15 +789,15 @@
       "poooi/plugin-Akashic-records": 4,
       "poooi/plugin-quest": 6,
       "poooi/plugin-map-hp": 1,
-      "poooi/contributors": 8,
+      "poooi/contributors": 9,
       "dkwingsmt/plugin-wheres-my-fuel-gone": 5
     },
     "stat": {
-      "a": 10412,
-      "c": 56,
-      "d": 55081
+      "a": 10465,
+      "c": 57,
+      "d": 55129
     },
-    "total": 56
+    "total": 57
   },
   {
     "avatar_url": "https://avatars2.githubusercontent.com/u/1846356?v=4",

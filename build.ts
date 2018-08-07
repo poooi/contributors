@@ -36,9 +36,8 @@ const build = async () => {
         const url = `https://api.github.com/repos/${name}/stats/contributors`
         const people: IStat[] = await get(url)
         console.info('⚡️', url)
-        if (!people) {
-          console.warn(chalk.yellow('[WARN] `people` is null, ', url))
-          return
+        if (!people || (people && people.length === 0)) {
+          console.warn('[WARN] `people` is null or empty array, ', url, people)
         }
         return [name, people]
       },
@@ -114,36 +113,6 @@ const build = async () => {
   console.info(gitStatus)
   if (gitStatus) {
     console.info(chalk.red('some files updated, please check and commit them'))
-    //  auto commit the changes or notify error in CI
-    // if (process.env.CI) {
-    //   const {
-    //     TRAVIS_EVENT_TYPE,
-    //     TRAVIS_REPO_SLUG,
-    //     TRAVIS_BRANCH,
-    //     TRAVIS_PULL_REQUEST_BRANCH,
-    //   } = process.env
-    //   console.info(
-    //     TRAVIS_EVENT_TYPE,
-    //     TRAVIS_REPO_SLUG,
-    //     TRAVIS_BRANCH,
-    //     TRAVIS_PULL_REQUEST_BRANCH,
-    //   )
-    //   if (TRAVIS_EVENT_TYPE !== 'cron') {
-    //     // we only auto commit when doing cron job
-    //     throw new Error('Not in cron mode')
-    //   }
-
-    //   await execAsync(
-    //     `git remote add target git@github.com:${TRAVIS_REPO_SLUG}.git`,
-    //   )
-    //   await execAsync(`git commit -a -m "chore: auto update ${Date.now()}"`)
-
-    //   const { stdout: remoteInfo } = await execAsync('git remote show target')
-    //   console.info(remoteInfo)
-    //   await execAsync(
-    //     `git push target HEAD:${TRAVIS_PULL_REQUEST_BRANCH || TRAVIS_BRANCH}`,
-    //   )
-    // }
   }
 }
 
