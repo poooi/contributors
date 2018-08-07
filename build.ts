@@ -48,59 +48,54 @@ const build = async () => {
   const contributors: IContributorCollection = {}
 
   console.info(chalk.cyan("start to init contributors' info..."))
+  console.info(contributorPerRepo) // FIXME: log for currently debug, remove it when bug resolved
 
   await Promise.each(contributorPerRepo, async ([repoName, people]) => {
-    try {
-      console.info(chalk.yellow('repoName: '), repoName)
-      return Promise.each(
-        people as IStat[],
-        async ({
-          total,
-          weeks,
-          author: {
-            login: originalLogin,
-            id,
-            avatar_url: avatarUrl,
-            html_url: htmlUrl,
-          },
-        }) => {
-          const login = ALIAS[originalLogin] || originalLogin
-          if (!contributors[login]) {
-            console.info(login)
-            const user = await get(`https://api.github.com/users/${login}`)
-            contributors[login] = {
-              avatar_url: avatarUrl,
-              firstCommitTime: getFirstCommitTime(weeks),
-              html_url: htmlUrl,
-              id,
-              login,
-              name: user.name,
-              perRepo: {
-                [repoName as string]: total,
-              },
-              stat: reduceStat(weeks),
-              total,
-            }
-          } else {
-            contributors[login].total! += total
-            // tslint:disable-next-line prettier
-            contributors[login].stat = reduceStat(weeks, contributors[login].stat)
-            contributors[login].perRepo![repoName as string] = total
-            contributors[login].firstCommitTime = Math.min(
-              contributors[login].firstCommitTime!,
-              getFirstCommitTime(weeks),
-            )
-          }
-        },
-      )
-    } catch (err) {
-      console.error(
-        '[ERROR] in perRepo iterator',
-        repoName,
-        JSON.stringify(people),
-      )
-      throw new Error(err)
+    if (!repoName || !people) {
+      console.warn(chalk.yellow('[WARN] `repoName` or `people` is null'))
+      console.warn(chalk.yellow('repoName: '), repoName)
+      return
     }
+    return Promise.each(
+      people as IStat[],
+      async ({
+        total,
+        weeks,
+        author: {
+          login: originalLogin,
+          id,
+          avatar_url: avatarUrl,
+          html_url: htmlUrl,
+        },
+      }) => {
+        const login = ALIAS[originalLogin] || originalLogin
+        if (!contributors[login]) {
+          console.info(login)
+          const user = await get(`https://api.github.com/users/${login}`)
+          contributors[login] = {
+            avatar_url: avatarUrl,
+            firstCommitTime: getFirstCommitTime(weeks),
+            html_url: htmlUrl,
+            id,
+            login,
+            name: user.name,
+            perRepo: {
+              [repoName as string]: total,
+            },
+            stat: reduceStat(weeks),
+            total,
+          }
+        } else {
+          contributors[login].total! += total
+          contributors[login].stat = reduceStat(weeks, contributors[login].stat)
+          contributors[login].perRepo![repoName as string] = total
+          contributors[login].firstCommitTime = Math.min(
+            contributors[login].firstCommitTime!,
+            getFirstCommitTime(weeks),
+          )
+        }
+      },
+    )
   })
 
   const data: IContributorSimple[] = [
