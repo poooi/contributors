@@ -26,6 +26,7 @@ const execAsync = util.promisify(childProcess.exec)
 
 const build = async () => {
   const repos: IRepo[] = await get(ORG_REPOS)
+  console.info(chalk.cyan('start to fetch all repo url...'))
   console.info('⚡️', ORG_REPOS)
 
   const contributorPerRepo: Array<Array<string | IStat[]>> = _.compact(
@@ -36,7 +37,7 @@ const build = async () => {
         const people: IStat[] = await get(url)
         console.info('⚡️', url)
         if (!people) {
-          console.warn(chalk.yellow('[WARN]', url))
+          console.warn(chalk.yellow('[WARN] `people` is null, ', url))
           return
         }
         return [name, people]
@@ -46,8 +47,16 @@ const build = async () => {
 
   const contributors: IContributorCollection = {}
 
-  await Promise.each(contributorPerRepo, async ([repoName, people]) =>
-    Promise.each(
+  console.info(chalk.cyan("start to init contributors' info..."))
+  console.info(contributorPerRepo) // FIXME: log for currently debug, remove it when bug resolved
+
+  await Promise.each(contributorPerRepo, async ([repoName, people]) => {
+    if (!repoName || !people) {
+      console.warn(chalk.yellow('[WARN] `repoName` or `people` is null'))
+      console.warn(chalk.yellow('repoName: '), repoName)
+      return
+    }
+    return Promise.each(
       people as IStat[],
       async ({
         total,
@@ -86,8 +95,8 @@ const build = async () => {
           )
         }
       },
-    ),
-  )
+    )
+  })
 
   const data: IContributorSimple[] = [
     ...MORE_PEOPLE,
@@ -106,35 +115,35 @@ const build = async () => {
   if (gitStatus) {
     console.info(chalk.red('some files updated, please check and commit them'))
     //  auto commit the changes or notify error in CI
-    if (process.env.CI) {
-      const {
-        TRAVIS_EVENT_TYPE,
-        TRAVIS_REPO_SLUG,
-        TRAVIS_BRANCH,
-        TRAVIS_PULL_REQUEST_BRANCH,
-      } = process.env
-      console.info(
-        TRAVIS_EVENT_TYPE,
-        TRAVIS_REPO_SLUG,
-        TRAVIS_BRANCH,
-        TRAVIS_PULL_REQUEST_BRANCH,
-      )
-      if (TRAVIS_EVENT_TYPE !== 'cron') {
-        // we only auto commit when doing cron job
-        throw new Error('Not in cron mode')
-      }
+    // if (process.env.CI) {
+    //   const {
+    //     TRAVIS_EVENT_TYPE,
+    //     TRAVIS_REPO_SLUG,
+    //     TRAVIS_BRANCH,
+    //     TRAVIS_PULL_REQUEST_BRANCH,
+    //   } = process.env
+    //   console.info(
+    //     TRAVIS_EVENT_TYPE,
+    //     TRAVIS_REPO_SLUG,
+    //     TRAVIS_BRANCH,
+    //     TRAVIS_PULL_REQUEST_BRANCH,
+    //   )
+    //   if (TRAVIS_EVENT_TYPE !== 'cron') {
+    //     // we only auto commit when doing cron job
+    //     throw new Error('Not in cron mode')
+    //   }
 
-      await execAsync(
-        `git remote add target git@github.com:${TRAVIS_REPO_SLUG}.git`,
-      )
-      await execAsync(`git commit -a -m "chore: auto update ${Date.now()}"`)
+    //   await execAsync(
+    //     `git remote add target git@github.com:${TRAVIS_REPO_SLUG}.git`,
+    //   )
+    //   await execAsync(`git commit -a -m "chore: auto update ${Date.now()}"`)
 
-      const { stdout: remoteInfo } = await execAsync('git remote show target')
-      console.info(remoteInfo)
-      await execAsync(
-        `git push target HEAD:${TRAVIS_PULL_REQUEST_BRANCH || TRAVIS_BRANCH}`,
-      )
-    }
+    //   const { stdout: remoteInfo } = await execAsync('git remote show target')
+    //   console.info(remoteInfo)
+    //   await execAsync(
+    //     `git push target HEAD:${TRAVIS_PULL_REQUEST_BRANCH || TRAVIS_BRANCH}`,
+    //   )
+    // }
   }
 }
 
