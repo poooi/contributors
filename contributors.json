@@ -181,7 +181,7 @@
     "login": "KochiyaOcean",
     "name": "東風谷オーシャン",
     "perRepo": {
-      "poooi/poi": 1777,
+      "poooi/poi": 1779,
       "poooi/plugin-exp-calculator": 4,
       "poooi/plugin-report": 9,
       "poooi/poi-server": 67,
@@ -213,11 +213,11 @@
       "kcwikizh/poi-plugin-subtitle": 8
     },
     "stat": {
-      "a": 121517,
-      "c": 2380,
-      "d": 82107
+      "a": 121545,
+      "c": 2382,
+      "d": 82115
     },
-    "total": 2380
+    "total": 2382
   },
   {
     "avatar_url": "https://avatars1.githubusercontent.com/u/12459199?v=4",
@@ -789,15 +789,15 @@
       "poooi/plugin-Akashic-records": 4,
       "poooi/plugin-quest": 6,
       "poooi/plugin-map-hp": 1,
-      "poooi/contributors": 8,
+      "poooi/contributors": 10,
       "dkwingsmt/plugin-wheres-my-fuel-gone": 5
     },
     "stat": {
-      "a": 10412,
-      "c": 56,
-      "d": 55081
+      "a": 10472,
+      "c": 58,
+      "d": 55167
     },
-    "total": 56
+    "total": 58
   },
   {
     "avatar_url": "https://avatars2.githubusercontent.com/u/1846356?v=4",
