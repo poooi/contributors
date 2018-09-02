@@ -62,8 +62,8 @@ const getImage = (url: string) =>
     async () => {
       try {
         const resp = await fetch(url, fetchOptions)
-        const buf = await resp.buffer()
-        const img = await sharp(buf)
+        const buf = await resp.arrayBuffer()
+        const img = await sharp(Buffer.from(buf))
           .resize(AVATAR_SIZE)
           .overlayWith(ROUND, { cutout: true })
           .png()
@@ -71,7 +71,7 @@ const getImage = (url: string) =>
         console.info('🎆', url)
         return img.toString('base64')
       } catch (e) {
-        console.error(`${url}&size=${AVATAR_SIZE}`, e)
+        console.error(url, e)
         return Promise.reject(e)
       }
     },

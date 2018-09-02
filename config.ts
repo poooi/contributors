@@ -17,7 +17,8 @@ export const MORE_REPO = [
 
 export const MORE_PEOPLE: IContributorSimple[] = [
   {
-    avatar_url: 'http://7xkd7e.com1.z0.glb.clouddn.com/season.jpg',
+    avatar_url:
+      'https://raw.githubusercontent.com/poooi/contributors/master/assets/season.png',
     html_url: 'http://www.pixiv.net/member.php?id=3991162',
     login: 'Season千',
   },
