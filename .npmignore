@@ -1,1 +1,8 @@
 *.svg
+*.ts
+*.js
+tsconfig.json
+tslint.json
+*.png
+*.yml
+yarn.lock
