@@ -15,6 +15,11 @@ export const MORE_REPO = [
   'Javran/poi-plugin-mo2',
 ]
 
+export const IGNORED_REPO = [
+  'poooi/poidb-server', // no commits yet
+  'poooi/node-coveralls', // this is a custom folk
+]
+
 export const MORE_PEOPLE: IContributorSimple[] = [
   {
     avatar_url:

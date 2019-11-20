@@ -8,6 +8,7 @@ import util from 'util'
 
 import {
   ALIAS,
+  IGNORED_REPO,
   IGNORES,
   MORE_PEOPLE,
   MORE_REPO,
@@ -31,7 +32,10 @@ const build = async () => {
 
   const contributorPerRepo: Array<Array<string | IStat[]>> = _.compact(
     await Promise.map(
-      repos.map(r => r.full_name).concat(MORE_REPO),
+      repos
+        .map(r => r.full_name)
+        .concat(MORE_REPO)
+        .filter(repo => !IGNORED_REPO.includes(repo)),
       async (name: string) => {
         const url = `https://api.github.com/repos/${name}/stats/contributors`
         const people: IStat[] = await get(url)

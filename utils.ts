@@ -65,7 +65,7 @@ const getImage = (url: string) =>
         const buf = await resp.arrayBuffer()
         const img = await sharp(Buffer.from(buf))
           .resize(AVATAR_SIZE)
-          .overlayWith(ROUND, { cutout: true })
+          .composite([{ input: ROUND, blend: 'dest-in' }])
           .png()
           .toBuffer()
         console.info('🎆', url)
@@ -106,9 +106,7 @@ export const buildSvg = async (contributors: IContributorSimple[]) => {
       posY += AVATAR_SIZE + MARGIN
       posX = MARGIN
     }
-    const image = `<image x="${posX}" y="${posY}" width="${AVATAR_SIZE}" height="${AVATAR_SIZE}" xlink:href="data:png;base64,${
-      data[index]
-    }"/>`
+    const image = `<image x="${posX}" y="${posY}" width="${AVATAR_SIZE}" height="${AVATAR_SIZE}" xlink:href="data:png;base64,${data[index]}"/>`
     imgs.push(`<a xlink:href="${p.html_url}" target="_blank" id="${p.login}">
       ${image}
       <rect x="${posX - 2}" y="${posY - 2}" width="${AVATAR_SIZE +
