@@ -1,7 +1,7 @@
-export interface IRepo {
+export interface Repo {
   full_name: string
 }
-interface IPeople {
+interface People {
   login: string
   id: number
   node_id: string
@@ -22,44 +22,44 @@ interface IPeople {
   site_admin: false
   contributions: number
 }
-export interface IWeek {
+export interface Week {
   w: number
   a: number
   d: number
   c: number
 }
-export interface IStat {
+export interface Stat {
   total: number
-  weeks: IWeek[]
-  author: IPeople
+  weeks: Week[]
+  author: People
 }
 
-interface IContributor {
+interface Contributor {
   login: string
   name: string
   id: number
   avatar_url: string
   html_url: string
   total: number
-  stat: Pick<IWeek, 'a' | 'd' | 'c'>
+  stat: Pick<Week, 'a' | 'd' | 'c'>
   firstCommitTime: number
   perRepo: {
     [key: string]: number
   }
 }
-export interface IContributorCollection {
-  [key: string]: IContributor
+export interface ContributorCollection {
+  [key: string]: Contributor
 }
 
-export type IContributorSimple = Pick<
-  IContributor,
+export type ContributorSimple = Pick<
+  Contributor,
   'html_url' | 'avatar_url' | 'login'
 >
-export interface IContributorOverwrite {
+export interface ContributorOverwrite {
   [key: string]: Partial<
-    Pick<IContributor, 'html_url' | 'avatar_url' | 'login' | 'name'>
+    Pick<Contributor, 'html_url' | 'avatar_url' | 'login' | 'name'>
   >
 }
-export interface IAlias {
+export interface Alias {
   [key: string]: string
 }

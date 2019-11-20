@@ -1,4 +1,4 @@
-import { IAlias, IContributorOverwrite, IContributorSimple } from './types'
+import { Alias, ContributorOverwrite, ContributorSimple } from './types'
 
 export const ORG_REPOS = 'https://api.github.com/orgs/poooi/repos?per_page=100'
 
@@ -20,7 +20,7 @@ export const IGNORED_REPO = [
   'poooi/node-coveralls', // this is a custom folk
 ]
 
-export const MORE_PEOPLE: IContributorSimple[] = [
+export const MORE_PEOPLE: ContributorSimple[] = [
   {
     avatar_url:
       'https://raw.githubusercontent.com/poooi/contributors/master/assets/season.png',
@@ -34,13 +34,13 @@ export const MORE_PEOPLE: IContributorSimple[] = [
   },
 ]
 
-export const ALIAS: IAlias = {
+export const ALIAS: Alias = {
   dazzyd: 'yukixz',
 }
 
 export const IGNORES = ['codacy-badger']
 
-export const OVERWRITES: IContributorOverwrite = {
+export const OVERWRITES: ContributorOverwrite = {
   'Artoria-0x04': {
     html_url: 'http://www.weibo.com/pheliox',
   },

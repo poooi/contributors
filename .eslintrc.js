@@ -1,15 +1,20 @@
 module.exports = {
-  'extends': 'airbnb-base',
-  'plugins': [
-    'import'
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    project: './tsconfig.json',
+  },
+  plugins: ['@typescript-eslint', 'import'],
+  extends: [
+    'airbnb-base',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/recommended-requiring-type-checking',
+    'plugin:import/typescript',
+    'prettier',
+    'prettier/@typescript-eslint',
   ],
-  'parser': 'babel-eslint',
-  'rules': {
-    'comma-dangle': ['error', 'always-multiline'],
-    'semi': ['error', 'never'],
-    'import/no-extraneous-dependencies': ['error', { 'devDependencies': true }],
-    'no-console': 'off',
-    'object-curly-newline': 'off',
-    'function-paren-newline': 'off',
-  }
+  rules: {
+    'no-console': ['error', { allow: ['info', 'error', 'warn'] }],
+    'import/no-extraneous-dependencies': 'off',
+    '@typescript-eslint/camelcase': ['error', { properties: 'never' }],
+  },
 }

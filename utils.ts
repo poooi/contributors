@@ -1,4 +1,4 @@
-import Promise from 'bluebird'
+import bluebird from 'bluebird'
 import chalk from 'chalk'
 import HttpsProxyAgent from 'https-proxy-agent'
 import _ from 'lodash'
@@ -6,13 +6,13 @@ import fetch, { RequestInit } from 'node-fetch'
 import pRetry from 'p-retry'
 import sharp from 'sharp'
 import SocksProxyAgent from 'socks-proxy-agent'
-import { IContributorSimple, IWeek } from './types'
+import { ContributorSimple, Week } from './types'
 
 const fetchOptions: RequestInit = {}
 
 const proxy = process.env.https_proxy || process.env.http_proxy || ''
 if (proxy) {
-  const agent = proxy.match(/^socks/i)
+  const agent = /^socks/i.exec(proxy)
     ? new SocksProxyAgent(proxy)
     : new HttpsProxyAgent(proxy)
   fetchOptions.agent = agent
@@ -34,7 +34,7 @@ const ROUND = Buffer.from(
     2}" ry="${AVATAR_SIZE / 2}"/></svg>`,
 )
 
-export const get = (url: string) =>
+export const get = (url: string): Promise<any> =>
   pRetry(
     async () => {
       try {
@@ -51,13 +51,13 @@ export const get = (url: string) =>
         return data
       } catch (e) {
         console.info(e)
-        return Promise.reject(e)
+        return bluebird.reject(e)
       }
     },
     { retries: 5 },
   )
 
-const getImage = (url: string) =>
+const getImage = (url: string): Promise<string> =>
   pRetry(
     async () => {
       try {
@@ -72,13 +72,13 @@ const getImage = (url: string) =>
         return img.toString('base64')
       } catch (e) {
         console.error(url, e)
-        return Promise.reject(e)
+        return bluebird.reject(e)
       }
     },
     { retries: 5 },
   )
 
-export const reduceStat = (weeks: IWeek[], initStat = { a: 0, d: 0, c: 0 }) =>
+export const reduceStat = (weeks: Week[], initStat = { a: 0, d: 0, c: 0 }): Pick<Week, 'a' | 'd' | 'c'> =>
   _.reduce(
     weeks,
     ({ a: newA, d: newD, c: newC }, { a, d, c }) => ({
@@ -89,13 +89,13 @@ export const reduceStat = (weeks: IWeek[], initStat = { a: 0, d: 0, c: 0 }) =>
     initStat,
   )
 
-export const getFirstCommitTime = (weeks: IWeek[]) => {
+export const getFirstCommitTime = (weeks: Week[]): number => {
   const first = _.find(weeks, week => week.c > 0)
   return first ? first.w : Infinity
 }
 
-export const buildSvg = async (contributors: IContributorSimple[]) => {
-  const data = await Promise.map(contributors, ({ avatar_url: avatarUrl }) =>
+export const buildSvg = async (contributors: ContributorSimple[]): Promise<string> => {
+  const data = await bluebird.map(contributors, ({ avatar_url: avatarUrl }) =>
     getImage(avatarUrl),
   )
   let posX = MARGIN

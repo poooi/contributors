@@ -1,4 +1,4 @@
-import Promise from 'bluebird'
+import bluebird from 'bluebird'
 import chalk from 'chalk'
 import childProcess from 'child_process'
 import fs from 'fs-extra'
@@ -16,29 +16,29 @@ import {
   OVERWRITES,
 } from './config'
 import {
-  IContributorCollection,
-  IContributorSimple,
-  IRepo,
-  IStat,
+  ContributorCollection,
+  ContributorSimple,
+  Repo,
+  Stat,
 } from './types'
 import { buildSvg, get, getFirstCommitTime, reduceStat } from './utils'
 
 const execAsync = util.promisify(childProcess.exec)
 
-const build = async () => {
-  const repos: IRepo[] = await get(ORG_REPOS)
+const build = async (): Promise<void> => {
+  const repos: Repo[] = await get(ORG_REPOS)
   console.info(chalk.cyan('start to fetch all repo url...'))
   console.info('⚡️', ORG_REPOS)
 
-  const contributorPerRepo: Array<Array<string | IStat[]>> = _.compact(
-    await Promise.map(
+  const contributorPerRepo: Array<Array<string | Stat[]>> = _.compact(
+    await bluebird.map(
       repos
         .map(r => r.full_name)
         .concat(MORE_REPO)
         .filter(repo => !IGNORED_REPO.includes(repo)),
       async (name: string) => {
         const url = `https://api.github.com/repos/${name}/stats/contributors`
-        const people: IStat[] = await get(url)
+        const people: Stat[] = await get(url)
         console.info('⚡️', url)
         if (!people || (people && people.length === 0)) {
           console.warn('[WARN] `people` is null or empty array, ', url, people)
@@ -48,19 +48,19 @@ const build = async () => {
     ),
   )
 
-  const contributors: IContributorCollection = {}
+  const contributors: ContributorCollection = {}
 
   console.info(chalk.cyan("start to init contributors' info..."))
   console.info(contributorPerRepo) // FIXME: log for currently debug, remove it when bug resolved
 
-  await Promise.each(contributorPerRepo, async ([repoName, people]) => {
+  await bluebird.each(contributorPerRepo, async ([repoName, people]) => {
     if (!repoName || !people) {
       console.warn(chalk.yellow('[WARN] `repoName` or `people` is null'))
       console.warn(chalk.yellow('repoName: '), repoName)
-      return
+      return Promise.resolve()
     }
-    return Promise.each(
-      people as IStat[],
+    return bluebird.each(
+      people as Stat[],
       async ({
         total,
         weeks,
@@ -89,11 +89,11 @@ const build = async () => {
             total,
           }
         } else {
-          contributors[login].total! += total
+          contributors[login].total += total
           contributors[login].stat = reduceStat(weeks, contributors[login].stat)
-          contributors[login].perRepo![repoName as string] = total
+          contributors[login].perRepo[repoName as string] = total
           contributors[login].firstCommitTime = Math.min(
-            contributors[login].firstCommitTime!,
+            contributors[login].firstCommitTime,
             getFirstCommitTime(weeks),
           )
         }
@@ -101,7 +101,7 @@ const build = async () => {
     )
   })
 
-  const data: IContributorSimple[] = [
+  const data: ContributorSimple[] = [
     ...MORE_PEOPLE,
     ..._.sortBy(_.merge(contributors, OVERWRITES), p => p.firstCommitTime),
   ].filter(p => !IGNORES.includes(p.login))
@@ -120,7 +120,7 @@ const build = async () => {
   }
 }
 
-const main = async () => {
+const main = async (): Promise<void> => {
   try {
     await build()
   } catch (e) {
