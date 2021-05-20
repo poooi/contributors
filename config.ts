@@ -3,7 +3,7 @@ import { Alias, ContributorOverwrite, ContributorSimple } from './types'
 export const ORG_REPOS = 'https://api.github.com/orgs/poooi/repos?per_page=100'
 
 export const MORE_REPO = [
-  'magicae/poi-nwjs',
+  'hanzhao/poi-nwjs',
   'ruiii/plugin-Hairstrength',
   'dkwingsmt/plugin-wheres-my-fuel-gone',
   'ruiii/poi_theme_paper_dark',
@@ -57,9 +57,6 @@ export const OVERWRITES: ContributorOverwrite = {
   },
   KochiyaOcean: {
     html_url: 'http://www.kochiyaocean.org',
-  },
-  magicae: {
-    html_url: 'http://weibo.com/maginya',
   },
   malichan: {
     html_url: 'http://www.weibo.com/1791427467',
