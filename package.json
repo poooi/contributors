@@ -44,7 +44,7 @@
     "gh-pages": "^2.1.1",
     "https-proxy-agent": "^3.0.1",
     "lodash": "^4.17.15",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^3.1.1",
     "p-retry": "^4.2.0",
     "prettier": "^1.19.1",
     "react": "^16.12.0",
