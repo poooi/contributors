@@ -7,7 +7,7 @@ import pRetry from 'p-retry'
 import sharp from 'sharp'
 import SocksProxyAgent from 'socks-proxy-agent'
 import dotenv from 'dotenv'
-import { ContributorSimple, Week } from './types'
+import { ContributorSimple, Stat, Week } from './types'
 
 dotenv.config()
 
@@ -59,6 +59,32 @@ export const get = (url: string): Promise<any> =>
     },
     { retries: 5 },
   )
+
+export const getContributors = async (owner: string, repo: string): Promise<Stat[]> => pRetry(
+  async () => {
+    try {
+      const url = `https://api.github.com/repos/${owner}/${repo}/stats/contributors`
+      const resp = await fetch(url, fetchOptions)
+      if (!resp.ok)  {
+        const parsed = await resp.json()
+        console.error(chalk.red(`[ERROR] url: ${url}`), parsed)
+        throw new Error(chalk.red('invalid response'))
+      }
+      if (resp.status === 202) {
+        throw new Error(chalk.yellow(`Accepted ${url}`))
+      }
+      const data = await resp.json()
+      if (!data) {
+        throw new Error(chalk.red('falsy response'))
+      }
+      return data
+    } catch (e) {
+      console.info(e)
+      return bluebird.reject(e)
+    }
+  },
+  { retries: 10, minTimeout: 2000 },
+)
 
 const getImage = (url: string): Promise<string> =>
   pRetry(

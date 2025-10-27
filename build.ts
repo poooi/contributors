@@ -21,7 +21,7 @@ import {
   Repo,
   Stat,
 } from './types'
-import { buildSvg, get, getFirstCommitTime, reduceStat } from './utils'
+import { buildSvg, get, getContributors, getFirstCommitTime, reduceStat } from './utils'
 
 const execAsync = util.promisify(childProcess.exec)
 
@@ -37,11 +37,11 @@ const build = async (): Promise<void> => {
         .concat(MORE_REPO)
         .filter(repo => !IGNORED_REPO.includes(repo)),
       async (name: string) => {
-        const url = `https://api.github.com/repos/${name}/stats/contributors`
-        const people: Stat[] = await get(url)
-        console.info('⚡️', url)
+        const [owner, repo] = name.split('/')
+        const people: Stat[] = await getContributors(owner, repo)
+        console.info('⚡️', `https://api.github.com/repos/${owner}/${repo}/stats/contributors`)
         if (!people || (people && people.length === 0)) {
-          console.warn('[WARN] `people` is null or empty array, ', url, people)
+          console.warn('[WARN] `people` is null or empty array, ', `https://api.github.com/repos/${owner}/${repo}/stats/contributors`, people)
         }
         return [name, people]
       },
