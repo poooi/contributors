@@ -6,3 +6,4 @@ tslint.json
 *.png
 *.yml
 yarn.lock
+.env

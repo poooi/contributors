@@ -6,7 +6,10 @@ import fetch, { RequestInit } from 'node-fetch'
 import pRetry from 'p-retry'
 import sharp from 'sharp'
 import SocksProxyAgent from 'socks-proxy-agent'
+import dotenv from 'dotenv'
 import { ContributorSimple, Week } from './types'
+
+dotenv.config()
 
 const fetchOptions: RequestInit = {}
 

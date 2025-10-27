@@ -16,8 +16,8 @@ export const MORE_REPO = [
 ]
 
 export const IGNORED_REPO = [
-  'poooi/poidb-server', // no commits yet
   'poooi/node-coveralls', // this is a custom folk
+  'poooi/website-kai2', // no commits yet
 ]
 
 export const MORE_PEOPLE: ContributorSimple[] = [
