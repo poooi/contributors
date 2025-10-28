@@ -7,9 +7,9 @@ export const MORE_REPO = [
   'ruiii/plugin-Hairstrength',
   'dkwingsmt/plugin-wheres-my-fuel-gone',
   'ruiii/poi_theme_paper_dark',
-  'Artoria-0x04/poi-theme-lumendark',
+  'Astra-RX/poi-theme-lumendark',
   'govizlora/theme-papercyan',
-  'Artoria-0x04/paperblack',
+  'Astra-RX/paperblack',
   'kcwikizh/poi-plugin-subtitle',
   'kcwikizh/poi-statistics',
   'Javran/poi-plugin-mo2',
@@ -41,7 +41,7 @@ export const ALIAS: Alias = {
 export const IGNORES = ['codacy-badger']
 
 export const OVERWRITES: ContributorOverwrite = {
-  'Artoria-0x04': {
+  'Astra-RX': {
     html_url: 'http://www.weibo.com/pheliox',
   },
   Chibaheit: {
