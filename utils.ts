@@ -11,7 +11,12 @@ import { ContributorSimple, Stat, Week } from './types'
 
 dotenv.config()
 
-const fetchOptions: RequestInit = {}
+const fetchOptions: RequestInit = {
+  headers: {
+    'X-GitHub-Api-Version': '2022-11-28',
+    Accept: 'application/vnd.github+json',
+  }
+}
 
 const proxy = process.env.https_proxy || process.env.http_proxy || ''
 if (proxy) {
@@ -24,7 +29,8 @@ if (proxy) {
 const AUTH: string = process.env.AUTH || ''
 if (AUTH) {
   fetchOptions.headers = {
-    Authorization: `Basic ${Buffer.from(AUTH).toString('base64')}`,
+    ...fetchOptions.headers,
+    Authorization: `Bearer ${AUTH}`,
   }
 }
 
@@ -83,7 +89,7 @@ export const getContributors = async (owner: string, repo: string): Promise<Stat
       return bluebird.reject(e)
     }
   },
-  { retries: 10, minTimeout: 2000 },
+  { retries: Infinity, minTimeout: 120 * 1000, factor: 1 },
 )
 
 const getImage = (url: string): Promise<string> =>
