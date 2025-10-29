@@ -10,41 +10,42 @@
     "login": "edwardaaaa"
   },
   {
-    "avatar_url": "https://avatars1.githubusercontent.com/u/6753092?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/6753092?v=4",
     "firstCommitTime": 1414281600,
-    "html_url": "http://weibo.com/maginya",
+    "html_url": "https://github.com/hanzhao",
     "id": 6753092,
-    "login": "magicae",
-    "name": null,
+    "login": "hanzhao",
+    "name": "Maggie",
     "perRepo": {
-      "poooi/poi": 622,
-      "poooi/plugin-exp-calculator": 16,
-      "poooi/plugin-report": 23,
-      "poooi/poi-server": 42,
-      "poooi/plugin-prophet": 29,
-      "poooi/plugin-item-improvement": 8,
+      "poooi/poi": 575,
+      "poooi/plugin-exp-calculator": 15,
+      "poooi/plugin-report": 22,
+      "poooi/poi-server": 37,
+      "poooi/plugin-prophet": 28,
+      "poooi/plugin-item-improvement": 7,
       "poooi/plugin-expedition": 4,
-      "poooi/plugin-ship-info": 12,
-      "poooi/plugin-item-info": 12,
+      "poooi/plugin-ship-info": 10,
+      "poooi/plugin-item-info": 11,
       "poooi/plugin-new-window": 4,
-      "poooi/plugin-Akashic-records": 14,
-      "poooi/plugin-almanac": 6,
-      "poooi/plugin-quest": 9,
+      "poooi/plugin-Akashic-records": 8,
+      "poooi/plugin-almanac": 5,
+      "poooi/plugin-quest": 8,
       "poooi/plugin-map-hp": 6,
-      "poooi/plugin-hello-es2016": 2,
-      "magicae/poi-nwjs": 68,
-      "ruiii/poi_theme_paper_dark": 9,
+      "poooi/plugin-hello-es2016": 1,
+      "poooi/contributors": 1,
+      "hanzhao/poi-nwjs": 64,
+      "ruiii/poi_theme_paper_dark": 6,
       "kcwikizh/poi-statistics": 2
     },
     "stat": {
-      "a": 553317,
-      "c": 888,
-      "d": 471562
+      "a": 553318,
+      "c": 889,
+      "d": 471566
     },
-    "total": 888
+    "total": 889
   },
   {
-    "avatar_url": "https://avatars2.githubusercontent.com/u/3362438?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/3362438?v=4",
     "firstCommitTime": 1414886400,
     "html_url": "http://weibo.com/myzwillmake",
     "id": 3362438,
@@ -54,7 +55,7 @@
       "poooi/poi": 28,
       "poooi/plugin-ship-info": 32,
       "poooi/plugin-item-info": 15,
-      "magicae/poi-nwjs": 10
+      "hanzhao/poi-nwjs": 10
     },
     "stat": {
       "a": 16127,
@@ -64,7 +65,7 @@
     "total": 85
   },
   {
-    "avatar_url": "https://avatars0.githubusercontent.com/u/8042869?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/8042869?v=4",
     "firstCommitTime": 1415491200,
     "html_url": "https://github.com/jayjayzju",
     "id": 8042869,
@@ -72,7 +73,7 @@
     "name": "JayJayZJU",
     "perRepo": {
       "poooi/plugin-ship-info": 1,
-      "magicae/poi-nwjs": 18
+      "hanzhao/poi-nwjs": 18
     },
     "stat": {
       "a": 148952,
@@ -82,7 +83,7 @@
     "total": 19
   },
   {
-    "avatar_url": "https://avatars0.githubusercontent.com/u/6861365?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/6861365?v=4",
     "firstCommitTime": 1423353600,
     "html_url": "http://www.weibo.com/jenningswu",
     "id": 6861365,
@@ -96,7 +97,7 @@
       "poooi/plugin-Akashic-records": 225,
       "poooi/plugin-sunshine": 7,
       "poooi/plugin-vip": 3,
-      "magicae/poi-nwjs": 1,
+      "hanzhao/poi-nwjs": 1,
       "dkwingsmt/plugin-wheres-my-fuel-gone": 1
     },
     "stat": {
@@ -107,7 +108,7 @@
     "total": 360
   },
   {
-    "avatar_url": "https://avatars1.githubusercontent.com/u/11897118?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/11897118?v=4",
     "firstCommitTime": 1428192000,
     "html_url": "https://github.com/ruiii",
     "id": 11897118,
@@ -131,32 +132,7 @@
     "total": 599
   },
   {
-    "avatar_url": "https://avatars1.githubusercontent.com/u/6986642?v=4",
-    "firstCommitTime": 1431820800,
-    "html_url": "http://weibo.com/chibaheit",
-    "id": 6986642,
-    "login": "Chibaheit",
-    "name": "Chiba",
-    "perRepo": {
-      "poooi/poi": 41,
-      "poooi/plugin-exp-calculator": 27,
-      "poooi/plugin-prophet": 166,
-      "poooi/plugin-quest": 1,
-      "poooi/plugin-map-hp": 32,
-      "poooi/plugin-aircraft-optimize": 2,
-      "poooi/plugin-hensei-nikki": 3,
-      "poooi/settings-panel": 2,
-      "poooi/plugin-battle-detail": 27
-    },
-    "stat": {
-      "a": 31306,
-      "c": 301,
-      "d": 4675
-    },
-    "total": 301
-  },
-  {
-    "avatar_url": "https://avatars1.githubusercontent.com/u/10855724?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/10855724?v=4",
     "firstCommitTime": 1433635200,
     "html_url": "http://www.weibo.com/1791427467",
     "id": 10855724,
@@ -175,55 +151,58 @@
     "total": 52
   },
   {
-    "avatar_url": "https://avatars3.githubusercontent.com/u/8194131?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/8194131?v=4",
     "firstCommitTime": 1433635200,
     "html_url": "http://www.kochiyaocean.org",
     "id": 8194131,
     "login": "KochiyaOcean",
     "name": "東風谷オーシャン",
     "perRepo": {
-      "poooi/poi": 2273,
-      "poooi/plugin-exp-calculator": 4,
+      "poooi/poi": 2634,
+      "poooi/plugin-exp-calculator": 6,
       "poooi/plugin-report": 9,
-      "poooi/poi-server": 88,
-      "poooi/plugin-prophet": 129,
+      "poooi/poi-server": 89,
+      "poooi/plugin-prophet": 164,
       "poooi/plugin-item-improvement": 63,
       "poooi/plugin-expedition": 13,
-      "poooi/plugin-ship-info": 44,
-      "poooi/plugin-item-info": 14,
-      "poooi/plugin-new-window": 106,
-      "poooi/plugin-Akashic-records": 8,
+      "poooi/plugin-ship-info": 46,
+      "poooi/plugin-item-info": 17,
+      "poooi/plugin-new-window": 117,
+      "poooi/plugin-Akashic-records": 36,
       "poooi/plugin-almanac": 4,
-      "poooi/plugin-quest": 14,
+      "poooi/plugin-quest": 15,
       "poooi/plugin-ship-panel-patcher": 19,
-      "poooi/plugin-map-hp": 4,
+      "poooi/plugin-map-hp": 6,
       "poooi/plugin-secretary": 6,
-      "poooi/plugin-hensei-nikki": 10,
+      "poooi/plugin-hensei-nikki": 17,
       "poooi/poi-compact-info": 12,
-      "poooi/plugin-battle-detail": 43,
-      "poooi/plugin-translator": 31,
+      "poooi/plugin-battle-detail": 78,
+      "poooi/plugin-translator": 33,
       "poooi/plugin-k2badge": 9,
-      "poooi/plugin-navy-album": 2,
-      "poooi/lib-battle": 21,
+      "poooi/plugin-navy-album": 4,
+      "poooi/lib-battle": 49,
       "poooi/plugin-anchorage-repair": 3,
-      "poooi/poi-plugin-ezexped": 8,
-      "poooi/poi-asset-themes": 19,
-      "poooi/dev.poooi.app": 2,
-      "poooi/plugin-senka-calc": 7,
+      "poooi/poi-plugin-ezexped": 9,
+      "poooi/poi-util-transpile": 2,
+      "poooi/poi-asset-themes": 30,
+      "poooi/dev.poi.moe": 2,
+      "poooi/plugin-senka-calc": 34,
+      "poooi/website": 30,
+      "poooi/poi-release": 4,
       "ruiii/plugin-Hairstrength": 5,
       "dkwingsmt/plugin-wheres-my-fuel-gone": 16,
       "ruiii/poi_theme_paper_dark": 2,
       "kcwikizh/poi-plugin-subtitle": 17
     },
     "stat": {
-      "a": 229352,
-      "c": 3005,
-      "d": 234669
+      "a": 435605,
+      "c": 3600,
+      "d": 363115
     },
-    "total": 3005
+    "total": 3600
   },
   {
-    "avatar_url": "https://avatars1.githubusercontent.com/u/12459199?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/12459199?v=4",
     "firstCommitTime": 1434844800,
     "html_url": "https://github.com/wafer-li",
     "id": 12459199,
@@ -240,7 +219,7 @@
     "total": 8
   },
   {
-    "avatar_url": "https://avatars1.githubusercontent.com/u/3337921?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/3337921?v=4",
     "firstCommitTime": 1435449600,
     "html_url": "http://dazzyd.org/",
     "id": 3337921,
@@ -250,7 +229,7 @@
       "poooi/poi": 139,
       "poooi/plugin-exp-calculator": 2,
       "poooi/plugin-report": 39,
-      "poooi/poi-server": 24,
+      "poooi/poi-server": 25,
       "poooi/plugin-prophet": 41,
       "poooi/plugin-item-improvement": 32,
       "poooi/plugin-expedition": 1,
@@ -265,19 +244,19 @@
       "poooi/lib-battle": 92
     },
     "stat": {
-      "a": 28677,
-      "c": 877,
-      "d": 19736
+      "a": 28681,
+      "c": 878,
+      "d": 19737
     },
-    "total": 877
+    "total": 878
   },
   {
-    "avatar_url": "https://avatars1.githubusercontent.com/u/1183568?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/1183568?v=4",
     "firstCommitTime": 1436659200,
     "html_url": "http://www.weibo.com/pheliox",
     "id": 1183568,
-    "login": "Artoria-0x04",
-    "name": "Artoria",
+    "login": "Astra-RX",
+    "name": "λ",
     "perRepo": {
       "poooi/poi": 25,
       "poooi/plugin-exp-calculator": 1,
@@ -287,8 +266,8 @@
       "poooi/plugin-Akashic-records": 1,
       "poooi/plugin-hensei-nikki": 3,
       "poooi/poi-compact-info": 2,
-      "Artoria-0x04/poi-theme-lumendark": 7,
-      "Artoria-0x04/paperblack": 31
+      "Astra-RX/poi-theme-lumendark": 7,
+      "Astra-RX/paperblack": 31
     },
     "stat": {
       "a": 18066,
@@ -298,7 +277,7 @@
     "total": 80
   },
   {
-    "avatar_url": "https://avatars2.githubusercontent.com/u/5024901?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/5024901?v=4",
     "firstCommitTime": 1437868800,
     "html_url": "https://github.com/MaChenhao",
     "id": 5024901,
@@ -315,25 +294,7 @@
     "total": 4
   },
   {
-    "avatar_url": "https://avatars1.githubusercontent.com/u/1572561?v=4",
-    "firstCommitTime": 1437868800,
-    "html_url": "https://github.com/Gizeta",
-    "id": 1572561,
-    "login": "Gizeta",
-    "name": "Gizeta",
-    "perRepo": {
-      "poooi/plugin-quest": 11,
-      "kcwikizh/poi-statistics": 271
-    },
-    "stat": {
-      "a": 45816,
-      "c": 282,
-      "d": 24840
-    },
-    "total": 282
-  },
-  {
-    "avatar_url": "https://avatars3.githubusercontent.com/u/11754367?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/11754367?v=4",
     "firstCommitTime": 1438473600,
     "html_url": "https://github.com/Ayaphis",
     "id": 11754367,
@@ -357,7 +318,7 @@
     "total": 102
   },
   {
-    "avatar_url": "https://avatars3.githubusercontent.com/u/3395113?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/3395113?v=4",
     "firstCommitTime": 1439683200,
     "html_url": "https://github.com/Dibel",
     "id": 3395113,
@@ -374,7 +335,7 @@
     "total": 2
   },
   {
-    "avatar_url": "https://avatars1.githubusercontent.com/u/9245514?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/9245514?v=4",
     "firstCommitTime": 1439683200,
     "html_url": "https://github.com/cocoasoda",
     "id": 9245514,
@@ -391,14 +352,14 @@
     "total": 7
   },
   {
-    "avatar_url": "https://avatars0.githubusercontent.com/u/6070540?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/6070540?v=4",
     "firstCommitTime": 1439683200,
     "html_url": "https://github.com/taroxd",
     "id": 6070540,
     "login": "taroxd",
     "name": "taroxd",
     "perRepo": {
-      "poooi/poi": 86,
+      "poooi/poi": 89,
       "poooi/plugin-prophet": 7,
       "poooi/plugin-item-improvement": 1,
       "poooi/plugin-expedition": 2,
@@ -409,19 +370,19 @@
       "poooi/plugin-battle-detail": 3
     },
     "stat": {
-      "a": 2527,
-      "c": 214,
-      "d": 1989
+      "a": 2576,
+      "c": 217,
+      "d": 2001
     },
-    "total": 214
+    "total": 217
   },
   {
-    "avatar_url": "https://avatars1.githubusercontent.com/u/12785565?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/12785565?v=4",
     "firstCommitTime": 1439683200,
     "html_url": "https://github.com/govizlora",
     "id": 12785565,
     "login": "govizlora",
-    "name": "Yuheng Ouyang",
+    "name": null,
     "perRepo": {
       "govizlora/theme-papercyan": 22
     },
@@ -433,7 +394,7 @@
     "total": 22
   },
   {
-    "avatar_url": "https://avatars0.githubusercontent.com/u/13615512?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/13615512?v=4",
     "firstCommitTime": 1441497600,
     "html_url": "https://github.com/alvin-777",
     "id": 13615512,
@@ -458,7 +419,7 @@
     "total": 242
   },
   {
-    "avatar_url": "https://avatars0.githubusercontent.com/u/13725370?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/13725370?v=4",
     "firstCommitTime": 1442707200,
     "html_url": "http://weibo.com/zyc43",
     "id": 13725370,
@@ -480,7 +441,7 @@
     "total": 10
   },
   {
-    "avatar_url": "https://avatars2.githubusercontent.com/u/1596656?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/1596656?v=4",
     "firstCommitTime": 1442707200,
     "html_url": "https://github.com/dkwingsmt",
     "id": 1596656,
@@ -513,7 +474,7 @@
     "total": 599
   },
   {
-    "avatar_url": "https://avatars3.githubusercontent.com/u/10178964?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/10178964?v=4",
     "firstCommitTime": 1443312000,
     "html_url": "https://github.com/NatLee",
     "id": 10178964,
@@ -538,14 +499,14 @@
     "total": 14
   },
   {
-    "avatar_url": "https://avatars2.githubusercontent.com/u/12995396?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/12995396?v=4",
     "firstCommitTime": 1443312000,
     "html_url": "https://github.com/gnattu",
     "id": 12995396,
     "login": "gnattu",
     "name": null,
     "perRepo": {
-      "poooi/poi": 60,
+      "poooi/poi": 97,
       "poooi/plugin-item-improvement": 4,
       "poooi/plugin-ship-info": 7,
       "poooi/plugin-new-window": 1,
@@ -555,14 +516,35 @@
       "dkwingsmt/plugin-wheres-my-fuel-gone": 1
     },
     "stat": {
-      "a": 20658,
-      "c": 83,
-      "d": 51356
+      "a": 86510,
+      "c": 120,
+      "d": 116257
     },
-    "total": 83
+    "total": 120
   },
   {
-    "avatar_url": "https://avatars2.githubusercontent.com/u/1854100?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/6986642?v=4",
+    "firstCommitTime": 1448150400,
+    "html_url": "http://weibo.com/chibaheit",
+    "id": 6986642,
+    "login": "Chibaheit",
+    "name": "Habel Huang",
+    "perRepo": {
+      "poooi/poi": 8,
+      "poooi/plugin-exp-calculator": 16,
+      "poooi/plugin-prophet": 61,
+      "poooi/plugin-map-hp": 24,
+      "poooi/plugin-battle-detail": 1
+    },
+    "stat": {
+      "a": 1745,
+      "c": 110,
+      "d": 1446
+    },
+    "total": 110
+  },
+  {
+    "avatar_url": "https://avatars.githubusercontent.com/u/1854100?v=4",
     "firstCommitTime": 1449360000,
     "html_url": "https://github.com/vuryleo",
     "id": 1854100,
@@ -580,53 +562,62 @@
     "total": 2
   },
   {
-    "avatar_url": "https://avatars1.githubusercontent.com/u/3816900?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/3816900?v=4",
     "firstCommitTime": 1449360000,
     "html_url": "https://github.com/KagamiChan",
     "id": 3816900,
     "login": "KagamiChan",
     "name": "かがみ",
     "perRepo": {
-      "poooi/poi": 893,
-      "poooi/plugin-exp-calculator": 113,
-      "poooi/plugin-report": 62,
-      "poooi/poi-server": 31,
-      "poooi/plugin-prophet": 378,
+      "poooi/poi": 1080,
+      "poooi/plugin-exp-calculator": 114,
+      "poooi/plugin-report": 94,
+      "poooi/poi-server": 91,
+      "poooi/plugin-prophet": 406,
       "poooi/plugin-item-improvement": 70,
       "poooi/plugin-expedition": 29,
-      "poooi/plugin-ship-info": 515,
-      "poooi/plugin-item-info": 59,
+      "poooi/plugin-ship-info": 529,
+      "poooi/plugin-item-info": 65,
       "poooi/plugin-new-window": 43,
-      "poooi/plugin-Akashic-records": 14,
+      "poooi/plugin-Akashic-records": 16,
       "poooi/plugin-almanac": 7,
-      "poooi/plugin-quest": 151,
-      "poooi/plugin-map-hp": 55,
-      "poooi/plugin-secretary": 63,
+      "poooi/plugin-quest": 171,
+      "poooi/plugin-map-hp": 60,
+      "poooi/plugin-secretary": 66,
       "poooi/plugin-hensei-nikki": 8,
-      "poooi/plugin-battle-detail": 30,
-      "poooi/plugin-translator": 146,
+      "poooi/plugin-battle-detail": 35,
+      "poooi/plugin-translator": 179,
       "poooi/plugin-k2badge": 6,
       "poooi/plugin-navy-album": 2,
       "poooi/lib-battle": 34,
       "poooi/plugin-anchorage-repair": 70,
+      "poooi/plugin-deck-builder": 1,
       "poooi/plugin-navy-staff-legacy": 52,
       "poooi/poi-util-transpile": 40,
       "poooi/poi-asset-themes": 16,
-      "poooi/contributors": 35,
-      "poooi/dev.poooi.app": 36,
-      "poooi/eslint-config-poi-plugin": 11,
+      "poooi/contributors": 45,
+      "poooi/dev.poi.moe": 43,
+      "poooi/eslint-config-poi-plugin": 16,
       "poooi/plugin-navy-staff": 7,
-      "poooi/website": 116
+      "poooi/website": 170,
+      "poooi/fixtures": 1,
+      "poooi/website-kai": 76,
+      "poooi/r2-dir-list": 6,
+      "poooi/r2-index": 24,
+      "poooi/r2-ingress": 7,
+      "poooi/poi-release": 2,
+      "poooi/translator-worker": 2,
+      "poooi/r2-index-kai": 14
     },
     "stat": {
-      "a": 908964,
-      "c": 3092,
-      "d": 553605
+      "a": 1427355,
+      "c": 3697,
+      "d": 697894
     },
-    "total": 3092
+    "total": 3697
   },
   {
-    "avatar_url": "https://avatars2.githubusercontent.com/u/6183259?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/6183259?v=4",
     "firstCommitTime": 1449360000,
     "html_url": "https://github.com/ilufang",
     "id": 6183259,
@@ -643,7 +634,7 @@
     "total": 1
   },
   {
-    "avatar_url": "https://avatars1.githubusercontent.com/u/7111791?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/7111791?v=4",
     "firstCommitTime": 1455408000,
     "html_url": "https://github.com/sage417",
     "id": 7111791,
@@ -660,7 +651,7 @@
     "total": 6
   },
   {
-    "avatar_url": "https://avatars2.githubusercontent.com/u/2235314?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/2235314?v=4",
     "firstCommitTime": 1455408000,
     "html_url": "https://github.com/grzhan",
     "id": 2235314,
@@ -677,7 +668,7 @@
     "total": 164
   },
   {
-    "avatar_url": "https://avatars2.githubusercontent.com/u/6459309?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/6459309?v=4",
     "firstCommitTime": 1459036800,
     "html_url": "https://github.com/Artoria2e5",
     "id": 6459309,
@@ -694,12 +685,12 @@
     "total": 1
   },
   {
-    "avatar_url": "https://avatars2.githubusercontent.com/u/7316929?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/7316929?v=4",
     "firstCommitTime": 1459036800,
     "html_url": "https://github.com/wudifeixue",
     "id": 7316929,
     "login": "wudifeixue",
-    "name": "Curtis Xiao",
+    "name": null,
     "perRepo": {
       "poooi/poi": 4
     },
@@ -711,7 +702,7 @@
     "total": 4
   },
   {
-    "avatar_url": "https://avatars2.githubusercontent.com/u/5426308?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/5426308?v=4",
     "firstCommitTime": 1459036800,
     "html_url": "https://github.com/HiddenCake",
     "id": 5426308,
@@ -728,7 +719,7 @@
     "total": 1
   },
   {
-    "avatar_url": "https://avatars0.githubusercontent.com/u/7548?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/7548?v=4",
     "firstCommitTime": 1462665600,
     "html_url": "https://github.com/ursm",
     "id": 7548,
@@ -745,12 +736,12 @@
     "total": 3
   },
   {
-    "avatar_url": "https://avatars1.githubusercontent.com/u/17797795?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/17797795?v=4",
     "firstCommitTime": 1463875200,
     "html_url": "https://github.com/CirnoV",
     "id": 17797795,
     "login": "CirnoV",
-    "name": "CirnoV",
+    "name": "CirnoV (Sickle)",
     "perRepo": {
       "poooi/poi": 5,
       "poooi/plugin-prophet": 1,
@@ -766,7 +757,7 @@
     "total": 13
   },
   {
-    "avatar_url": "https://avatars2.githubusercontent.com/u/20371009?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/20371009?v=4",
     "firstCommitTime": 1467504000,
     "html_url": "https://github.com/choohoo",
     "id": 20371009,
@@ -783,14 +774,14 @@
     "total": 1
   },
   {
-    "avatar_url": "https://avatars1.githubusercontent.com/u/20397245?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/20397245?v=4",
     "firstCommitTime": 1468713600,
     "html_url": "https://github.com/SoraYama",
     "id": 20397245,
     "login": "SoraYama",
     "name": "SoraYama",
     "perRepo": {
-      "poooi/poi": 28,
+      "poooi/poi": 34,
       "poooi/plugin-prophet": 8,
       "poooi/plugin-item-improvement": 15,
       "poooi/plugin-expedition": 1,
@@ -802,14 +793,14 @@
       "dkwingsmt/plugin-wheres-my-fuel-gone": 5
     },
     "stat": {
-      "a": 15472,
-      "c": 86,
-      "d": 60097
+      "a": 15926,
+      "c": 92,
+      "d": 60435
     },
-    "total": 86
+    "total": 92
   },
   {
-    "avatar_url": "https://avatars2.githubusercontent.com/u/1846356?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/1846356?v=4",
     "firstCommitTime": 1470528000,
     "html_url": "https://github.com/tengattack",
     "id": 1846356,
@@ -827,7 +818,7 @@
     "total": 62
   },
   {
-    "avatar_url": "https://avatars1.githubusercontent.com/u/5018356?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/5018356?v=4",
     "firstCommitTime": 1472947200,
     "html_url": "https://github.com/swordfeng",
     "id": 5018356,
@@ -844,7 +835,7 @@
     "total": 1
   },
   {
-    "avatar_url": "https://avatars2.githubusercontent.com/u/10805205?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/10805205?v=4",
     "firstCommitTime": 1480204800,
     "html_url": "https://github.com/LostXine",
     "id": 10805205,
@@ -862,7 +853,7 @@
     "total": 7
   },
   {
-    "avatar_url": "https://avatars1.githubusercontent.com/u/8843214?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/8843214?v=4",
     "firstCommitTime": 1485043200,
     "html_url": "https://github.com/AlanJager",
     "id": 8843214,
@@ -879,7 +870,7 @@
     "total": 1
   },
   {
-    "avatar_url": "https://avatars0.githubusercontent.com/u/1755431?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/1755431?v=4",
     "firstCommitTime": 1485043200,
     "html_url": "https://github.com/aflyhorse",
     "id": 1755431,
@@ -896,7 +887,7 @@
     "total": 3
   },
   {
-    "avatar_url": "https://avatars0.githubusercontent.com/u/4893302?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/4893302?v=4",
     "firstCommitTime": 1486252800,
     "html_url": "https://github.com/sgqy",
     "id": 4893302,
@@ -920,28 +911,29 @@
     "login": "Javran",
     "name": "Javran Cheng",
     "perRepo": {
-      "poooi/poi": 70,
-      "poooi/plugin-prophet": 1,
+      "poooi/poi": 110,
+      "poooi/plugin-prophet": 5,
       "poooi/plugin-item-improvement": 30,
-      "poooi/plugin-map-hp": 2,
-      "poooi/plugin-battle-detail": 90,
-      "poooi/plugin-navy-album": 409,
+      "poooi/plugin-map-hp": 4,
+      "poooi/plugin-battle-detail": 150,
+      "poooi/plugin-navy-album": 634,
+      "poooi/lib-battle": 2,
       "poooi/plugin-anchorage-repair": 1,
-      "poooi/poi-plugin-ezexped": 515,
+      "poooi/poi-plugin-ezexped": 607,
       "poooi/poi-plugin-starcraft": 26,
-      "poooi/poi-plugin-leveling": 239,
+      "poooi/poi-plugin-leveling": 250,
       "dkwingsmt/plugin-wheres-my-fuel-gone": 3,
-      "Javran/poi-plugin-mo2": 199
+      "Javran/poi-plugin-mo2": 220
     },
     "stat": {
-      "a": 81324,
-      "c": 1585,
-      "d": 48922
+      "a": 92116,
+      "c": 2042,
+      "d": 58034
     },
-    "total": 1585
+    "total": 2042
   },
   {
-    "avatar_url": "https://avatars0.githubusercontent.com/u/1525293?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/1525293?v=4",
     "firstCommitTime": 1489881600,
     "html_url": "https://github.com/c933103",
     "id": 1525293,
@@ -959,7 +951,7 @@
     "total": 2
   },
   {
-    "avatar_url": "https://avatars2.githubusercontent.com/u/842383?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/842383?v=4",
     "firstCommitTime": 1497139200,
     "html_url": "https://github.com/ywjno",
     "id": 842383,
@@ -976,7 +968,7 @@
     "total": 1
   },
   {
-    "avatar_url": "https://avatars0.githubusercontent.com/u/21342724?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/21342724?v=4",
     "firstCommitTime": 1502582400,
     "html_url": "https://github.com/DavidDiao",
     "id": 21342724,
@@ -993,7 +985,7 @@
     "total": 1
   },
   {
-    "avatar_url": "https://avatars2.githubusercontent.com/u/74358?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/74358?v=4",
     "firstCommitTime": 1503187200,
     "html_url": "https://github.com/xdamman",
     "id": 74358,
@@ -1010,7 +1002,7 @@
     "total": 3
   },
   {
-    "avatar_url": "https://avatars3.githubusercontent.com/u/6726054?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/6726054?v=4",
     "firstCommitTime": 1508025600,
     "html_url": "https://github.com/sairoutine",
     "id": 6726054,
@@ -1027,24 +1019,7 @@
     "total": 1
   },
   {
-    "avatar_url": "https://avatars0.githubusercontent.com/u/7007270?v=4",
-    "firstCommitTime": 1514073600,
-    "html_url": "https://github.com/KonatoK",
-    "id": 7007270,
-    "login": "KonatoK",
-    "name": "Vincen Gutiérrez",
-    "perRepo": {
-      "poooi/plugin-ship-info": 1
-    },
-    "stat": {
-      "a": 4,
-      "c": 1,
-      "d": 4
-    },
-    "total": 1
-  },
-  {
-    "avatar_url": "https://avatars3.githubusercontent.com/u/8674371?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/8674371?v=4",
     "firstCommitTime": 1515888000,
     "html_url": "https://github.com/slime7",
     "id": 8674371,
@@ -1061,7 +1036,7 @@
     "total": 2
   },
   {
-    "avatar_url": "https://avatars3.githubusercontent.com/u/14193002?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/14193002?v=4",
     "firstCommitTime": 1516492800,
     "html_url": "https://github.com/Senasiko",
     "id": 14193002,
@@ -1078,123 +1053,124 @@
     "total": 1
   },
   {
-    "avatar_url": "https://avatars1.githubusercontent.com/u/141510?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/1572561?v=4",
+    "firstCommitTime": 1518307200,
+    "html_url": "https://github.com/Gizeta",
+    "id": 1572561,
+    "login": "Gizeta",
+    "name": "Gizeta",
+    "perRepo": {
+      "kcwikizh/poi-statistics": 19
+    },
+    "stat": {
+      "a": 5122,
+      "c": 19,
+      "d": 2671
+    },
+    "total": 19
+  },
+  {
+    "avatar_url": "https://avatars.githubusercontent.com/u/141510?v=4",
     "firstCommitTime": 1518912000,
     "html_url": "https://github.com/syncsyncsynchalt",
     "id": 141510,
     "login": "syncsyncsynchalt",
-    "name": "Yohei Igata",
+    "name": "Yohei Ikata",
     "perRepo": {
-      "poooi/poi": 1
+      "poooi/poi": 3,
+      "poooi/plugin-battle-detail": 1
     },
     "stat": {
-      "a": 1,
-      "c": 1,
-      "d": 1
+      "a": 13,
+      "c": 4,
+      "d": 32
     },
-    "total": 1
+    "total": 4
   },
   {
-    "avatar_url": "https://avatars2.githubusercontent.com/u/13043588?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/13043588?v=4",
     "firstCommitTime": 1520121600,
     "html_url": "https://github.com/gakada",
     "id": 13043588,
     "login": "gakada",
     "name": null,
     "perRepo": {
-      "poooi/poi": 10,
+      "poooi/poi": 14,
       "poooi/plugin-report": 9,
       "poooi/poi-server": 6,
       "poooi/plugin-prophet": 2,
-      "poooi/plugin-quest": 2,
+      "poooi/plugin-quest": 3,
       "poooi/plugin-hensei-nikki": 1,
-      "poooi/plugin-translator": 34
+      "poooi/plugin-translator": 48
     },
     "stat": {
-      "a": 2154,
-      "c": 64,
-      "d": 612
+      "a": 2891,
+      "c": 83,
+      "d": 1209
     },
-    "total": 64
+    "total": 83
   },
   {
-    "avatar_url": "https://avatars3.githubusercontent.com/u/18554747?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/18554747?v=4",
     "firstCommitTime": 1521936000,
     "html_url": "https://github.com/lawvs",
     "id": 18554747,
     "login": "lawvs",
+    "name": "Whitewater",
+    "perRepo": {
+      "poooi/poi": 10,
+      "poooi/plugin-quest": 16
+    },
+    "stat": {
+      "a": 5464,
+      "c": 26,
+      "d": 2847
+    },
+    "total": 26
+  },
+  {
+    "avatar_url": "https://avatars.githubusercontent.com/u/62688424?v=4",
+    "firstCommitTime": 1534636800,
+    "html_url": "https://github.com/huhums",
+    "id": 62688424,
+    "login": "huhums",
     "name": null,
     "perRepo": {
-      "poooi/poi": 4,
-      "poooi/plugin-quest": 9
+      "poooi/poi": 1
     },
     "stat": {
-      "a": 729,
-      "c": 13,
-      "d": 81
+      "a": 2,
+      "c": 1,
+      "d": 0
     },
-    "total": 13
+    "total": 1
   },
   {
-    "avatar_url": "https://avatars0.githubusercontent.com/u/14719366?v=4",
-    "firstCommitTime": 1534636800,
-    "html_url": "https://github.com/MZIchenjl",
-    "id": 14719366,
-    "login": "MZIchenjl",
-    "name": "MZI",
-    "perRepo": {
-      "kcwikizh/poi-plugin-subtitle": 15
-    },
-    "stat": {
-      "a": 51426,
-      "c": 15,
-      "d": 46594
-    },
-    "total": 15
-  },
-  {
-    "avatar_url": "https://avatars1.githubusercontent.com/u/15786037?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/15786037?v=4",
     "firstCommitTime": 1535241600,
     "html_url": "https://github.com/Werseter",
     "id": 15786037,
     "login": "Werseter",
     "name": "Werseter",
     "perRepo": {
-      "poooi/poi": 3,
+      "poooi/poi": 1,
       "poooi/poi-plugin-ezexped": 1,
       "kcwikizh/poi-plugin-subtitle": 7
     },
     "stat": {
-      "a": 61,
-      "c": 11,
-      "d": 36
+      "a": 35,
+      "c": 9,
+      "d": 23
     },
-    "total": 11
+    "total": 9
   },
   {
-    "avatar_url": "https://avatars2.githubusercontent.com/u/25094788?v=4",
-    "firstCommitTime": 1535241600,
-    "html_url": "https://github.com/dislido",
-    "id": 25094788,
-    "login": "dislido",
-    "name": "DisLido",
-    "perRepo": {
-      "poooi/poi": 8
-    },
-    "stat": {
-      "a": 320,
-      "c": 8,
-      "d": 104
-    },
-    "total": 8
-  },
-  {
-    "avatar_url": "https://avatars2.githubusercontent.com/u/11714395?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/11714395?v=4",
     "firstCommitTime": 1540684800,
     "html_url": "https://github.com/drelatgithub",
     "id": 11714395,
     "login": "drelatgithub",
-    "name": null,
+    "name": "Haoran Ni",
     "perRepo": {
       "poooi/poi": 1
     },
@@ -1206,7 +1182,7 @@
     "total": 1
   },
   {
-    "avatar_url": "https://avatars1.githubusercontent.com/u/26541502?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/26541502?v=4",
     "firstCommitTime": 1544313600,
     "html_url": "https://github.com/sorewachigauyo",
     "id": 26541502,
@@ -1223,29 +1199,29 @@
     "total": 2
   },
   {
-    "avatar_url": "https://avatars3.githubusercontent.com/u/5478730?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/5478730?v=4",
     "firstCommitTime": 1544918400,
     "html_url": "https://github.com/llc1123",
     "id": 5478730,
     "login": "llc1123",
     "name": "粒粒橙",
     "perRepo": {
-      "poooi/poi": 1,
-      "poooi/plugin-Akashic-records": 5
+      "poooi/poi": 2,
+      "poooi/plugin-Akashic-records": 12
     },
     "stat": {
-      "a": 936,
-      "c": 6,
-      "d": 788
+      "a": 1007,
+      "c": 14,
+      "d": 829
     },
-    "total": 6
+    "total": 14
   },
   {
-    "avatar_url": "https://avatars3.githubusercontent.com/u/13777426?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/13777426?v=4",
     "firstCommitTime": 1544918400,
-    "html_url": "https://github.com/kPherox",
+    "html_url": "https://github.com/kphrx",
     "id": 13777426,
-    "login": "kPherox",
+    "login": "kphrx",
     "name": "kPherox",
     "perRepo": {
       "kcwikizh/poi-statistics": 1
@@ -1258,41 +1234,42 @@
     "total": 1
   },
   {
-    "avatar_url": "https://avatars2.githubusercontent.com/u/2233760?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/2233760?v=4",
     "firstCommitTime": 1560038400,
-    "html_url": "https://github.com/jie17",
+    "html_url": "https://github.com/jie-lyu",
     "id": 2233760,
-    "login": "jie17",
-    "name": "Observer",
+    "login": "jie-lyu",
+    "name": "Jie Lyu",
     "perRepo": {
-      "poooi/poi": 1
+      "poooi/poi": 2
     },
     "stat": {
-      "a": 3,
-      "c": 1,
-      "d": 2
+      "a": 17,
+      "c": 2,
+      "d": 4
     },
-    "total": 1
+    "total": 2
   },
   {
-    "avatar_url": "https://avatars0.githubusercontent.com/u/10049076?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/10049076?v=4",
     "firstCommitTime": 1562457600,
     "html_url": "https://github.com/yshkflyer",
     "id": 10049076,
     "login": "yshkflyer",
     "name": "Yoshihiko Kondo",
     "perRepo": {
+      "poooi/plugin-prophet": 2,
       "poooi/plugin-ship-info": 1
     },
     "stat": {
-      "a": 2,
-      "c": 1,
-      "d": 2
+      "a": 4,
+      "c": 3,
+      "d": 4
     },
-    "total": 1
+    "total": 3
   },
   {
-    "avatar_url": "https://avatars3.githubusercontent.com/u/1286225?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/1286225?v=4",
     "firstCommitTime": 1563062400,
     "html_url": "https://github.com/ahxxm",
     "id": 1286225,
@@ -1309,7 +1286,7 @@
     "total": 4
   },
   {
-    "avatar_url": "https://avatars0.githubusercontent.com/u/12387091?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/12387091?v=4",
     "firstCommitTime": 1565481600,
     "html_url": "https://github.com/Sunev",
     "id": 12387091,
@@ -1322,6 +1299,401 @@
       "a": 63,
       "c": 1,
       "d": 2
+    },
+    "total": 1
+  },
+  {
+    "avatar_url": "https://avatars.githubusercontent.com/u/17686908?v=4",
+    "firstCommitTime": 1578182400,
+    "html_url": "https://github.com/siw1998",
+    "id": 17686908,
+    "login": "siw1998",
+    "name": null,
+    "perRepo": {
+      "kcwikizh/poi-plugin-subtitle": 2
+    },
+    "stat": {
+      "a": 330,
+      "c": 2,
+      "d": 10
+    },
+    "total": 2
+  },
+  {
+    "avatar_url": "https://avatars.githubusercontent.com/u/61529108?v=4",
+    "firstCommitTime": 1582416000,
+    "html_url": "https://github.com/einizylg",
+    "id": 61529108,
+    "login": "einizylg",
+    "name": null,
+    "perRepo": {
+      "poooi/plugin-Akashic-records": 2
+    },
+    "stat": {
+      "a": 36,
+      "c": 2,
+      "d": 37
+    },
+    "total": 2
+  },
+  {
+    "avatar_url": "https://avatars.githubusercontent.com/u/8099890?v=4",
+    "firstCommitTime": 1599350400,
+    "html_url": "https://github.com/TrickLin",
+    "id": 8099890,
+    "login": "TrickLin",
+    "name": null,
+    "perRepo": {
+      "kcwikizh/poi-plugin-subtitle": 32
+    },
+    "stat": {
+      "a": 187975,
+      "c": 32,
+      "d": 171960
+    },
+    "total": 32
+  },
+  {
+    "avatar_url": "https://avatars.githubusercontent.com/u/1551768?v=4",
+    "firstCommitTime": 1599955200,
+    "html_url": "https://github.com/AuTa",
+    "id": 1551768,
+    "login": "AuTa",
+    "name": "AuTa",
+    "perRepo": {
+      "poooi/poi-plugin-ezexped": 1
+    },
+    "stat": {
+      "a": 59,
+      "c": 1,
+      "d": 2
+    },
+    "total": 1
+  },
+  {
+    "avatar_url": "https://avatars.githubusercontent.com/u/44938840?v=4",
+    "firstCommitTime": 1604188800,
+    "html_url": "https://github.com/hotate29",
+    "id": 44938840,
+    "login": "hotate29",
+    "name": "hotate29",
+    "perRepo": {
+      "poooi/poi": 5
+    },
+    "stat": {
+      "a": 21,
+      "c": 5,
+      "d": 21
+    },
+    "total": 5
+  },
+  {
+    "avatar_url": "https://avatars.githubusercontent.com/u/10833976?v=4",
+    "firstCommitTime": 1612051200,
+    "html_url": "https://github.com/RangHo",
+    "id": 10833976,
+    "login": "RangHo",
+    "name": "Juhun Lee",
+    "perRepo": {
+      "poooi/website": 1
+    },
+    "stat": {
+      "a": 61,
+      "c": 1,
+      "d": 0
+    },
+    "total": 1
+  },
+  {
+    "avatar_url": "https://avatars.githubusercontent.com/u/8817933?v=4",
+    "firstCommitTime": 1616284800,
+    "html_url": "https://github.com/h5nc",
+    "id": 8817933,
+    "login": "h5nc",
+    "name": null,
+    "perRepo": {
+      "poooi/poi": 2,
+      "poooi/poi-plugin-ezexped": 2
+    },
+    "stat": {
+      "a": 36,
+      "c": 4,
+      "d": 36
+    },
+    "total": 4
+  },
+  {
+    "avatar_url": "https://avatars.githubusercontent.com/u/72781410?v=4",
+    "firstCommitTime": 1618099200,
+    "html_url": "https://github.com/SSummer-UI",
+    "id": 72781410,
+    "login": "SSummer-UI",
+    "name": "Stream Summer",
+    "perRepo": {
+      "poooi/poi": 1
+    },
+    "stat": {
+      "a": 1,
+      "c": 1,
+      "d": 1
+    },
+    "total": 1
+  },
+  {
+    "avatar_url": "https://avatars.githubusercontent.com/u/6500159?v=4",
+    "firstCommitTime": 1627776000,
+    "html_url": "https://github.com/axmmisaka",
+    "id": 6500159,
+    "login": "axmmisaka",
+    "name": "axmmisaka",
+    "perRepo": {
+      "poooi/poi": 1
+    },
+    "stat": {
+      "a": 2,
+      "c": 1,
+      "d": 1
+    },
+    "total": 1
+  },
+  {
+    "avatar_url": "https://avatars.githubusercontent.com/u/6791617?v=4",
+    "firstCommitTime": 1634428800,
+    "html_url": "https://github.com/tuziemon",
+    "id": 6791617,
+    "login": "tuziemon",
+    "name": "Kento Tsuji",
+    "perRepo": {
+      "poooi/plugin-exp-calculator": 1
+    },
+    "stat": {
+      "a": 1,
+      "c": 1,
+      "d": 4
+    },
+    "total": 1
+  },
+  {
+    "avatar_url": "https://avatars.githubusercontent.com/u/6171048?v=4",
+    "firstCommitTime": 1642896000,
+    "html_url": "https://github.com/Surlavi",
+    "id": 6171048,
+    "login": "Surlavi",
+    "name": null,
+    "perRepo": {
+      "poooi/poi-plugin-ezexped": 1
+    },
+    "stat": {
+      "a": 6,
+      "c": 1,
+      "d": 8
+    },
+    "total": 1
+  },
+  {
+    "avatar_url": "https://avatars.githubusercontent.com/u/25480502?v=4",
+    "firstCommitTime": 1645920000,
+    "html_url": "https://github.com/Taikono-Himazin",
+    "id": 25480502,
+    "login": "Taikono-Himazin",
+    "name": null,
+    "perRepo": {
+      "poooi/poi": 1
+    },
+    "stat": {
+      "a": 1,
+      "c": 1,
+      "d": 1
+    },
+    "total": 1
+  },
+  {
+    "avatar_url": "https://avatars.githubusercontent.com/u/24711249?v=4",
+    "firstCommitTime": 1646524800,
+    "html_url": "https://github.com/mikualpha",
+    "id": 24711249,
+    "login": "mikualpha",
+    "name": "MikuAlpha",
+    "perRepo": {
+      "kcwikizh/poi-plugin-subtitle": 8
+    },
+    "stat": {
+      "a": 49,
+      "c": 8,
+      "d": 29
+    },
+    "total": 8
+  },
+  {
+    "avatar_url": "https://avatars.githubusercontent.com/u/25782963?v=4",
+    "firstCommitTime": 1648944000,
+    "html_url": "https://github.com/OniJAM",
+    "id": 25782963,
+    "login": "OniJAM",
+    "name": null,
+    "perRepo": {
+      "poooi/poi-plugin-ezexped": 19
+    },
+    "stat": {
+      "a": 509,
+      "c": 19,
+      "d": 321
+    },
+    "total": 19
+  },
+  {
+    "avatar_url": "https://avatars.githubusercontent.com/u/11514317?v=4",
+    "firstCommitTime": 1651363200,
+    "html_url": "https://github.com/laplamgor",
+    "id": 11514317,
+    "login": "laplamgor",
+    "name": null,
+    "perRepo": {
+      "kcwikizh/poi-plugin-subtitle": 2
+    },
+    "stat": {
+      "a": 13,
+      "c": 2,
+      "d": 16
+    },
+    "total": 2
+  },
+  {
+    "avatar_url": "https://avatars.githubusercontent.com/u/39070658?v=4",
+    "firstCommitTime": 1669507200,
+    "html_url": "https://github.com/IcosahedralDice",
+    "id": 39070658,
+    "login": "IcosahedralDice",
+    "name": null,
+    "perRepo": {
+      "poooi/poi": 1
+    },
+    "stat": {
+      "a": 5,
+      "c": 1,
+      "d": 4
+    },
+    "total": 1
+  },
+  {
+    "avatar_url": "https://avatars.githubusercontent.com/u/63537172?v=4",
+    "firstCommitTime": 1679184000,
+    "html_url": "https://github.com/mistgfcs",
+    "id": 63537172,
+    "login": "mistgfcs",
+    "name": null,
+    "perRepo": {
+      "poooi/poi": 1
+    },
+    "stat": {
+      "a": 50,
+      "c": 1,
+      "d": 62
+    },
+    "total": 1
+  },
+  {
+    "avatar_url": "https://avatars.githubusercontent.com/u/32378344?v=4",
+    "firstCommitTime": 1680998400,
+    "html_url": "https://github.com/nuclear357",
+    "id": 32378344,
+    "login": "nuclear357",
+    "name": null,
+    "perRepo": {
+      "poooi/poi": 6
+    },
+    "stat": {
+      "a": 285,
+      "c": 6,
+      "d": 7
+    },
+    "total": 6
+  },
+  {
+    "avatar_url": "https://avatars.githubusercontent.com/u/41968256?v=4",
+    "firstCommitTime": 1697932800,
+    "html_url": "https://github.com/liu-ziyang",
+    "id": 41968256,
+    "login": "liu-ziyang",
+    "name": "Ziyang Liu",
+    "perRepo": {
+      "poooi/poi": 2
+    },
+    "stat": {
+      "a": 34,
+      "c": 2,
+      "d": 15
+    },
+    "total": 2
+  },
+  {
+    "avatar_url": "https://avatars.githubusercontent.com/u/49902177?v=4",
+    "firstCommitTime": 1698537600,
+    "html_url": "https://github.com/isso0424",
+    "id": 49902177,
+    "login": "isso0424",
+    "name": "Kota Isozaki",
+    "perRepo": {
+      "poooi/poi": 3,
+      "poooi/plugin-exp-calculator": 1,
+      "poooi/poi-plugin-ezexped": 1,
+      "poooi/poi-plugin-leveling": 1
+    },
+    "stat": {
+      "a": 82,
+      "c": 6,
+      "d": 82
+    },
+    "total": 6
+  },
+  {
+    "avatar_url": "https://avatars.githubusercontent.com/u/78460873?v=4",
+    "firstCommitTime": 1699747200,
+    "html_url": "https://github.com/cmj2002",
+    "id": 78460873,
+    "login": "cmj2002",
+    "name": "Cao Mingjun",
+    "perRepo": {
+      "poooi/r2-dir-list": 19
+    },
+    "stat": {
+      "a": 2557,
+      "c": 19,
+      "d": 406
+    },
+    "total": 19
+  },
+  {
+    "avatar_url": "https://avatars.githubusercontent.com/u/156269?v=4",
+    "firstCommitTime": 1703980800,
+    "html_url": "https://github.com/fengmk2",
+    "id": 156269,
+    "login": "fengmk2",
+    "name": "MK (fengmk2)",
+    "perRepo": {
+      "poooi/poi": 1
+    },
+    "stat": {
+      "a": 1,
+      "c": 1,
+      "d": 1
+    },
+    "total": 1
+  },
+  {
+    "avatar_url": "https://avatars.githubusercontent.com/u/75058677?v=4",
+    "firstCommitTime": 1759017600,
+    "html_url": "https://github.com/RainmistMarisa",
+    "id": 75058677,
+    "login": "RainmistMarisa",
+    "name": "Rainmist",
+    "perRepo": {
+      "poooi/poi": 1
+    },
+    "stat": {
+      "a": 1,
+      "c": 1,
+      "d": 1
     },
     "total": 1
   }
