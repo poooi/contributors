@@ -38,6 +38,7 @@ export const MORE_PEOPLE: ContributorSimple[] = [
 
 export const ALIAS: Alias = {
   dazzyd: 'yukixz',
+  magicae: 'hanzhao',
 }
 
 export const IGNORES = ['codacy-badger', 'dependabot-preview[bot]', 'renovate[bot]', 'dependabot[bot]']
@@ -74,4 +75,7 @@ export const OVERWRITES: ContributorOverwrite = {
     html_url: 'http://weibo.com/zyc43',
     name: 'ZYC',
   },
+  hanzhao: {
+    html_url: 'https://github.com/hanzhao',
+  }
 }

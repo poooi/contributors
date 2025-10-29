@@ -66,9 +66,6 @@ const build = async (): Promise<void> => {
         weeks,
         author: {
           login: originalLogin,
-          id,
-          avatar_url: avatarUrl,
-          html_url: htmlUrl,
         },
       }) => {
         const login = ALIAS[originalLogin] || originalLogin
@@ -76,11 +73,11 @@ const build = async (): Promise<void> => {
           console.info(login)
           const user = await get(`https://api.github.com/users/${login}`)
           contributors[login] = {
-            avatar_url: avatarUrl,
+            avatar_url: user.avatar_url,
             firstCommitTime: getFirstCommitTime(weeks),
-            html_url: htmlUrl,
-            id,
-            login,
+            html_url: user.html_url,
+            id: user.id,
+            login: user.login,
             name: user.name,
             perRepo: {
               [repoName as string]: total,
