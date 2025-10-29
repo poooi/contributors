@@ -7,3 +7,5 @@ tslint.json
 *.yml
 yarn.lock
 .env
+cache/
+.vscode/
