@@ -18,6 +18,8 @@ export const MORE_REPO = [
 export const IGNORED_REPO = [
   'poooi/node-coveralls', // this is a custom folk
   'poooi/website-kai2', // no commits yet
+  'poooi/plugin-aircraft-optimize', // no actual commit
+  'poooi/settings-panel', // commits not identifiable
 ]
 
 export const MORE_PEOPLE: ContributorSimple[] = [
@@ -38,7 +40,7 @@ export const ALIAS: Alias = {
   dazzyd: 'yukixz',
 }
 
-export const IGNORES = ['codacy-badger']
+export const IGNORES = ['codacy-badger', 'dependabot-preview[bot]', 'renovate[bot]', 'dependabot[bot]']
 
 export const OVERWRITES: ContributorOverwrite = {
   'Astra-RX': {

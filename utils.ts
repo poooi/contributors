@@ -8,6 +8,7 @@ import sharp from 'sharp'
 import SocksProxyAgent from 'socks-proxy-agent'
 import dotenv from 'dotenv'
 import { ContributorSimple, Stat, Week } from './types'
+import { loadCachedData, saveCachedData } from './cache'
 
 dotenv.config()
 
@@ -66,31 +67,69 @@ export const get = (url: string): Promise<any> =>
     { retries: 5 },
   )
 
-export const getContributors = async (owner: string, repo: string): Promise<Stat[]> => pRetry(
-  async () => {
-    try {
-      const url = `https://api.github.com/repos/${owner}/${repo}/stats/contributors`
-      const resp = await fetch(url, fetchOptions)
-      if (!resp.ok)  {
-        const parsed = await resp.json()
-        console.error(chalk.red(`[ERROR] url: ${url}`), parsed)
-        throw new Error(chalk.red('invalid response'))
+export const getContributors = async (owner: string, repo: string): Promise<Stat[]> => {
+  const repoFullName = `${owner}/${repo}`
+
+  // Try to load from cache first
+  const cachedData = await loadCachedData(repoFullName)
+  if (cachedData) {
+    console.info(chalk.gray(`💾 Using cached data for ${repoFullName}`))
+    return cachedData
+  }
+
+  // Fetch from API if not cached
+  console.info(chalk.cyan(`🌐 Fetching ${repoFullName}...`))
+
+  const data = await pRetry(
+    async () => {
+      try {
+        const url = `https://api.github.com/repos/${repoFullName}/stats/contributors`
+        const resp = await fetch(url, fetchOptions)
+
+        if (!resp.ok) {
+          const parsed = await resp.json()
+          console.error(chalk.red(`[ERROR] ${repoFullName}:`), parsed)
+          throw new Error('Invalid response')
+        }
+
+        if (resp.status === 202) {
+          console.info(chalk.yellow(`⏳ Computing stats for ${repoFullName}...`))
+          throw new Error('Stats being computed (202 - will retry)')
+        }
+
+        const result = await resp.json()
+        if (!result) {
+          throw new Error('Falsy response')
+        }
+
+        return result
+      } catch (e) {
+        return bluebird.reject(e)
       }
-      if (resp.status === 202) {
-        throw new Error(chalk.yellow(`Accepted ${url}`))
+    },
+    {
+      retries: 30,
+      minTimeout: 5000,
+      maxTimeout: 30000,
+      factor: 1.5,
+      onFailedAttempt: (error) => {
+        console.info(
+          chalk.gray(`Retry ${error.attemptNumber}/${error.retriesLeft + error.attemptNumber} for ${repoFullName}`)
+        )
       }
-      const data = await resp.json()
-      if (!data) {
-        throw new Error(chalk.red('falsy response'))
-      }
-      return data
-    } catch (e) {
-      console.info(e)
-      return bluebird.reject(e)
     }
-  },
-  { retries: Infinity, minTimeout: 120 * 1000, factor: 1 },
-)
+  )
+
+  // Save to cache
+  if (data && data.length > 0) {
+    await saveCachedData(repoFullName, data)
+    console.info(chalk.green(`✅ Fetched ${data.length} contributors for ${repoFullName}`))
+  } else {
+    console.warn(chalk.yellow(`⚠️  Empty data for ${repoFullName}`))
+  }
+
+  return data
+}
 
 const getImage = (url: string): Promise<string> =>
   pRetry(
