@@ -19,6 +19,25 @@ All repositories under poooi organization, plus:
 | kcwikizh/poi-statistics | Plugin |
 | Javran/poi-plugin-mo2 | Plugin |
 
+## Development
+
+### Prerequisites
+
+- **GitHub CLI (`gh`)** — authenticated (`gh auth login`). The build uses `gh auth token` to authenticate with the GitHub API via Octokit; no hardcoded token is needed.
+- **Vite+ (`vp`)** — used for linting/formatting. The local `vite-plus` dependency is installed via yarn, so `yarn lint` / `yarn check` work out of the box (no global install required).
+
+### Commands
+
+| command | description |
+|---------|-------------|
+| `npm run build` | Fetch contributor data and generate `dist/contributors.json` + `dist/graph.svg`. Uses the checked-in archive in `cache/` when available. |
+| `npm run lint` | Lint with Vite+'s Oxlint (`vp lint`). |
+| `npm run check` | Format, lint and type-check in one pass (`vp check`). |
+| `npm run deploy` | Publish `dist/` to GitHub Pages (`gh-pages`). |
+| `npm test` | No tests currently. |
+
+Contributor data is archived in `cache/` (version-controlled). If a repo is missing from the archive, the build falls back to fetching fresh data from the GitHub API.
+
 ## Questions
 
 ### Why this project is created
