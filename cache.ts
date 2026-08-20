@@ -1,4 +1,3 @@
-import chalk from 'chalk'
 import fs from 'fs-extra'
 import { join } from 'path'
 import { Stat } from './types'
