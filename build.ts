@@ -12,7 +12,6 @@ import {
   IGNORES,
   MORE_PEOPLE,
   MORE_REPO,
-  ORG_REPOS,
   OVERWRITES,
 } from './config'
 import {
@@ -21,14 +20,14 @@ import {
   Repo,
   Stat,
 } from './types'
-import { buildSvg, get, getContributors, getFirstCommitTime, reduceStat } from './utils'
+import { buildSvg, getContributors, getFirstCommitTime, getRepos, getUser, reduceStat } from './utils'
 
 const execAsync = util.promisify(childProcess.exec)
 
 const build = async (): Promise<void> => {
-  const repos: Repo[] = await get(ORG_REPOS)
+  const repos: Repo[] = await getRepos()
   console.info(chalk.cyan('start to fetch all repo url...'))
-  console.info('⚡️', ORG_REPOS)
+  console.info('⚡️', 'poooi org repos')
 
   const contributorPerRepo: Array<Array<string | Stat[]>> = _.compact(
     await bluebird.map(
@@ -54,24 +53,33 @@ const build = async (): Promise<void> => {
   console.info(contributorPerRepo) // FIXME: log for currently debug, remove it when bug resolved
 
   await bluebird.each(contributorPerRepo, async ([repoName, people]) => {
-    if (!repoName || !people) {
-      console.warn(chalk.yellow('[WARN] `repoName` or `people` is null'))
-      console.warn(chalk.yellow('repoName: '), repoName)
+    if (!repoName || !people || !Array.isArray(people)) {
+      console.warn(chalk.yellow(`[WARN] repoName=${repoName}, people=${JSON.stringify(people)}`))
       return Promise.resolve()
     }
+    console.info(chalk.cyan(`➡️  processing ${repoName} (${people.length} contributors)`))
     return bluebird.each(
       people as Stat[],
-      async ({
-        total,
-        weeks,
-        author: {
-          login: originalLogin,
-        },
-      }) => {
+      async ({ total, weeks, author }) => {
+        // Entries with a null author cannot be attributed to a user (e.g. commits
+        // from deleted accounts); skip them.
+        if (!author) {
+          console.warn(
+            chalk.yellow(
+              `[WARN] null author in ${repoName} (total=${total}, weeks=${weeks ? weeks.length : 0}), skipping`,
+            ),
+          )
+          return Promise.resolve()
+        }
+        const { login: originalLogin } = author
         const login = ALIAS[originalLogin] || originalLogin
         if (!contributors[login]) {
-          console.info(login)
-          const user = await get(`https://api.github.com/users/${login}`)
+          console.info(`👤 ${login} (repo: ${repoName})`)
+          const user = await getUser(login)
+          if (!user) {
+            console.warn(chalk.yellow(`[WARN] getUser(${login}) returned null, skipping`))
+            return Promise.resolve()
+          }
           contributors[login] = {
             avatar_url: user.avatar_url,
             firstCommitTime: getFirstCommitTime(weeks),

@@ -1,37 +1,31 @@
+import { Octokit } from '@octokit/rest'
 import bluebird from 'bluebird'
 import chalk from 'chalk'
-import HttpsProxyAgent from 'https-proxy-agent'
+import childProcess from 'child_process'
 import _ from 'lodash'
 import fetch, { RequestInit } from 'node-fetch'
 import pRetry from 'p-retry'
 import sharp from 'sharp'
-import SocksProxyAgent from 'socks-proxy-agent'
-import dotenv from 'dotenv'
+import { promisify } from 'util'
 import { ContributorSimple, Stat, Week } from './types'
 import { loadCachedData, saveCachedData } from './cache'
 
-dotenv.config()
+const execFile = promisify(childProcess.execFile)
+
+// Resolve the token from the user's locally logged-in `gh` CLI
+const getGhToken = async (): Promise<string> => {
+  const { stdout } = await execFile('gh', ['auth', 'token'])
+  return stdout.trim()
+}
+
+const octokitPromise: Promise<Octokit> = getGhToken().then(
+  token => new Octokit({ auth: token }),
+)
 
 const fetchOptions: RequestInit = {
   headers: {
     'X-GitHub-Api-Version': '2022-11-28',
     Accept: 'application/vnd.github+json',
-  }
-}
-
-const proxy = process.env.https_proxy || process.env.http_proxy || ''
-if (proxy) {
-  const agent = /^socks/i.exec(proxy)
-    ? new SocksProxyAgent(proxy)
-    : new HttpsProxyAgent(proxy)
-  fetchOptions.agent = agent
-}
-
-const AUTH: string = process.env.AUTH || ''
-if (AUTH) {
-  fetchOptions.headers = {
-    ...fetchOptions.headers,
-    Authorization: `Bearer ${AUTH}`,
   }
 }
 
@@ -44,28 +38,18 @@ const ROUND = Buffer.from(
     2}" ry="${AVATAR_SIZE / 2}"/></svg>`,
 )
 
-export const get = (url: string): Promise<any> =>
-  pRetry(
-    async () => {
-      try {
-        const resp = await fetch(url, fetchOptions)
-        if (!resp.ok) {
-          const parsed = await resp.json()
-          console.error(chalk.red(`[ERROR] url: ${url}`), parsed)
-          throw new Error(chalk.red('invalid response'))
-        }
-        const data = await resp.json()
-        if (!data) {
-          throw new Error(chalk.red('falsy response'))
-        }
-        return data
-      } catch (e) {
-        console.info(e)
-        return bluebird.reject(e)
-      }
-    },
-    { retries: 5 },
-  )
+export const getRepos = async (): Promise<any[]> => {
+  const octokit = await octokitPromise
+  return octokit.paginate(octokit.rest.repos.listForOrg, {
+    org: 'poooi',
+    per_page: 100,
+  })
+}
+
+export const getUser = async (login: string): Promise<any> => {
+  const octokit = await octokitPromise
+  return octokit.rest.users.getByUsername({ username: login }).then(res => res.data)
+}
 
 export const getContributors = async (owner: string, repo: string): Promise<Stat[]> => {
   const repoFullName = `${owner}/${repo}`
@@ -83,28 +67,23 @@ export const getContributors = async (owner: string, repo: string): Promise<Stat
   const data = await pRetry(
     async () => {
       try {
-        const url = `https://api.github.com/repos/${repoFullName}/stats/contributors`
-        const resp = await fetch(url, fetchOptions)
-
-        if (!resp.ok) {
-          const parsed = await resp.json()
-          console.error(chalk.red(`[ERROR] ${repoFullName}:`), parsed)
-          throw new Error('Invalid response')
-        }
-
-        if (resp.status === 202) {
+        const octokit = await octokitPromise
+        const res = await octokit.rest.repos.getContributorsStats({ owner, repo })
+        // GitHub returns HTTP 202 with an empty body {} while stats are still being
+        // computed. octokit does not throw for 202, so detect it here and retry.
+        if (res.status === 202 || !Array.isArray(res.data)) {
           console.info(chalk.yellow(`⏳ Computing stats for ${repoFullName}...`))
           throw new Error('Stats being computed (202 - will retry)')
         }
-
-        const result = await resp.json()
-        if (!result) {
-          throw new Error('Falsy response')
-        }
-
-        return result
+        return res.data as Stat[]
       } catch (e) {
-        return bluebird.reject(e)
+        // octokit may also surface the 202 as a thrown error in some paths
+        if ((e as any)?.status === 202) {
+          console.info(chalk.yellow(`⏳ Computing stats for ${repoFullName}...`))
+          throw new Error('Stats being computed (202 - will retry)')
+        }
+        console.error(chalk.red(`[ERROR] ${repoFullName}:`), e)
+        throw e
       }
     },
     {
@@ -122,13 +101,23 @@ export const getContributors = async (owner: string, repo: string): Promise<Stat
 
   // Save to cache
   if (data && data.length > 0) {
+    const nullAuthors = data.filter(s => !s.author)
+    if (nullAuthors.length > 0) {
+      console.warn(
+        chalk.yellow(
+          `⚠️  ${repoFullName}: ${nullAuthors.length}/${data.length} contributors have null author (skipping in build)`,
+        ),
+      )
+    }
     await saveCachedData(repoFullName, data)
     console.info(chalk.green(`✅ Fetched ${data.length} contributors for ${repoFullName}`))
   } else {
     console.warn(chalk.yellow(`⚠️  Empty data for ${repoFullName}`))
   }
 
-  return data
+  // Normalize: GitHub may return an empty object {} (or null) for repos without
+  // attributable contributor data; always return an array.
+  return Array.isArray(data) ? data : []
 }
 
 const getImage = (url: string): Promise<string> =>

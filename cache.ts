@@ -1,36 +1,29 @@
+import chalk from 'chalk'
 import fs from 'fs-extra'
 import { join } from 'path'
 import { Stat } from './types'
 
+// Single, version-controlled archive directory. Because this is a git repo, the
+// archived contributor data is checked in and serves as the canonical snapshot;
+// there is no need for per-month rotation.
 const CACHE_DIR = join(__dirname, 'cache')
-
-// Get current month string (YYYY-MM)
-export const getCurrentMonth = (): string => {
-  const now = new Date()
-  const year = now.getFullYear()
-  const month = String(now.getMonth() + 1).padStart(2, '0')
-  return `${year}-${month}`
-}
 
 // Convert repo full name to safe filename (e.g., "poooi/poi" -> "poooi_poi.json")
 const repoToFilename = (repoFullName: string): string => {
   return `${repoFullName.replace(/\//g, '_')}.json`
 }
 
-// Get the cache file path for a repo in a specific month
-const getCacheFilePath = (repoFullName: string, month: string): string => {
-  return join(CACHE_DIR, month, repoToFilename(repoFullName))
+const getCacheFilePath = (repoFullName: string): string => {
+  return join(CACHE_DIR, repoToFilename(repoFullName))
 }
 
-// Load cached data for a repo from the current month
+// Load archived data for a repo. Returns null when no archive exists.
 export const loadCachedData = async (repoFullName: string): Promise<Stat[] | null> => {
-  const currentMonth = getCurrentMonth()
-  const filePath = getCacheFilePath(repoFullName, currentMonth)
+  const filePath = getCacheFilePath(repoFullName)
 
   try {
     if (await fs.pathExists(filePath)) {
-      const data = await fs.readJson(filePath)
-      return data
+      return await fs.readJson(filePath)
     }
   } catch (error) {
     console.warn(`Failed to load cache for ${repoFullName}:`, error)
@@ -39,60 +32,42 @@ export const loadCachedData = async (repoFullName: string): Promise<Stat[] | nul
   return null
 }
 
-// Save contributor data for a repo
+// Save contributor data for a repo into the archive.
 export const saveCachedData = async (
   repoFullName: string,
   data: Stat[]
 ): Promise<void> => {
-  const currentMonth = getCurrentMonth()
-  const filePath = getCacheFilePath(repoFullName, currentMonth)
+  const filePath = getCacheFilePath(repoFullName)
 
   try {
-    await fs.ensureDir(join(CACHE_DIR, currentMonth))
+    await fs.ensureDir(CACHE_DIR)
     await fs.writeJson(filePath, data, { spaces: 2 })
   } catch (error) {
     console.error(`Failed to save cache for ${repoFullName}:`, error)
   }
 }
 
-// List all months that have cached data
-export const listCachedMonths = async (): Promise<string[]> => {
+// List all repos that have archived data.
+export const listCachedRepos = async (): Promise<string[]> => {
   try {
     if (await fs.pathExists(CACHE_DIR)) {
-      const entries = await fs.readdir(CACHE_DIR)
-
-      const dirChecks = await Promise.all(
-        entries.map(async (entry) => {
-          const stat = await fs.stat(join(CACHE_DIR, entry))
-          return { entry, isDir: stat.isDirectory() }
-        })
-      )
-
-      return dirChecks
-        .filter(({ isDir }) => isDir)
-        .map(({ entry }) => entry)
-        .sort()
-    }
-  } catch (error) {
-    console.warn('Failed to list cached months:', error)
-  }
-  return []
-}
-
-// List all cached repos in a specific month
-export const listCachedRepos = async (month: string): Promise<string[]> => {
-  const monthDir = join(CACHE_DIR, month)
-
-  try {
-    if (await fs.pathExists(monthDir)) {
-      const files = await fs.readdir(monthDir)
+      const files = await fs.readdir(CACHE_DIR)
       return files
         .filter(file => file.endsWith('.json'))
         .map(file => file.replace('.json', '').replace(/_/g, '/'))
     }
   } catch (error) {
-    console.warn(`Failed to list cached repos for ${month}:`, error)
+    console.warn('Failed to list cached repos:', error)
   }
 
   return []
+}
+
+// Archive a given (owner, repo, data) snapshot into the archive directory.
+// Used by the migration utility to flatten historical month dirs into the
+// single version-controlled archive.
+export const archiveData = async (repoFullName: string, data: Stat[]): Promise<void> => {
+  const filePath = getCacheFilePath(repoFullName)
+  await fs.ensureDir(CACHE_DIR)
+  await fs.writeJson(filePath, data, { spaces: 2 })
 }

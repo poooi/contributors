@@ -31,7 +31,7 @@ export interface Week {
 export interface Stat {
   total: number
   weeks: Week[]
-  author: People
+  author: People | null
 }
 
 interface Contributor {
