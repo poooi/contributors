@@ -472,9 +472,9 @@
       },
       {
         "w": 1774137600,
-        "a": 0,
-        "d": 0,
-        "c": 0
+        "a": 1,
+        "d": 1,
+        "c": 1
       },
       {
         "w": 1774742400,
@@ -562,9 +562,9 @@
       },
       {
         "w": 1783209600,
-        "a": 9,
-        "d": 4,
-        "c": 1
+        "a": 0,
+        "d": 0,
+        "c": 0
       },
       {
         "w": 1783814400,
@@ -601,32 +601,56 @@
         "a": 0,
         "d": 0,
         "c": 0
+      },
+      {
+        "w": 1787443200,
+        "a": 0,
+        "d": 0,
+        "c": 0
+      },
+      {
+        "w": 1788048000,
+        "a": 0,
+        "d": 0,
+        "c": 0
+      },
+      {
+        "w": 1788652800,
+        "a": 0,
+        "d": 0,
+        "c": 0
+      },
+      {
+        "w": 1789257600,
+        "a": 0,
+        "d": 0,
+        "c": 0
       }
     ],
     "author": {
-      "login": "claude",
-      "id": 81847,
-      "node_id": "MDQ6VXNlcjgxODQ3",
-      "avatar_url": "https://avatars.githubusercontent.com/u/81847?v=4",
+      "login": "lawvs",
+      "id": 18554747,
+      "node_id": "MDQ6VXNlcjE4NTU0NzQ3",
+      "avatar_url": "https://avatars.githubusercontent.com/u/18554747?v=4",
       "gravatar_id": "",
-      "url": "https://api.github.com/users/claude",
-      "html_url": "https://github.com/claude",
-      "followers_url": "https://api.github.com/users/claude/followers",
-      "following_url": "https://api.github.com/users/claude/following{/other_user}",
-      "gists_url": "https://api.github.com/users/claude/gists{/gist_id}",
-      "starred_url": "https://api.github.com/users/claude/starred{/owner}{/repo}",
-      "subscriptions_url": "https://api.github.com/users/claude/subscriptions",
-      "organizations_url": "https://api.github.com/users/claude/orgs",
-      "repos_url": "https://api.github.com/users/claude/repos",
-      "events_url": "https://api.github.com/users/claude/events{/privacy}",
-      "received_events_url": "https://api.github.com/users/claude/received_events",
+      "url": "https://api.github.com/users/lawvs",
+      "html_url": "https://github.com/lawvs",
+      "followers_url": "https://api.github.com/users/lawvs/followers",
+      "following_url": "https://api.github.com/users/lawvs/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lawvs/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lawvs/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lawvs/subscriptions",
+      "organizations_url": "https://api.github.com/users/lawvs/orgs",
+      "repos_url": "https://api.github.com/users/lawvs/repos",
+      "events_url": "https://api.github.com/users/lawvs/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lawvs/received_events",
       "type": "User",
       "user_view_type": "public",
       "site_admin": false
     }
   },
   {
-    "total": 1,
+    "total": 3,
     "weeks": [
       {
         "w": 1726963200,
@@ -1098,9 +1122,9 @@
       },
       {
         "w": 1774137600,
-        "a": 1,
-        "d": 1,
-        "c": 1
+        "a": 0,
+        "d": 0,
+        "c": 0
       },
       {
         "w": 1774742400,
@@ -1188,9 +1212,9 @@
       },
       {
         "w": 1783209600,
-        "a": 0,
-        "d": 0,
-        "c": 0
+        "a": 9,
+        "d": 4,
+        "c": 1
       },
       {
         "w": 1783814400,
@@ -1227,32 +1251,56 @@
         "a": 0,
         "d": 0,
         "c": 0
+      },
+      {
+        "w": 1787443200,
+        "a": 0,
+        "d": 0,
+        "c": 0
+      },
+      {
+        "w": 1788048000,
+        "a": 494,
+        "d": 111,
+        "c": 2
+      },
+      {
+        "w": 1788652800,
+        "a": 0,
+        "d": 0,
+        "c": 0
+      },
+      {
+        "w": 1789257600,
+        "a": 0,
+        "d": 0,
+        "c": 0
       }
     ],
     "author": {
-      "login": "lawvs",
-      "id": 18554747,
-      "node_id": "MDQ6VXNlcjE4NTU0NzQ3",
-      "avatar_url": "https://avatars.githubusercontent.com/u/18554747?v=4",
+      "login": "claude",
+      "id": 81847,
+      "node_id": "MDQ6VXNlcjgxODQ3",
+      "avatar_url": "https://avatars.githubusercontent.com/u/81847?v=4",
       "gravatar_id": "",
-      "url": "https://api.github.com/users/lawvs",
-      "html_url": "https://github.com/lawvs",
-      "followers_url": "https://api.github.com/users/lawvs/followers",
-      "following_url": "https://api.github.com/users/lawvs/following{/other_user}",
-      "gists_url": "https://api.github.com/users/lawvs/gists{/gist_id}",
-      "starred_url": "https://api.github.com/users/lawvs/starred{/owner}{/repo}",
-      "subscriptions_url": "https://api.github.com/users/lawvs/subscriptions",
-      "organizations_url": "https://api.github.com/users/lawvs/orgs",
-      "repos_url": "https://api.github.com/users/lawvs/repos",
-      "events_url": "https://api.github.com/users/lawvs/events{/privacy}",
-      "received_events_url": "https://api.github.com/users/lawvs/received_events",
+      "url": "https://api.github.com/users/claude",
+      "html_url": "https://github.com/claude",
+      "followers_url": "https://api.github.com/users/claude/followers",
+      "following_url": "https://api.github.com/users/claude/following{/other_user}",
+      "gists_url": "https://api.github.com/users/claude/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/claude/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/claude/subscriptions",
+      "organizations_url": "https://api.github.com/users/claude/orgs",
+      "repos_url": "https://api.github.com/users/claude/repos",
+      "events_url": "https://api.github.com/users/claude/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/claude/received_events",
       "type": "User",
       "user_view_type": "public",
       "site_admin": false
     }
   },
   {
-    "total": 20,
+    "total": 22,
     "weeks": [
       {
         "w": 1726963200,
@@ -1850,6 +1898,30 @@
       },
       {
         "w": 1786838400,
+        "a": 0,
+        "d": 0,
+        "c": 0
+      },
+      {
+        "w": 1787443200,
+        "a": 0,
+        "d": 0,
+        "c": 0
+      },
+      {
+        "w": 1788048000,
+        "a": 494,
+        "d": 111,
+        "c": 2
+      },
+      {
+        "w": 1788652800,
+        "a": 0,
+        "d": 0,
+        "c": 0
+      },
+      {
+        "w": 1789257600,
         "a": 0,
         "d": 0,
         "c": 0
@@ -2479,12 +2551,36 @@
         "a": 0,
         "d": 0,
         "c": 0
+      },
+      {
+        "w": 1787443200,
+        "a": 0,
+        "d": 0,
+        "c": 0
+      },
+      {
+        "w": 1788048000,
+        "a": 0,
+        "d": 0,
+        "c": 0
+      },
+      {
+        "w": 1788652800,
+        "a": 0,
+        "d": 0,
+        "c": 0
+      },
+      {
+        "w": 1789257600,
+        "a": 0,
+        "d": 0,
+        "c": 0
       }
     ],
     "author": null
   },
   {
-    "total": 107,
+    "total": 117,
     "weeks": [
       {
         "w": 1726963200,
@@ -3085,6 +3181,30 @@
         "a": 0,
         "d": 0,
         "c": 0
+      },
+      {
+        "w": 1787443200,
+        "a": 0,
+        "d": 0,
+        "c": 0
+      },
+      {
+        "w": 1788048000,
+        "a": 0,
+        "d": 0,
+        "c": 0
+      },
+      {
+        "w": 1788652800,
+        "a": 4899,
+        "d": 5565,
+        "c": 9
+      },
+      {
+        "w": 1789257600,
+        "a": 4078,
+        "d": 119,
+        "c": 1
       }
     ],
     "author": {
@@ -3110,7 +3230,7 @@
     }
   },
   {
-    "total": 577,
+    "total": 626,
     "weeks": [
       {
         "w": 1726963200,
@@ -3711,6 +3831,30 @@
         "a": 0,
         "d": 0,
         "c": 0
+      },
+      {
+        "w": 1787443200,
+        "a": 235,
+        "d": 164,
+        "c": 8
+      },
+      {
+        "w": 1788048000,
+        "a": 495,
+        "d": 537,
+        "c": 13
+      },
+      {
+        "w": 1788652800,
+        "a": 596,
+        "d": 633,
+        "c": 21
+      },
+      {
+        "w": 1789257600,
+        "a": 738,
+        "d": 680,
+        "c": 7
       }
     ],
     "author": {

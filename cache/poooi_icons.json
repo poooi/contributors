@@ -1,0 +1,40 @@
+[
+  {
+    "total": 20,
+    "weeks": [
+      {
+        "w": 1788652800,
+        "a": 4219,
+        "d": 660,
+        "c": 20
+      },
+      {
+        "w": 1789257600,
+        "a": 0,
+        "d": 0,
+        "c": 0
+      }
+    ],
+    "author": {
+      "login": "KagamiChan",
+      "id": 3816900,
+      "node_id": "MDQ6VXNlcjM4MTY5MDA=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3816900?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/KagamiChan",
+      "html_url": "https://github.com/KagamiChan",
+      "followers_url": "https://api.github.com/users/KagamiChan/followers",
+      "following_url": "https://api.github.com/users/KagamiChan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/KagamiChan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/KagamiChan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/KagamiChan/subscriptions",
+      "organizations_url": "https://api.github.com/users/KagamiChan/orgs",
+      "repos_url": "https://api.github.com/users/KagamiChan/repos",
+      "events_url": "https://api.github.com/users/KagamiChan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/KagamiChan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    }
+  }
+]
