@@ -65,4 +65,26 @@ describe('buildSvg avatar fallback', () => {
     mockedFetch.mockRejectedValue(new Error('offline'))
     await expect(buildSvg([alice])).rejects.toThrow('offline')
   })
+
+  it('uses a supplied image loader instead of fetching', async () => {
+    const getImageImpl = vi.fn(async () => 'QkJCQg==')
+    const svg = await buildSvg([alice], { getImage: getImageImpl })
+    expect(getImageImpl).toHaveBeenCalledWith(alice.avatar_url, undefined)
+    expect(svg).toContain('data:png;base64,QkJCQg==')
+    expect(mockedFetch).not.toHaveBeenCalled()
+  })
+
+  it('escapes public contributor fields so they cannot become SVG markup', async () => {
+    const contributor: ContributorSimple = {
+      login: '<evil>',
+      avatar_url: 'https://avatars.example/evil.png',
+      html_url: 'https://example.com/?a=1&b=2',
+    }
+    const svg = await buildSvg([contributor], {
+      getImage: async () => 'AAAA',
+    })
+    expect(svg).toContain('xlink:href="https://example.com/?a=1&amp;b=2"')
+    expect(svg).toContain('id="&lt;evil&gt;"')
+    expect(svg).not.toContain('id="<evil>"')
+  })
 })

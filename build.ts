@@ -14,6 +14,7 @@ import {
 } from './config'
 import { getContributors as fetchContributors, getRepos, getUser } from './github'
 import { listCachedRepos, loadCachedData, loadRepoManifest, saveRepoManifest } from './cache'
+import { refreshAvatars, renderCircleBase64, renderPlaceholderBase64 } from './avatars'
 import {
   Contributor,
   ContributorCollection,
@@ -22,7 +23,7 @@ import {
   Stat,
   UserProfile,
 } from './types'
-import { buildSvg, getFirstCommitTime, reduceStat } from './utils'
+import { buildSvg, getFirstCommitTime, getImage, reduceStat } from './utils'
 
 const distDir = join(__dirname, 'dist')
 
@@ -235,7 +236,14 @@ export interface BuildDeps {
   ) => Promise<Stat[]>
   getUser: (login: string) => Promise<Record<string, unknown> | null>
   loadPreviousContributors: () => Promise<ContributorSimple[]>
-  buildSvg: (contributors: ContributorSimple[]) => Promise<string>
+  refreshAvatars: (
+    contributors: ContributorSimple[],
+  ) => Promise<{ images: Map<string, Buffer>; skipped: boolean }>
+  buildSvg: (
+    contributors: ContributorSimple[],
+    images: Map<string, Buffer>,
+    avatarsSkipped: boolean,
+  ) => Promise<string>
   writeDist: (json: string, svg: string) => Promise<void>
   log: (message: string) => void
   warn: (message: string) => void
@@ -322,10 +330,13 @@ export const runBuild = async (deps: BuildDeps): Promise<BuildResult> => {
     ..._.sortBy(overwritten, contributor => contributor.firstCommitTime),
   ].filter(contributor => !IGNORES.includes(contributor.login))
 
-  // Generate the complete JSON and SVG payload before touching dist/, so a
-  // failed render keeps the last-good published output.
+  // Refresh public donors and avatar sprites (this already publishes
+  // dist/avatars), then generate the complete JSON and SVG before writing the
+  // legacy contributors output, so a failed SVG render keeps the last-good
+  // contributors.json/graph.svg.
+  const avatars = await deps.refreshAvatars(data)
   const json = `${JSON.stringify(data, null, 2)}\n`
-  const svg = await deps.buildSvg(data)
+  const svg = await deps.buildSvg(data, avatars.images, avatars.skipped)
   await deps.writeDist(json, svg)
 
   return { repos: repoFullNames, contributorCount: data.length }
@@ -380,12 +391,36 @@ const defaultDeps = (): BuildDeps => ({
     fetchContributors(owner, repo, { previous }),
   getUser: login => getUser(login),
   loadPreviousContributors,
-  buildSvg: async contributors => {
+  refreshAvatars: async contributors => {
+    const result = await refreshAvatars({ contributors })
+    return { images: result.contributorImages, skipped: result.skipped }
+  },
+  buildSvg: async (contributors, images, avatarsSkipped) => {
     const svgPath = join(distDir, 'graph.svg')
     const existingSvg = (await fs.pathExists(svgPath))
       ? await fs.readFile(svgPath, 'utf8')
       : undefined
-    return buildSvg(contributors, { existingSvg })
+    const placeholder = avatarsSkipped
+      ? undefined
+      : await renderPlaceholderBase64()
+    return buildSvg(contributors, {
+      existingSvg,
+      getImage: async (url, fallback) => {
+        const archived = images.get(url)
+        if (archived) {
+          return renderCircleBase64(archived)
+        }
+        // A refresh already tried this contributor's image. Do not hit the
+        // network again; use the embedded last-good avatar, or a neutral
+        // placeholder for a first-time image.
+        if (!avatarsSkipped) {
+          return fallback ?? placeholder!
+        }
+        // Refresh was skipped (OpenCollective unavailable): keep the legacy
+        // path so graph.svg still renders with a real fetch attempt.
+        return getImage(url, fallback)
+      },
+    })
   },
   writeDist,
   log: message => console.info(chalk.cyan(message)),

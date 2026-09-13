@@ -28,7 +28,8 @@ Cloudflare Cron Worker (worker/, GitHub App installation token)
 GitHub Actions: .github/workflows/update-contributors.yml
         │  yarn install --frozen-lockfile → npm test → lint → npm run build
         ▼
-npm run build → cache/*.json (per-repo archive) + dist/contributors.json + dist/graph.svg
+npm run build → cache/*.json + cache/opencollective/supporters.json + cache/avatars/*.webp
+              → dist/contributors.json + dist/graph.svg + dist/avatars/manifest.json + dist/avatars/*.webp
         │  git add cache dist; commit + push only when the diff is non-empty
         ▼
 dist/ is intended for website-kai consumption; that integration is planned
@@ -37,11 +38,56 @@ separately and is not part of this repository.
 
 - The **archive** (`cache/`) is a version-controlled per-repo snapshot of GitHub's
   contributor stats. It is the fallback whenever the GitHub API is unavailable.
-- **dist** is the published output. It is only rewritten after the complete JSON
-  *and* SVG have been generated, so a failed render always keeps the last-good
-  published files.
+- **dist** holds the legacy `contributors.json`/`graph.svg` pair plus the
+  generated `dist/avatars/` artifact. The legacy pair is only rewritten after
+  the complete JSON *and* SVG have been generated, so a failed SVG render keeps
+  the last-good `contributors.json`/`graph.svg`; the avatar sheets/manifest are
+  published earlier in the run and are not rolled back.
 - There is no R2/KV/queue storage and no custom locking. The workflow's YAML
   `concurrency` block (`cancel-in-progress: false`) is the only serialization.
+
+## Credits and avatars
+
+`npm run build` (and the standalone `npm run build:avatars`) additionally:
+
+- collects **public** OpenCollective donors for the `poi` collective from
+  `https://rest.opencollective.com/poi/members/all.json` (unauthenticated, no
+  `/v2`), keeping positive `totalAmountDonated` of every role in source order and
+  deduping on the normalized profile URL (trimmed, trailing slashes stripped)
+  with `MemberId` as fallback;
+- archives normalized 96×96 WebP avatars at `cache/avatars/<sha256(id)>.webp` and
+  only public display fields at `cache/opencollective/supporters.json` (never the
+  raw export, email or amounts);
+- publishes sprite sheets and a deterministic manifest under `dist/avatars/`.
+
+### Artifact contract (`dist/avatars/manifest.json`)
+
+| field | value |
+|-------|-------|
+| `schemaVersion` | `1` |
+| `version` | content digest of the manifest body excluding `version` (no timestamps) |
+| `cellSize` / `displaySize` / `pixelRatio` | `96` / `48` / `2` |
+| `sheets` | `{ url, width, height }`; `url` is a bare content-hashed filename relative to the manifest |
+| `avatars` | `{ [id]: { sheet, x, y, width, height } }`; people without a first-time image are omitted |
+| `contributors` | `{ id: "github:<lowercase login>", login, name, profile }`; blank name falls back to `login` |
+| `supporters` | `{ id, memberId, name, profile }` in source order; `id` is `oc:<normalized profile>` or `oc:member:<MemberId>`; blank name is `""` |
+
+Slots are assigned by sorting the combined contributor/supporter IDs
+lexicographically (display arrays keep their own order), 16 columns, at most 256
+cells per sheet. Cells are plain 96px squares with no border or radius, so the
+consumer clips them. Sheets are written first and the manifest atomically last;
+sheet filenames are content hashes, so sheets referenced by cached manifests are
+retained. Identical input produces byte-identical sheets and manifest.
+
+A failure to reach or validate OpenCollective keeps the previous manifest
+untouched byte-for-byte; a first run with no previous manifest fails rather than
+publish an empty donor list. `npm run build:avatars` regenerates supporters and
+sprites from the existing `dist/contributors.json` without re-collecting GitHub
+stats, which is useful while iterating on the website artifact.
+
+Network calls use the platform `fetch` and never forward GitHub credentials. To
+use a proxy, set `NODE_USE_ENV_PROXY=1` together with `HTTP_PROXY`/`HTTPS_PROXY`
+(native Node support; no proxy is hardcoded).
 
 ## Development
 
@@ -56,7 +102,8 @@ separately and is not part of this repository.
 
 | command | description |
 |---------|-------------|
-| `npm run build` | Refresh contributor data and generate `dist/contributors.json` + `dist/graph.svg`. |
+| `npm run build` | Refresh contributor data plus OpenCollective donors and avatar sprites; writes `dist/contributors.json`, `dist/graph.svg` and `dist/avatars/`. |
+| `npm run build:avatars` | Regenerate supporters and avatar sprites from the existing `dist/contributors.json` without re-collecting GitHub stats. |
 | `npm test` | Run the unit test suite (`vp test run`). |
 | `npm run lint` | Lint + type-aware checks (`vp lint`). |
 | `npm run check` | Format, lint and type-check in one pass (`vp check`). |
