@@ -138,6 +138,7 @@ const makeHarness = (overrides: Partial<BuildDeps> = {}): Harness => {
     getContributors: async () => [stat('Javran', 1)],
     getUser: async login => ({ login, avatar_url: `https://a/${login}`, html_url: `https://h/${login}` }),
     loadPreviousContributors: async () => [],
+    refreshAvatars: async () => ({ images: new Map(), skipped: false }),
     buildSvg: async () => '<svg/>',
     writeDist: async (json, svg) => {
       writes.push({ json, svg })
@@ -234,5 +235,30 @@ describe('runBuild', () => {
     expect(astra?.html_url).toBe(OVERWRITES['Astra-RX'].html_url)
     // A different override key was not collected, so it must not appear.
     expect(json.some(entry => entry.login === 'Chibaheit')).toBe(false)
+  })
+
+  it('refreshes avatars and reuses their images for graph.svg', async () => {
+    const archiveImage = Buffer.from('archived-image')
+    const refreshAvatars = vi.fn(async () => ({
+      images: new Map([['https://a/Javran', archiveImage]]),
+      skipped: false,
+    }))
+    const buildSvg = vi.fn(async () => '<svg/>')
+    const { deps, writes } = makeHarness({ refreshAvatars, buildSvg })
+    await runBuild(deps)
+
+    expect(refreshAvatars).toHaveBeenCalledTimes(1)
+    expect(buildSvg).toHaveBeenCalledWith(expect.any(Array), expect.any(Map), false)
+    expect(writes).toHaveLength(1)
+  })
+
+  it('tells buildSvg when the avatar refresh was skipped', async () => {
+    const buildSvg = vi.fn(async () => '<svg/>')
+    const { deps } = makeHarness({
+      refreshAvatars: async () => ({ images: new Map(), skipped: true }),
+      buildSvg,
+    })
+    await runBuild(deps)
+    expect(buildSvg).toHaveBeenCalledWith(expect.any(Array), expect.any(Map), true)
   })
 })

@@ -1,0 +1,522 @@
+{
+  "supporters": [
+    {
+      "id": "oc:https://opencollective.com/magica",
+      "memberId": 6144,
+      "name": "magica",
+      "profile": "https://opencollective.com/magica",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/314338b1899c41f2b22f47964954ad8e_1d1f6f60-86ed-11e7-b964-6d1877799a60.png"
+    },
+    {
+      "id": "oc:https://opencollective.com/jenningswu",
+      "memberId": 6149,
+      "name": "Jennings Wu",
+      "profile": "https://opencollective.com/jenningswu",
+      "image": "https://avatars.githubusercontent.com/JenningsWu"
+    },
+    {
+      "id": "oc:https://opencollective.com/owenniu233",
+      "memberId": 8608,
+      "name": "Yipeng Niu",
+      "profile": "https://opencollective.com/owenniu233",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/6c20d490-bde9-11e7-9c2a-8d862f0a56bb.jpg"
+    },
+    {
+      "id": "oc:https://opencollective.com/xiaoyu-wang",
+      "memberId": 9061,
+      "name": "亡霄雨",
+      "profile": "https://opencollective.com/xiaoyu-wang",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/07c35110-c827-11e7-928d-ab33637b3b40.jpg"
+    },
+    {
+      "id": "oc:https://opencollective.com/_akuryo",
+      "memberId": 9166,
+      "name": "Akuryou Kagurasaka",
+      "profile": "https://opencollective.com/_akuryo",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/9108a010-cb60-11e7-a280-4f57b80ade52.jpg"
+    },
+    {
+      "id": "oc:https://opencollective.com/grzhan",
+      "memberId": 9248,
+      "name": "grzhan",
+      "profile": "https://opencollective.com/grzhan",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/4f45e560-cdcd-11e7-819f-b544a551ab62.png"
+    },
+    {
+      "id": "oc:https://opencollective.com/him",
+      "memberId": 9538,
+      "name": "Him",
+      "profile": "https://opencollective.com/him",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/d7f562b0-d498-11e7-89dc-cd36c6b3fe8c.png"
+    },
+    {
+      "id": "oc:https://opencollective.com/yang-pei1",
+      "memberId": 10546,
+      "name": "TheHangedMan",
+      "profile": "https://opencollective.com/yang-pei1",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/28f601a0-df53-11e7-b344-2d8bde69c96d.jpg"
+    },
+    {
+      "id": "oc:https://opencollective.com/sorayama",
+      "memberId": 11913,
+      "name": "Sorayama",
+      "profile": "https://opencollective.com/sorayama",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/bf69bc40-027f-11e8-90df-3322b481b909.jpeg"
+    },
+    {
+      "id": "oc:https://opencollective.com/feiyue",
+      "memberId": 13844,
+      "name": "Feiyue",
+      "profile": "https://opencollective.com/feiyue",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/d9022c30-2644-11e8-907b-372819251e29.jpg"
+    },
+    {
+      "id": "oc:https://opencollective.com/chris-xu",
+      "memberId": 16045,
+      "name": "Chris Xu",
+      "profile": "https://opencollective.com/chris-xu",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/334e91a0-512f-11e8-8965-4184873aa145.jpg"
+    },
+    {
+      "id": "oc:https://opencollective.com/saerdodus",
+      "memberId": 16595,
+      "name": "橙風dodus",
+      "profile": "https://opencollective.com/saerdodus",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/fadff3f0-58c6-11e8-b63f-4b8d21c047d8.jpg"
+    },
+    {
+      "id": "oc:https://opencollective.com/helphelp-mrquin",
+      "memberId": 16656,
+      "name": "helphelp Mr.Quin",
+      "profile": "https://opencollective.com/helphelp-mrquin",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/f95a8e90-5999-11e8-8da5-99a21ed80895.png"
+    },
+    {
+      "id": "oc:https://opencollective.com/prinzeugenzwei",
+      "memberId": 19133,
+      "name": "anonymous",
+      "profile": "https://opencollective.com/prinzeugenzwei",
+      "image": null
+    },
+    {
+      "id": "oc:https://opencollective.com/peiran-jiang",
+      "memberId": 20799,
+      "name": "peiran jiang",
+      "profile": "https://opencollective.com/peiran-jiang",
+      "image": null
+    },
+    {
+      "id": "oc:https://opencollective.com/anonymous921",
+      "memberId": 20824,
+      "name": "anonymous",
+      "profile": "https://opencollective.com/anonymous921",
+      "image": null
+    },
+    {
+      "id": "oc:https://opencollective.com/gxwriter2015",
+      "memberId": 20825,
+      "name": "ShangRu Lu",
+      "profile": "https://opencollective.com/gxwriter2015",
+      "image": null
+    },
+    {
+      "id": "oc:https://opencollective.com/j-k",
+      "memberId": 20865,
+      "name": "J K",
+      "profile": "https://opencollective.com/j-k",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/883fdc60-a35e-11e8-8af5-afbc48995d68.jpg"
+    },
+    {
+      "id": "oc:https://opencollective.com/anonymous928",
+      "memberId": 20870,
+      "name": "anonymous",
+      "profile": "https://opencollective.com/anonymous928",
+      "image": null
+    },
+    {
+      "id": "oc:https://opencollective.com/eric-song",
+      "memberId": 20875,
+      "name": "Eric Song",
+      "profile": "https://opencollective.com/eric-song",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/03e277c0-a3bd-11e8-8af5-afbc48995d68.jpg"
+    },
+    {
+      "id": "oc:https://opencollective.com/jayjayzju",
+      "memberId": 20877,
+      "name": "杰小抽",
+      "profile": "https://opencollective.com/jayjayzju",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/ca5246a0-a3c3-11e8-8af5-afbc48995d68.jpg"
+    },
+    {
+      "id": "oc:https://opencollective.com/anonymous931",
+      "memberId": 20878,
+      "name": "anonymous",
+      "profile": "https://opencollective.com/anonymous931",
+      "image": null
+    },
+    {
+      "id": "oc:https://opencollective.com/anonymous934",
+      "memberId": 20894,
+      "name": "anonymous",
+      "profile": "https://opencollective.com/anonymous934",
+      "image": null
+    },
+    {
+      "id": "oc:https://opencollective.com/shuaibin-yu",
+      "memberId": 20899,
+      "name": "Shuaibin Yu",
+      "profile": "https://opencollective.com/shuaibin-yu",
+      "image": null
+    },
+    {
+      "id": "oc:https://opencollective.com/kumachandaisugi",
+      "memberId": 20988,
+      "name": "装甲战舰球磨酱",
+      "profile": "https://opencollective.com/kumachandaisugi",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/4c80c150-a5aa-11e8-a907-27be07b58605.png"
+    },
+    {
+      "id": "oc:https://opencollective.com/eziric-zhang",
+      "memberId": 22225,
+      "name": "Eziric Zhang",
+      "profile": "https://opencollective.com/eziric-zhang",
+      "image": null
+    },
+    {
+      "id": "oc:https://opencollective.com/akiramioz",
+      "memberId": 25942,
+      "name": "Akira Qin",
+      "profile": "https://opencollective.com/akiramioz",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/c752ba10-080f-11e9-a803-3f2936841774.jpg"
+    },
+    {
+      "id": "oc:https://opencollective.com/hibiki",
+      "memberId": 30535,
+      "name": "Hibiki",
+      "profile": "https://opencollective.com/hibiki",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/b7378d80-1c0b-11e9-a8b5-39d0015215db.jpg"
+    },
+    {
+      "id": "oc:https://opencollective.com/yuli-lin",
+      "memberId": 33558,
+      "name": "音无初音",
+      "profile": "https://opencollective.com/yuli-lin",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/5bc09be0-381c-11e9-a5f0-5f950ca71086.jpg"
+    },
+    {
+      "id": "oc:https://opencollective.com/tachibana-ochiba1",
+      "memberId": 34194,
+      "name": "Tachibana Ochiba",
+      "profile": "https://opencollective.com/tachibana-ochiba1",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/4fa61480-3e79-11e9-9337-47b341a8c2c8.jpg"
+    },
+    {
+      "id": "oc:https://opencollective.com/semperfi201",
+      "memberId": 34450,
+      "name": "semperfi201",
+      "profile": "https://opencollective.com/semperfi201",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/092a0a60-47df-11e9-8651-9baa0b60fedb.jpg"
+    },
+    {
+      "id": "oc:https://opencollective.com/lan2-yue4-lanyue",
+      "memberId": 36886,
+      "name": "藍月 Lanyue",
+      "profile": "https://opencollective.com/lan2-yue4-lanyue",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/1e7d2260-5551-11e9-8691-7725cf692ee3.png"
+    },
+    {
+      "id": "oc:https://opencollective.com/z-w",
+      "memberId": 39543,
+      "name": "doomed traveler",
+      "profile": "https://opencollective.com/z-w",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/3eb58e60-6ff4-11e9-bcf9-f3efe3dccc24.png"
+    },
+    {
+      "id": "oc:https://opencollective.com/xiangyu-zhu",
+      "memberId": 41255,
+      "name": "Xiangyu Zhu",
+      "profile": "https://opencollective.com/xiangyu-zhu",
+      "image": null
+    },
+    {
+      "id": "oc:https://opencollective.com/peng-huang",
+      "memberId": 43863,
+      "name": "Peng Huang",
+      "profile": "https://opencollective.com/peng-huang",
+      "image": null
+    },
+    {
+      "id": "oc:https://opencollective.com/geishin",
+      "memberId": 43968,
+      "name": "GEISHIN",
+      "profile": "https://opencollective.com/geishin",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/c67ab670-96a2-11e9-8792-35c8ad8b3bea.jpg"
+    },
+    {
+      "id": "oc:https://opencollective.com/leticia1",
+      "memberId": 44279,
+      "name": "leticia",
+      "profile": "https://opencollective.com/leticia1",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/16d3e890-989b-11e9-ae24-312b5a1efef1.jpg"
+    },
+    {
+      "id": "oc:https://opencollective.com/user322",
+      "memberId": 45880,
+      "name": "🐶",
+      "profile": "https://opencollective.com/user322",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/acef96e0-a407-11e9-9514-5385d47e0c06.jpg"
+    },
+    {
+      "id": "oc:https://opencollective.com/yusuke-ohshima1",
+      "memberId": 56046,
+      "name": "Yukke.org",
+      "profile": "https://opencollective.com/yusuke-ohshima1",
+      "image": "https://avatars.githubusercontent.com/yukkeorg"
+    },
+    {
+      "id": "oc:https://opencollective.com/x69toki-chen",
+      "memberId": 58596,
+      "name": "x69toki Chen",
+      "profile": "https://opencollective.com/x69toki-chen",
+      "image": null
+    },
+    {
+      "id": "oc:https://opencollective.com/liang-ting-kuo",
+      "memberId": 62090,
+      "name": "Liang-Ting Kuo",
+      "profile": "https://opencollective.com/liang-ting-kuo",
+      "image": "https://www.gravatar.com/avatar/aaf717da2c5d44e82a84c6d80613c117?default=404"
+    },
+    {
+      "id": "oc:https://opencollective.com/lt-syou",
+      "memberId": 63729,
+      "name": "小LT",
+      "profile": "https://opencollective.com/lt-syou",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/3fe57310-145c-11ea-8983-df41bd0c9f8d.jpg"
+    },
+    {
+      "id": "oc:https://opencollective.com/bridge-lee",
+      "memberId": 65858,
+      "name": "Bridge Lee",
+      "profile": "https://opencollective.com/bridge-lee",
+      "image": null
+    },
+    {
+      "id": "oc:https://opencollective.com/zhao4-zhi1-yang2",
+      "memberId": 68682,
+      "name": "灿然辉光",
+      "profile": "https://opencollective.com/zhao4-zhi1-yang2",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/5ba74550-2ea2-11ea-badf-65eb5f5420b7.png"
+    },
+    {
+      "id": "oc:https://opencollective.com/alex-chen2",
+      "memberId": 70133,
+      "name": "Alex Chen",
+      "profile": "https://opencollective.com/alex-chen2",
+      "image": null
+    },
+    {
+      "id": "oc:https://opencollective.com/hao-lan",
+      "memberId": 75201,
+      "name": "友希娜",
+      "profile": "https://opencollective.com/hao-lan",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/15485770-4f72-11ea-acc2-cfb42fa35632.jpg"
+    },
+    {
+      "id": "oc:https://opencollective.com/orekii",
+      "memberId": 78821,
+      "name": "Orekii",
+      "profile": "https://opencollective.com/orekii",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/2800f4f0-62b7-11ea-b6cb-e130b485c1c6.jpg"
+    },
+    {
+      "id": "oc:https://opencollective.com/yoshitaka-kato",
+      "memberId": 91527,
+      "name": "yoshitaka.kato",
+      "profile": "https://opencollective.com/yoshitaka-kato",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/fc97d4a0-8700-11ea-8aa1-1d9bbb750b43.png"
+    },
+    {
+      "id": "oc:https://opencollective.com/ariannaxuan",
+      "memberId": 113246,
+      "name": "AriannaXuan",
+      "profile": "https://opencollective.com/ariannaxuan",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/911013b0-c5d4-11ea-b9a2-2b45ccadb95b.png"
+    },
+    {
+      "id": "oc:https://opencollective.com/yohei-igata",
+      "memberId": 124014,
+      "name": "Yohei Igata",
+      "profile": "https://opencollective.com/yohei-igata",
+      "image": "https://www.gravatar.com/avatar/c25fb8dec5319a1913addd4a202aeade?default=404"
+    },
+    {
+      "id": "oc:https://opencollective.com/lolis_daydream",
+      "memberId": 150129,
+      "name": "Lolis_Daydream",
+      "profile": "https://opencollective.com/lolis_daydream",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/0c691580-3edd-11eb-ad32-4164ad9548cd.jpeg"
+    },
+    {
+      "id": "oc:https://opencollective.com/guest-e55eff45",
+      "memberId": 178530,
+      "name": "CuNanoTube",
+      "profile": "https://opencollective.com/guest-e55eff45",
+      "image": null
+    },
+    {
+      "id": "oc:https://opencollective.com/kaynn-cahya",
+      "memberId": 195868,
+      "name": "Kaynn Cahya",
+      "profile": "https://opencollective.com/kaynn-cahya",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/06d8efb0-5957-11ec-a3cd-3f6bd9d0c5e0.jpg"
+    },
+    {
+      "id": "oc:https://opencollective.com/guest-b32cc1c7",
+      "memberId": 204584,
+      "name": "Guest",
+      "profile": "https://opencollective.com/guest-b32cc1c7",
+      "image": null
+    },
+    {
+      "id": "oc:https://opencollective.com/hxy8241",
+      "memberId": 208688,
+      "name": "hxy8241",
+      "profile": "https://opencollective.com/hxy8241",
+      "image": "https://www.gravatar.com/avatar/369d693cbe567e4bc7042d1197a2c350?default=404"
+    },
+    {
+      "id": "oc:https://opencollective.com/guest-55a1c6e0",
+      "memberId": 211586,
+      "name": "kwok",
+      "profile": "https://opencollective.com/guest-55a1c6e0",
+      "image": null
+    },
+    {
+      "id": "oc:https://opencollective.com/karlcheong",
+      "memberId": 224194,
+      "name": "Karl C",
+      "profile": "https://opencollective.com/karlcheong",
+      "image": "https://abs.twimg.com/sticky/default_profile_images/default_profile.png"
+    },
+    {
+      "id": "oc:https://opencollective.com/winnie1",
+      "memberId": 246723,
+      "name": "winnie",
+      "profile": "https://opencollective.com/winnie1",
+      "image": null
+    },
+    {
+      "id": "oc:https://opencollective.com/user-952d7d18",
+      "memberId": 282891,
+      "name": "MrThiccums",
+      "profile": "https://opencollective.com/user-952d7d18",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/19272ab0-a939-11ec-9242-b558dc347ba7.jpeg"
+    },
+    {
+      "id": "oc:https://opencollective.com/guest-3e331ed8",
+      "memberId": 285305,
+      "name": "卷雲",
+      "profile": "https://opencollective.com/guest-3e331ed8",
+      "image": null
+    },
+    {
+      "id": "oc:https://opencollective.com/liang2-gong1",
+      "memberId": 323283,
+      "name": "凉宫",
+      "profile": "https://opencollective.com/liang2-gong1",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/85f8e6a0-1852-11ed-9e0d-ff16a8f03255.jpg"
+    },
+    {
+      "id": "oc:https://opencollective.com/gu3-shou3-ren3-dai4",
+      "memberId": 361304,
+      "name": "古手忍代",
+      "profile": "https://opencollective.com/gu3-shou3-ren3-dai4",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/0ebbc240-6b38-11ed-a9a6-fdf0e0c21013.jpg"
+    },
+    {
+      "id": "oc:https://opencollective.com/guest-a9140a78",
+      "memberId": 395235,
+      "name": "Shun En",
+      "profile": "https://opencollective.com/guest-a9140a78",
+      "image": null
+    },
+    {
+      "id": "oc:https://opencollective.com/user-f2083110",
+      "memberId": 424210,
+      "name": "Incognito",
+      "profile": "https://opencollective.com/user-f2083110",
+      "image": null
+    },
+    {
+      "id": "oc:https://opencollective.com/cup1",
+      "memberId": 440301,
+      "name": "cup",
+      "profile": "https://opencollective.com/cup1",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/account-avatar/bed658d6-aa0b-41bb-a91a-3f05566e8b48/20230605_133243.jpg"
+    },
+    {
+      "id": "oc:https://opencollective.com/glitterpoi",
+      "memberId": 497431,
+      "name": "glitterpoi",
+      "profile": "https://opencollective.com/glitterpoi",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/account-avatar/c3618d76-a967-4cc9-9da9-f24093aeb142/QQ%E5%9B%BE%E7%89%8720210323235931.jpg"
+    },
+    {
+      "id": "oc:https://opencollective.com/guest-aab82037",
+      "memberId": 602450,
+      "name": "Freyja",
+      "profile": "https://opencollective.com/guest-aab82037",
+      "image": null
+    },
+    {
+      "id": "oc:https://opencollective.com/user-6082168a",
+      "memberId": 605751,
+      "name": "Incognito",
+      "profile": "https://opencollective.com/user-6082168a",
+      "image": null
+    },
+    {
+      "id": "oc:https://opencollective.com/yuealas",
+      "memberId": 694351,
+      "name": "yuealas",
+      "profile": "https://opencollective.com/yuealas",
+      "image": "https://opencollective-production.s3.us-west-1.amazonaws.com/account-avatar/8b1ed5b1-603b-4a85-9409-050d586723ad/IMG_9969.png"
+    },
+    {
+      "id": "oc:https://opencollective.com/why1",
+      "memberId": 741525,
+      "name": "WHY",
+      "profile": "https://opencollective.com/why1",
+      "image": null
+    },
+    {
+      "id": "oc:https://opencollective.com/guest-0d44816e",
+      "memberId": 741529,
+      "name": "mg151",
+      "profile": "https://opencollective.com/guest-0d44816e",
+      "image": null
+    },
+    {
+      "id": "oc:https://opencollective.com/guest-237c0f41",
+      "memberId": 741576,
+      "name": "skyoooyks",
+      "profile": "https://opencollective.com/guest-237c0f41",
+      "image": null
+    },
+    {
+      "id": "oc:https://opencollective.com/guest-f8bf9d7e",
+      "memberId": 743431,
+      "name": "HarukiZ",
+      "profile": "https://opencollective.com/guest-f8bf9d7e",
+      "image": null
+    },
+    {
+      "id": "oc:https://opencollective.com/guest-0f921709",
+      "memberId": 777417,
+      "name": "NagatoBigSeven",
+      "profile": "https://opencollective.com/guest-0f921709",
+      "image": null
+    }
+  ]
+}

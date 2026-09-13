@@ -36,14 +36,18 @@ export const parseEmbeddedAvatars = (svg: string): Map<string, string> => {
   return avatars
 }
 
-export const getImage = async (url: string, fallback?: string): Promise<string> => {
+export const getImage = async (
+  url: string,
+  fallback?: string,
+  fetchImpl: typeof fetch = fetch,
+): Promise<string> => {
   try {
     return await pRetry(
       async () => {
         const controller = new AbortController()
         const timer = setTimeout(() => controller.abort(), AVATAR_TIMEOUT_MS)
         try {
-          const resp = await fetch(url, {
+          const resp = await fetchImpl(url, {
             ...fetchOptions,
             signal: controller.signal,
           })
@@ -99,7 +103,20 @@ export interface BuildSvgOptions {
    * fallback when an avatar URL cannot be fetched.
    */
   existingSvg?: string
+  /**
+   * Replace the default avatar loader. Used by the build to reuse already
+   * fetched/archived avatars instead of fetching each contributor twice.
+   */
+  getImage?: (url: string, fallback?: string) => Promise<string>
 }
+
+const escapeXmlAttribute = (value: string): string =>
+  value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;')
 
 export const buildSvg = async (
   contributors: ContributorSimple[],
@@ -108,9 +125,10 @@ export const buildSvg = async (
   const embedded = options.existingSvg
     ? parseEmbeddedAvatars(options.existingSvg)
     : new Map<string, string>()
+  const loadImage = options.getImage ?? getImage
   const data = await bluebird.map(
     contributors,
-    ({ avatar_url, login }) => getImage(avatar_url, embedded.get(login)),
+    ({ avatar_url, login }) => loadImage(avatar_url, embedded.get(login)),
     { concurrency: AVATAR_CONCURRENCY },
   )
   let posX = MARGIN
@@ -122,7 +140,9 @@ export const buildSvg = async (
       posX = MARGIN
     }
     const image = `<image x="${posX}" y="${posY}" width="${AVATAR_SIZE}" height="${AVATAR_SIZE}" xlink:href="data:png;base64,${data[index]}"/>`
-    imgs.push(`<a xlink:href="${p.html_url}" target="_blank" id="${p.login}">
+    imgs.push(`<a xlink:href="${escapeXmlAttribute(
+      p.html_url,
+    )}" target="_blank" id="${escapeXmlAttribute(p.login)}">
       ${image}
       <rect x="${posX - 2}" y="${posY - 2}" width="${AVATAR_SIZE +
       4}" height="${AVATAR_SIZE +
