@@ -47,6 +47,7 @@ separately and is not part of this repository.
 
 ### Prerequisites
 
+- **Node.js** — current LTS (see `.node-version`).
 - **GitHub CLI (`gh`)** — authenticated (`gh auth login`). Only used as a local
   fallback when neither `GH_TOKEN` nor `GITHUB_TOKEN` is set.
 - **Vite+ (`vp`)** — lint/format/test runner, installed locally via yarn.
@@ -89,7 +90,8 @@ separately and is not part of this repository.
 `.github/workflows/update-contributors.yml`:
 
 - Triggered by `workflow_dispatch` **only** (no `schedule`); Cron lives in the Worker.
-- `permissions: contents: write`; runs on Node 22 with `yarn install --frozen-lockfile`.
+- `permissions: contents: write`; runs on the current Node LTS from
+  `.node-version` with `yarn install --frozen-lockfile`.
 - Runs `npm test`, `npm run lint`, then `npm run build` with `GH_TOKEN` set to the
   Actions-provided `GITHUB_TOKEN`.
 - Stages **only** `cache` and `dist`, checks `git diff --cached`, and commits/pushes
