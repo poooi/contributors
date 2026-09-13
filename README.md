@@ -60,6 +60,11 @@ separately and is not part of this repository.
   raw export, email or amounts);
 - publishes sprite sheets and a deterministic manifest under `dist/avatars/`.
 
+Cached avatars are **lossless** WebP intermediates (effort 6) so composing them
+never compounds lossy artifacts; the sprite sheet is the **single final lossy
+encode** (quality 75, effort 6). Changing only the final quality therefore
+re-encodes sheets without degrading the archived per-avatar sources.
+
 ### Artifact contract (`dist/avatars/manifest.json`)
 
 | field | value |

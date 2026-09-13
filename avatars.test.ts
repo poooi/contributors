@@ -122,6 +122,36 @@ describe('buildSheets', () => {
   })
 })
 
+describe('normalizeAvatar', () => {
+  it('preserves pixels exactly through the lossless 96px archive encode', async () => {
+    const raw = Buffer.alloc(CELL_SIZE * CELL_SIZE * 4)
+    for (let y = 0; y < CELL_SIZE; y += 1) {
+      for (let x = 0; x < CELL_SIZE; x += 1) {
+        const index = (y * CELL_SIZE + x) * 4
+        raw[index] = (x * 3 + y * 5) % 256
+        raw[index + 1] = (x * 7 + y * 2) % 256
+        raw[index + 2] = (x + y * 11) % 256
+        raw[index + 3] = 255
+      }
+    }
+    const fixture = await sharp(raw, {
+      raw: { width: CELL_SIZE, height: CELL_SIZE, channels: 4 },
+    })
+      .png()
+      .toBuffer()
+
+    const normalized = await normalizeAvatar(fixture)
+    const metadata = await sharp(normalized).metadata()
+    expect(metadata.width).toBe(CELL_SIZE)
+    expect(metadata.height).toBe(CELL_SIZE)
+
+    const decoded = await sharp(normalized).ensureAlpha().raw().toBuffer()
+    const expected = await sharp(fixture).ensureAlpha().raw().toBuffer()
+    expect(decoded.toString('hex')).toBe(expected.toString('hex'))
+    expect(decoded.length).toBe(CELL_SIZE * CELL_SIZE * 4)
+  })
+})
+
 describe('determinism', () => {
   it('produces byte-identical sheets and manifest for identical input', async () => {
     const [a, b] = [await makeImage(1, 2, 3), await makeImage(4, 5, 6)]
