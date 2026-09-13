@@ -36,14 +36,18 @@ export const parseEmbeddedAvatars = (svg: string): Map<string, string> => {
   return avatars
 }
 
-export const getImage = async (url: string, fallback?: string): Promise<string> => {
+export const getImage = async (
+  url: string,
+  fallback?: string,
+  fetchImpl: typeof fetch = fetch,
+): Promise<string> => {
   try {
     return await pRetry(
       async () => {
         const controller = new AbortController()
         const timer = setTimeout(() => controller.abort(), AVATAR_TIMEOUT_MS)
         try {
-          const resp = await fetch(url, {
+          const resp = await fetchImpl(url, {
             ...fetchOptions,
             signal: controller.signal,
           })

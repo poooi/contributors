@@ -13,8 +13,22 @@ import {
   OVERWRITES,
 } from './config'
 import { getContributors as fetchContributors, getRepos, getUser } from './github'
-import { listCachedRepos, loadCachedData, loadRepoManifest, saveRepoManifest } from './cache'
-import { refreshAvatars, renderCircleBase64, renderPlaceholderBase64 } from './avatars'
+import {
+  CACHE_DIR,
+  listCachedRepos,
+  loadCachedData,
+  loadRepoManifest,
+  saveCachedData,
+  saveRepoManifest,
+} from './cache'
+import {
+  DEFAULT_CACHE_DIR,
+  DEFAULT_DIST_DIR,
+  refreshAvatars,
+  renderCircleBase64,
+  renderPlaceholderBase64,
+} from './avatars'
+import { SUPPORTERS_ARCHIVE_PATH } from './opencollective'
 import {
   Contributor,
   ContributorCollection,
@@ -358,7 +372,9 @@ const writeIfChanged = async (
   return true
 }
 
-const loadPreviousContributors = async (): Promise<ContributorSimple[]> => {
+const loadPreviousContributors = async (
+  distDir: string,
+): Promise<ContributorSimple[]> => {
   const filePath = join(distDir, 'contributors.json')
   if (!(await fs.pathExists(filePath))) {
     return []
@@ -372,7 +388,11 @@ const loadPreviousContributors = async (): Promise<ContributorSimple[]> => {
   }
 }
 
-const writeDist = async (json: string, svg: string): Promise<void> => {
+export const writeDist = async (
+  distDir: string,
+  json: string,
+  svg: string,
+): Promise<void> => {
   await fs.ensureDir(distDir)
   const jsonChanged = await writeIfChanged(join(distDir, 'contributors.json'), json)
   const svgChanged = await writeIfChanged(join(distDir, 'graph.svg'), svg)
@@ -381,55 +401,108 @@ const writeDist = async (json: string, svg: string): Promise<void> => {
   }
 }
 
-const defaultDeps = (): BuildDeps => ({
+// Real graph.svg generation for a dist directory: reuse archived contributor
+// images, never re-fetching one the avatar refresh already handled. Kept as a
+// named function so integration tests drive the production path rather than
+// recreating it.
+export const buildDistSvg = async (
+  contributors: ContributorSimple[],
+  images: Map<string, Buffer>,
+  avatarsSkipped: boolean,
+  distDir: string,
+  fetchImpl?: typeof fetch,
+): Promise<string> => {
+  const svgPath = join(distDir, 'graph.svg')
+  const existingSvg = (await fs.pathExists(svgPath))
+    ? await fs.readFile(svgPath, 'utf8')
+    : undefined
+  const placeholder = avatarsSkipped ? undefined : await renderPlaceholderBase64()
+  return buildSvg(contributors, {
+    existingSvg,
+    getImage: async (url, fallback) => {
+      const archived = images.get(url)
+      if (archived) {
+        return renderCircleBase64(archived)
+      }
+      // A refresh already tried this contributor's image. Do not hit the
+      // network again; use the embedded last-good avatar, or a neutral
+      // placeholder for a first-time image.
+      if (!avatarsSkipped) {
+        return fallback ?? placeholder!
+      }
+      // Refresh was skipped (OpenCollective unavailable): keep the legacy path
+      // so graph.svg still renders with a real fetch attempt. An injected fetch
+      // is reused here so no unexpected network is touched.
+      return getImage(url, fallback, fetchImpl)
+    },
+  })
+}
+
+export interface BuildOptions {
+  distDir: string
+  repoCacheDir: string
+  avatarCacheDir: string
+  avatarDistDir: string
+  supportersArchivePath: string
+  fetchImpl?: typeof fetch
+}
+
+export const defaultBuildOptions = (): BuildOptions => ({
+  distDir,
+  repoCacheDir: CACHE_DIR,
+  avatarCacheDir: DEFAULT_CACHE_DIR,
+  avatarDistDir: DEFAULT_DIST_DIR,
+  supportersArchivePath: SUPPORTERS_ARCHIVE_PATH,
+})
+
+// Assemble the production pipeline. Only external inputs (GitHub calls, the
+// public OC/image fetch) and filesystem locations are injectable; the real
+// avatar/sprite/SVG/write logic is always used.
+export const createBuildDeps = (
+  options: BuildOptions = defaultBuildOptions(),
+  overrides: Partial<BuildDeps> = {},
+): BuildDeps => ({
   getRepos: () => getRepos(),
-  listCachedRepos: () => listCachedRepos(),
-  loadRepoManifest: () => loadRepoManifest(),
-  saveRepoManifest: repos => saveRepoManifest(repos),
-  loadCachedData: repoFullName => loadCachedData(repoFullName),
+  listCachedRepos: () => listCachedRepos(options.repoCacheDir),
+  loadRepoManifest: () => loadRepoManifest(options.repoCacheDir),
+  saveRepoManifest: repos => saveRepoManifest(repos, options.repoCacheDir),
+  loadCachedData: repoFullName =>
+    loadCachedData(repoFullName, options.repoCacheDir),
   getContributors: (owner, repo, previous) =>
-    fetchContributors(owner, repo, { previous }),
+    fetchContributors(owner, repo, {
+      previous,
+      save: (repoFullName, data) =>
+        saveCachedData(repoFullName, data, options.repoCacheDir),
+    }),
   getUser: login => getUser(login),
-  loadPreviousContributors,
+  loadPreviousContributors: () => loadPreviousContributors(options.distDir),
   refreshAvatars: async contributors => {
-    const result = await refreshAvatars({ contributors })
+    const result = await refreshAvatars({
+      contributors,
+      fetchImpl: options.fetchImpl,
+      cacheDir: options.avatarCacheDir,
+      distDir: options.avatarDistDir,
+      archivePath: options.supportersArchivePath,
+    })
     return { images: result.contributorImages, skipped: result.skipped }
   },
-  buildSvg: async (contributors, images, avatarsSkipped) => {
-    const svgPath = join(distDir, 'graph.svg')
-    const existingSvg = (await fs.pathExists(svgPath))
-      ? await fs.readFile(svgPath, 'utf8')
-      : undefined
-    const placeholder = avatarsSkipped
-      ? undefined
-      : await renderPlaceholderBase64()
-    return buildSvg(contributors, {
-      existingSvg,
-      getImage: async (url, fallback) => {
-        const archived = images.get(url)
-        if (archived) {
-          return renderCircleBase64(archived)
-        }
-        // A refresh already tried this contributor's image. Do not hit the
-        // network again; use the embedded last-good avatar, or a neutral
-        // placeholder for a first-time image.
-        if (!avatarsSkipped) {
-          return fallback ?? placeholder!
-        }
-        // Refresh was skipped (OpenCollective unavailable): keep the legacy
-        // path so graph.svg still renders with a real fetch attempt.
-        return getImage(url, fallback)
-      },
-    })
-  },
-  writeDist,
+  buildSvg: (contributors, images, avatarsSkipped) =>
+    buildDistSvg(
+      contributors,
+      images,
+      avatarsSkipped,
+      options.distDir,
+      options.fetchImpl,
+    ),
+  writeDist: (json, svg) => writeDist(options.distDir, json, svg),
   log: message => console.info(chalk.cyan(message)),
   warn: message => console.warn(chalk.yellow(message)),
+  ...overrides,
 })
 
 const main = async (): Promise<void> => {
   try {
-    await runBuild(defaultDeps())
+    await runBuild(createBuildDeps())
   } catch (error) {
     console.error(error)
     process.exitCode = 1

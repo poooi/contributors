@@ -117,6 +117,24 @@ use a proxy, set `NODE_USE_ENV_PROXY=1` together with `HTTP_PROXY`/`HTTPS_PROXY`
 | `npm run check` | Format, lint and type-check in one pass (`vp check`). |
 | `npm run deploy` | Publish `dist/` to GitHub Pages (`gh-pages`). |
 
+### Tests and CI
+
+`.github/workflows/test.yml` runs on pull requests and pushes to `master`
+(`workflow_dispatch` optional): with `contents: read` it installs via
+`yarn install --frozen-lockfile`, then runs `npm test`, `npm run lint` and
+`npx tsc --noEmit`. It never runs the data build and the tests never call the
+upstream GitHub/OpenCollective APIs (dependency installation is the only
+network use).
+
+Alongside the unit suites, `build.integration.test.ts` drives the real
+`runBuild → refreshAvatars → sharp sprites/manifest → graph.svg` pipeline on a
+temporary filesystem, injecting only GitHub/OpenCollective/image inputs and
+directories through `createBuildDeps`. It covers a full round-trip (public
+names, missing avatars, content hashes, sheet dimensions, lossless visible
+pixels), byte-stable reruns, retention of previous sheets and last-good images
+by id across avatar URL change/failure, last-good preservation on OC failure,
+and a first-run OC failure publishing nothing.
+
 ### Local build behavior
 
 - **Fresh stats every run.** `getContributors` always hits the GitHub API, then
