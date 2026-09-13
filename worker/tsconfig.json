@@ -1,0 +1,9 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "lib": ["ESNext", "DOM"],
+    "noEmit": true
+  },
+  "include": ["index.ts", "index.test.ts"],
+  "exclude": []
+}

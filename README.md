@@ -19,24 +19,168 @@ All repositories under poooi organization, plus:
 | kcwikizh/poi-statistics | Plugin |
 | Javran/poi-plugin-mo2 | Plugin |
 
+## Architecture
+
+```
+Cloudflare Cron Worker (worker/, GitHub App installation token)
+        │  daily schedule, REST workflow_dispatch
+        ▼
+GitHub Actions: .github/workflows/update-contributors.yml
+        │  yarn install --frozen-lockfile → npm test → lint → npm run build
+        ▼
+npm run build → cache/*.json (per-repo archive) + dist/contributors.json + dist/graph.svg
+        │  git add cache dist; commit + push only when the diff is non-empty
+        ▼
+dist/ is intended for website-kai consumption; that integration is planned
+separately and is not part of this repository.
+```
+
+- The **archive** (`cache/`) is a version-controlled per-repo snapshot of GitHub's
+  contributor stats. It is the fallback whenever the GitHub API is unavailable.
+- **dist** is the published output. It is only rewritten after the complete JSON
+  *and* SVG have been generated, so a failed render always keeps the last-good
+  published files.
+- There is no R2/KV/queue storage and no custom locking. The workflow's YAML
+  `concurrency` block (`cancel-in-progress: false`) is the only serialization.
+
 ## Development
 
 ### Prerequisites
 
-- **GitHub CLI (`gh`)** — authenticated (`gh auth login`). The build uses `gh auth token` to authenticate with the GitHub API via Octokit; no hardcoded token is needed.
-- **Vite+ (`vp`)** — used for linting/formatting. The local `vite-plus` dependency is installed via yarn, so `yarn lint` / `yarn check` work out of the box (no global install required).
+- **GitHub CLI (`gh`)** — authenticated (`gh auth login`). Only used as a local
+  fallback when neither `GH_TOKEN` nor `GITHUB_TOKEN` is set.
+- **Vite+ (`vp`)** — lint/format/test runner, installed locally via yarn.
 
 ### Commands
 
 | command | description |
 |---------|-------------|
-| `npm run build` | Fetch contributor data and generate `dist/contributors.json` + `dist/graph.svg`. Uses the checked-in archive in `cache/` when available. |
-| `npm run lint` | Lint with Vite+'s Oxlint (`vp lint`). |
+| `npm run build` | Refresh contributor data and generate `dist/contributors.json` + `dist/graph.svg`. |
+| `npm test` | Run the unit test suite (`vp test run`). |
+| `npm run lint` | Lint + type-aware checks (`vp lint`). |
 | `npm run check` | Format, lint and type-check in one pass (`vp check`). |
 | `npm run deploy` | Publish `dist/` to GitHub Pages (`gh-pages`). |
-| `npm test` | No tests currently. |
 
-Contributor data is archived in `cache/` (version-controlled). If a repo is missing from the archive, the build falls back to fetching fresh data from the GitHub API.
+### Local build behavior
+
+- **Fresh stats every run.** `getContributors` always hits the GitHub API, then
+  validates the payload at the API boundary. The archive is a fallback, not a
+  cache that suppresses refreshes.
+- **Bounded retries.** HTTP 202 ("stats being computed"), 403/429 rate limits,
+  5xx and network errors are retried a small number of times, honoring
+  `Retry-After` / `X-RateLimit-Reset`, within a per-request timeout and a total
+  per-repo time budget. Malformed payloads are not retried.
+- **Prefer last-good data.** When a previous archive exists, a failed, empty,
+  malformed, or identity-hiding (null-author) response keeps that archived
+  snapshot for the repo instead of replacing it. A failed profile lookup keeps
+  the contributor using data from the previous `dist/contributors.json`. Missing
+  repos during a failed org discovery do not mean deletion — the
+  archived/manifest repo list is used instead.
+- **Fatal persistence.** Archive writes go through a same-directory temp file
+  and are write-if-changed, so a partial write cannot leave a truncated archive
+  and a write failure fails the build instead of silently pretending success.
+  Identical inputs produce byte-identical outputs, so no-op runs create no
+  commit.
+- **Token resolution is lazy.** `GH_TOKEN` → `GITHUB_TOKEN` → `gh auth token`.
+  Tests inject a fake API client and never shell out to `gh`.
+
+## Workflow
+
+`.github/workflows/update-contributors.yml`:
+
+- Triggered by `workflow_dispatch` **only** (no `schedule`); Cron lives in the Worker.
+- `permissions: contents: write`; runs on Node 22 with `yarn install --frozen-lockfile`.
+- Runs `npm test`, `npm run lint`, then `npm run build` with `GH_TOKEN` set to the
+  Actions-provided `GITHUB_TOKEN`.
+- Stages **only** `cache` and `dist`, checks `git diff --cached`, and commits/pushes
+  with the bot identity only when something changed. A push conflict fails the run;
+  there is no force push and no success is faked.
+
+## Scheduler Worker
+
+`worker/` is a tiny, separately deployable Cloudflare Worker with a single daily
+Cron Trigger (`17 3 * * *`, evaluated in **UTC**). On schedule it authenticates
+as a **personal GitHub App**: it mints a short-lived RS256 JWT with native
+WebCrypto, exchanges it for an installation token restricted to the
+`contributors` repository with the `actions: write` permission, then `POST`s to
+the fixed `poooi/contributors` → `update-contributors.yml` workflow dispatch
+endpoint on `master`. Both GitHub requests are bounded by a 10s abort timeout;
+non-2xx responses raise an error containing the status and GitHub request id
+(never the token or response body). Its `fetch` handler always returns `404`, so
+it exposes no unauthenticated HTTP trigger.
+
+### GitHub App
+
+Create a **personal GitHub App** (there is no PAT) and install it on **only
+`poooi/contributors`**. Grant it the repository permission **Actions: write**,
+which is what allows it to dispatch `update-contributors.yml`; do not grant any
+other repository permissions. GitHub adds the mandatory **Metadata: read**
+permission automatically to every App request, so it is always present and does
+not need to be (and cannot be) selected explicitly.
+
+The App is **`poi-contributors-scheduler`** —
+https://github.com/apps/poi-contributors-scheduler (App ID `4930626`,
+installation ID `161375742`). In the App settings, *Where can this GitHub App be
+installed?* must allow **Any account**, because the target is the `poooi`
+organization rather than a personal account; keep exactly one installation, on
+the single repository `poooi/contributors`.
+
+The Worker reads three settings:
+
+- `GITHUB_APP_ID` — the App's numeric ID (or client ID), used as the JWT `iss`.
+- `GITHUB_INSTALLATION_ID` — the installation on `poooi/contributors`.
+- `GITHUB_APP_PRIVATE_KEY` — the App private key as a **PKCS#8 PEM** secret.
+
+The App ID and installation ID are not secrets; they live in `worker/wrangler.toml`
+under `[vars]`. The private key is a secret and is only ever set with
+`wrangler secret put`. GitHub downloads the key in PKCS#1 format
+(`BEGIN RSA PRIVATE KEY`), so convert it to PKCS#8 before storing it, e.g.
+`openssl pkcs8 -topk8 -nocrypt -in key.pem -out key.pkcs8.pem`. Each run mints a
+fresh JWT (`iat` now−60s, `exp` now+9min) and exchanges it for an installation
+token scoped to `repositories: [contributors]` and
+`permissions: { actions: write }`. No token is cached and there is no PAT
+fallback.
+
+### Initial setup
+
+1. Ensure `update-contributors.yml` is on the default branch (`master`).
+2. Create and install the personal GitHub App described above, restricted to
+   `poooi/contributors`.
+3. `GITHUB_APP_ID` and `GITHUB_INSTALLATION_ID` are already set in
+   `worker/wrangler.toml` (nonsecret). Install and deploy the Worker:
+   ```sh
+   cd worker
+   npm ci                                          # uses the committed package-lock.json
+   npx wrangler secret put GITHUB_APP_PRIVATE_KEY  # paste the PKCS#8 PEM key
+   npm run deploy
+   ```
+4. Let the Cron fire, or trigger a manual test with
+   `npx wrangler dev --test-scheduled` and `curl "http://localhost:8787/__scheduled"`.
+   `wrangler secret put` stores the key in Cloudflare only; it is **not**
+   available locally automatically, so for local dev/testing create a gitignored
+   `worker/.dev.vars` containing `GITHUB_APP_PRIVATE_KEY="<PKCS#8 PEM>"` (the
+   nonsecret ID values come from `[vars]`).
+5. To validate the Worker build locally without deploying, run `npm run dry-run`.
+   If it appears to hang after printing `--dry-run: exiting now.`, that is
+   Wrangler's optional update check; `WRANGLER_HIDE_BANNER=true
+   WRANGLER_SEND_METRICS=false npm run dry-run` disables it. This is a local
+   workaround only and is intentionally not baked into the npm scripts.
+
+### How to verify dispatch vs run success
+
+- **Dispatch succeeded** means the Worker's REST call returned 2xx and the run was
+  only *queued*. Check `npx wrangler tail` for `Outcome: Ok`, or call the API
+  directly and look for HTTP 204.
+- **Run succeeded** means the Actions run finished green. Check:
+  ```sh
+  gh run list --workflow update-contributors.yml
+  gh run view <run-id>
+  ```
+  A green run either committed updated `cache`/`dist` or logged
+  "No contributor data changes to commit."
+- If a dispatch returns 2xx but no run appears, verify the App's Actions:write
+  permission, its installation/repository scope, and that the workflow
+  filename/branch match the Worker constants.
 
 ## Questions
 

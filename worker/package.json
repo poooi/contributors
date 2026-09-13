@@ -1,0 +1,15 @@
+{
+  "name": "contributors-scheduler",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Cron Worker that dispatches the poooi/contributors update workflow",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "dry-run": "wrangler deploy --dry-run --outdir=dist",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "wrangler": "4.103.0"
+  }
+}

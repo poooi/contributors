@@ -1,0 +1,17 @@
+name = "contributors-scheduler"
+main = "index.ts"
+compatibility_date = "2025-01-01"
+
+# poi~ account.
+account_id = "2dc3483aa62d4b5dc774ec04713893de"
+
+# Only a scheduled trigger: no route/workers.dev exposure.
+workers_dev = false
+
+[vars]
+# Nonsecret identifiers for the poi-contributors-scheduler GitHub App.
+GITHUB_APP_ID = "4930626"
+GITHUB_INSTALLATION_ID = "161375742"
+
+[triggers]
+crons = ["17 3 * * *"]
