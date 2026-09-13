@@ -20,16 +20,11 @@ export const SHEET_COLUMNS = 16
 export const MAX_CELLS_PER_SHEET = 256
 export const SCHEMA_VERSION = 1
 
-export const WEBP_QUALITY = 75
 const WEBP_EFFORT = 6
-// Archived 96px avatars are lossless so composing them never compounds lossy
-// artifacts; the sprite sheet is the single final lossy encode.
-const AVATAR_WEBP_OPTIONS: sharp.WebpOptions = {
+// Both the 96px archives and the final sprite sheets use lossless WebP
+// compression, so there is no additional visible-pixel loss at any step.
+const WEBP_OPTIONS: sharp.WebpOptions = {
   lossless: true,
-  effort: WEBP_EFFORT,
-}
-const SHEET_WEBP_OPTIONS: sharp.WebpOptions = {
-  quality: WEBP_QUALITY,
   effort: WEBP_EFFORT,
 }
 const CACHE_CONCURRENCY = 4
@@ -119,7 +114,7 @@ export const avatarFileName = (id: string): string => `${sha256Hex(id)}.webp`
 export const normalizeAvatar = async (input: Buffer): Promise<Buffer> =>
   sharp(input, { limitInputPixels: MAX_INPUT_PIXELS })
     .resize(CELL_SIZE, CELL_SIZE, { fit: 'cover', position: 'centre' })
-    .webp(AVATAR_WEBP_OPTIONS)
+    .webp(WEBP_OPTIONS)
     .toBuffer()
 
 // Derive the 64px circular PNG embedded in graph.svg from an already-fetched
@@ -327,7 +322,7 @@ export const buildSheets = async (
     if (composites.length > 0) {
       pipeline = pipeline.composite(composites)
     }
-    const buffer = await pipeline.webp(SHEET_WEBP_OPTIONS).toBuffer()
+    const buffer = await pipeline.webp(WEBP_OPTIONS).toBuffer()
     const url = `avatars-${sheet}.${sha256Hex(buffer).slice(
       0,
       PLACEHOLDER_HASH_PREFIX,

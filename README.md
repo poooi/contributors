@@ -60,10 +60,13 @@ separately and is not part of this repository.
   raw export, email or amounts);
 - publishes sprite sheets and a deterministic manifest under `dist/avatars/`.
 
-Cached avatars are **lossless** WebP intermediates (effort 6) so composing them
-never compounds lossy artifacts; the sprite sheet is the **single final lossy
-encode** (quality 75, effort 6). Changing only the final quality therefore
-re-encodes sheets without degrading the archived per-avatar sources.
+Cached avatars and sprite sheets are both **lossless** WebP (effort 6), so no
+generation is lost to recompression. Choice of format is measured, not assumed:
+for the real 169-person / 141-image sheet, `optipng -o7 -strip all` produced
+2,173,999 bytes while lossless WebP produced 1,453,930 bytes (33.12% smaller), so
+lossless WebP is used. Both preserve every visible pixel and the full alpha
+channel; WebP may rewrite RGB underneath fully transparent pixels (alpha 0),
+which is not a visible or RGBA-visible-pixel difference.
 
 ### Artifact contract (`dist/avatars/manifest.json`)
 

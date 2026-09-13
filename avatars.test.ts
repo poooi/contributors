@@ -122,8 +122,34 @@ describe('buildSheets', () => {
   })
 })
 
+// Lossless WebP may discard RGB under fully transparent pixels; compare alpha
+// everywhere and RGB only where alpha is nonzero (without a giant deepEqual).
+const zeroTransparentRgb = (buffer: Buffer): Buffer => {
+  const out = Buffer.alloc(buffer.length)
+  for (let index = 0; index < buffer.length; index += 1) {
+    out[index] = buffer[index]
+  }
+  for (let index = 3; index < out.length; index += 4) {
+    if (out[index] === 0) {
+      out[index - 3] = 0
+      out[index - 2] = 0
+      out[index - 1] = 0
+    }
+  }
+  return out
+}
+
+const alphaEquals = (a: Buffer, b: Buffer): boolean => {
+  for (let index = 3; index < a.length; index += 4) {
+    if (a[index] !== b[index]) {
+      return false
+    }
+  }
+  return true
+}
+
 describe('normalizeAvatar', () => {
-  it('preserves pixels exactly through the lossless 96px archive encode', async () => {
+  it('preserves alpha and visible pixels through the lossless 96px encode', async () => {
     const raw = Buffer.alloc(CELL_SIZE * CELL_SIZE * 4)
     for (let y = 0; y < CELL_SIZE; y += 1) {
       for (let x = 0; x < CELL_SIZE; x += 1) {
@@ -131,7 +157,7 @@ describe('normalizeAvatar', () => {
         raw[index] = (x * 3 + y * 5) % 256
         raw[index + 1] = (x * 7 + y * 2) % 256
         raw[index + 2] = (x + y * 11) % 256
-        raw[index + 3] = 255
+        raw[index + 3] = (x + y) % 5 === 0 ? 0 : 255
       }
     }
     const fixture = await sharp(raw, {
@@ -147,8 +173,11 @@ describe('normalizeAvatar', () => {
 
     const decoded = await sharp(normalized).ensureAlpha().raw().toBuffer()
     const expected = await sharp(fixture).ensureAlpha().raw().toBuffer()
-    expect(decoded.toString('hex')).toBe(expected.toString('hex'))
     expect(decoded.length).toBe(CELL_SIZE * CELL_SIZE * 4)
+    expect(alphaEquals(decoded, expected)).toBe(true)
+    const left = zeroTransparentRgb(decoded)
+    const right = zeroTransparentRgb(expected) as unknown as Uint8Array
+    expect(left.equals(right)).toBe(true)
   })
 })
 
