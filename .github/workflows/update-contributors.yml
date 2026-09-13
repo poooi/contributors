@@ -1,0 +1,58 @@
+name: Update contributor data
+
+# Manual dispatch only. Automated runs come from the separate scheduler Worker
+# via the GitHub API (workflow `update-contributors.yml`).
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Serialize runs; never cancel an in-flight update. The same group is targeted
+# by the scheduler Worker's dispatch.
+concurrency:
+  group: update-contributors
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Test
+        run: npm test
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build contribution data
+        run: npm run build
+        env:
+          # Provided automatically by Actions; resolves via GH_TOKEN first.
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Stage archive and dist
+        run: git add cache dist
+
+      - name: Commit and push if changed
+        run: |
+          if git diff --cached --quiet; then
+            echo "No contributor data changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: update contributor data"
+          git push

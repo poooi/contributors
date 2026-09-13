@@ -1,35 +1,20 @@
-import { Octokit } from '@octokit/rest'
 import bluebird from 'bluebird'
-import chalk from 'chalk'
-import childProcess from 'child_process'
 import _ from 'lodash'
-import fetch, { RequestInit } from 'node-fetch'
 import pRetry from 'p-retry'
 import sharp from 'sharp'
-import { promisify } from 'util'
-import { ContributorSimple, Stat, Week } from './types'
-import { loadCachedData, saveCachedData } from './cache'
-
-const execFile = promisify(childProcess.execFile)
-
-// Resolve the token from the user's locally logged-in `gh` CLI
-const getGhToken = async (): Promise<string> => {
-  const { stdout } = await execFile('gh', ['auth', 'token'])
-  return stdout.trim()
-}
-
-const octokitPromise: Promise<Octokit> = getGhToken().then(
-  token => new Octokit({ auth: token }),
-)
+import { ContributorSimple, Week } from './types'
 
 const fetchOptions: RequestInit = {
   headers: {
     'X-GitHub-Api-Version': '2022-11-28',
     Accept: 'application/vnd.github+json',
-  }
+  },
 }
 
 const AVATAR_SIZE = 64
+const AVATAR_RETRIES = 1
+const AVATAR_TIMEOUT_MS = 5_000
+const AVATAR_CONCURRENCY = 4
 const MARGIN = 10
 const COLS = 12
 const IMAGE_WIDTH = AVATAR_SIZE * COLS + MARGIN * (COLS + 1)
@@ -38,110 +23,61 @@ const ROUND = Buffer.from(
     2}" ry="${AVATAR_SIZE / 2}"/></svg>`,
 )
 
-export const getRepos = async (): Promise<any[]> => {
-  const octokit = await octokitPromise
-  return octokit.paginate(octokit.rest.repos.listForOrg, {
-    org: 'poooi',
-    per_page: 100,
-  })
-}
-
-export const getUser = async (login: string): Promise<any> => {
-  const octokit = await octokitPromise
-  return octokit.rest.users.getByUsername({ username: login }).then(res => res.data)
-}
-
-export const getContributors = async (owner: string, repo: string): Promise<Stat[]> => {
-  const repoFullName = `${owner}/${repo}`
-
-  // Try to load from cache first
-  const cachedData = await loadCachedData(repoFullName)
-  if (cachedData) {
-    console.info(chalk.gray(`💾 Using cached data for ${repoFullName}`))
-    return cachedData
+// Extract previously embedded base64 avatars from a generated graph.svg so a
+// transient avatar fetch failure can reuse the last known-good image instead of
+// failing the whole render (or dropping a known contributor).
+export const parseEmbeddedAvatars = (svg: string): Map<string, string> => {
+  const avatars = new Map<string, string>()
+  const pattern = /id="([^"]+)"[\s\S]*?xlink:href="data:png;base64,([^"]+)"/g
+  let match: RegExpExecArray | null
+  while ((match = pattern.exec(svg)) !== null) {
+    avatars.set(match[1], match[2])
   }
-
-  // Fetch from API if not cached
-  console.info(chalk.cyan(`🌐 Fetching ${repoFullName}...`))
-
-  const data = await pRetry(
-    async () => {
-      try {
-        const octokit = await octokitPromise
-        const res = await octokit.rest.repos.getContributorsStats({ owner, repo })
-        // GitHub returns HTTP 202 with an empty body {} while stats are still being
-        // computed. octokit does not throw for 202, so detect it here and retry.
-        if (res.status === 202 || !Array.isArray(res.data)) {
-          console.info(chalk.yellow(`⏳ Computing stats for ${repoFullName}...`))
-          throw new Error('Stats being computed (202 - will retry)')
-        }
-        return res.data as Stat[]
-      } catch (e) {
-        // octokit may also surface the 202 as a thrown error in some paths
-        if ((e as any)?.status === 202) {
-          console.info(chalk.yellow(`⏳ Computing stats for ${repoFullName}...`))
-          throw new Error('Stats being computed (202 - will retry)')
-        }
-        console.error(chalk.red(`[ERROR] ${repoFullName}:`), e)
-        throw e
-      }
-    },
-    {
-      retries: 30,
-      minTimeout: 5000,
-      maxTimeout: 30000,
-      factor: 1.5,
-      onFailedAttempt: (error) => {
-        console.info(
-          chalk.gray(`Retry ${error.attemptNumber}/${error.retriesLeft + error.attemptNumber} for ${repoFullName}`)
-        )
-      }
-    }
-  )
-
-  // Save to cache
-  if (data && data.length > 0) {
-    const nullAuthors = data.filter(s => !s.author)
-    if (nullAuthors.length > 0) {
-      console.warn(
-        chalk.yellow(
-          `⚠️  ${repoFullName}: ${nullAuthors.length}/${data.length} contributors have null author (skipping in build)`,
-        ),
-      )
-    }
-    await saveCachedData(repoFullName, data)
-    console.info(chalk.green(`✅ Fetched ${data.length} contributors for ${repoFullName}`))
-  } else {
-    console.warn(chalk.yellow(`⚠️  Empty data for ${repoFullName}`))
-  }
-
-  // Normalize: GitHub may return an empty object {} (or null) for repos without
-  // attributable contributor data; always return an array.
-  return Array.isArray(data) ? data : []
+  return avatars
 }
 
-const getImage = (url: string): Promise<string> =>
-  pRetry(
-    async () => {
-      try {
-        const resp = await fetch(url, fetchOptions)
-        const buf = await resp.arrayBuffer()
-        const img = await sharp(Buffer.from(buf))
-          .resize(AVATAR_SIZE)
-          .composite([{ input: ROUND, blend: 'dest-in' }])
-          .png()
-          .toBuffer()
-        console.info('🎆', url)
-        return img.toString('base64')
-      } catch (e) {
-        console.error(url, e)
-        return bluebird.reject(e)
-      }
-    },
-    { retries: 5 },
-  )
+export const getImage = async (url: string, fallback?: string): Promise<string> => {
+  try {
+    return await pRetry(
+      async () => {
+        const controller = new AbortController()
+        const timer = setTimeout(() => controller.abort(), AVATAR_TIMEOUT_MS)
+        try {
+          const resp = await fetch(url, {
+            ...fetchOptions,
+            signal: controller.signal,
+          })
+          if (!resp.ok) {
+            throw new Error(`avatar request failed with status ${resp.status}`)
+          }
+          const buf = await resp.arrayBuffer()
+          const img = await sharp(Buffer.from(buf))
+            .resize(AVATAR_SIZE)
+            .composite([{ input: ROUND, blend: 'dest-in' }])
+            .png()
+            .toBuffer()
+          console.info('🎆', url)
+          return img.toString('base64')
+        } finally {
+          clearTimeout(timer)
+        }
+      },
+      { retries: AVATAR_RETRIES },
+    )
+  } catch (error) {
+    if (fallback) {
+      console.warn(`⚠️  reusing existing embedded avatar for ${url}`)
+      return fallback
+    }
+    console.error(url, error)
+    throw error
+  }
+}
 
-export const reduceStat = (weeks: Week[], initStat = { a: 0, d: 0, c: 0 }): Pick<Week, 'a' | 'd' | 'c'> =>
+export const reduceStat = (
+  weeks: Week[],
+  initStat: Pick<Week, 'a' | 'd' | 'c'> = { a: 0, d: 0, c: 0 },
+): Pick<Week, 'a' | 'd' | 'c'> =>
   _.reduce(
     weeks,
     ({ a: newA, d: newD, c: newC }, { a, d, c }) => ({
@@ -157,9 +93,25 @@ export const getFirstCommitTime = (weeks: Week[]): number => {
   return first ? first.w : Infinity
 }
 
-export const buildSvg = async (contributors: ContributorSimple[]): Promise<string> => {
-  const data = await bluebird.map(contributors, ({ avatar_url: avatarUrl }) =>
-    getImage(avatarUrl),
+export interface BuildSvgOptions {
+  /**
+   * Previously generated SVG; its embedded base64 avatars are used as a
+   * fallback when an avatar URL cannot be fetched.
+   */
+  existingSvg?: string
+}
+
+export const buildSvg = async (
+  contributors: ContributorSimple[],
+  options: BuildSvgOptions = {},
+): Promise<string> => {
+  const embedded = options.existingSvg
+    ? parseEmbeddedAvatars(options.existingSvg)
+    : new Map<string, string>()
+  const data = await bluebird.map(
+    contributors,
+    ({ avatar_url, login }) => getImage(avatar_url, embedded.get(login)),
+    { concurrency: AVATAR_CONCURRENCY },
   )
   let posX = MARGIN
   let posY = MARGIN

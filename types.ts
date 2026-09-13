@@ -34,10 +34,12 @@ export interface Stat {
   author: People | null
 }
 
-interface Contributor {
+export interface Contributor {
   login: string
-  name: string
-  id: number
+  // GitHub returns `null` for an unset display name; keep the key so a null
+  // from the API or a previous archive is preserved rather than stripped.
+  name?: string | null
+  id?: number | null
   avatar_url: string
   html_url: string
   total: number
@@ -55,6 +57,17 @@ export type ContributorSimple = Pick<
   Contributor,
   'html_url' | 'avatar_url' | 'login'
 >
+
+// Fields used to render and aggregate a contributor. A profile may be partial
+// (e.g. recovered from a previous build) so every field except login is
+// optional.
+export interface UserProfile {
+  login: string
+  name?: string | null
+  id?: number | null
+  avatar_url: string
+  html_url: string
+}
 export interface ContributorOverwrite {
   [key: string]: Partial<
     Pick<Contributor, 'html_url' | 'avatar_url' | 'login' | 'name'>
