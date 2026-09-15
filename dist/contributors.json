@@ -164,7 +164,7 @@
       "poooi/plugin-ship-info": 50,
       "poooi/plugin-ship-panel-patcher": 19,
       "poooi/plugin-translator": 37,
-      "poooi/poi": 2916,
+      "poooi/poi": 2917,
       "poooi/poi-asset-themes": 30,
       "poooi/poi-compact-info": 12,
       "poooi/poi-plugin-ezexped": 9,
@@ -177,11 +177,11 @@
       "ruiii/poi_theme_paper_dark": 2
     },
     "stat": {
-      "a": 592629,
-      "c": 4034,
-      "d": 508739
+      "a": 592648,
+      "c": 4035,
+      "d": 508746
     },
-    "total": 4034
+    "total": 4035
   },
   {
     "avatar_url": "https://avatars.githubusercontent.com/u/10855724?v=4",
@@ -593,14 +593,14 @@
       "poooi/translator-worker": 2,
       "poooi/uptime": 1,
       "poooi/website": 170,
-      "poooi/website-kai": 120
+      "poooi/website-kai": 126
     },
     "stat": {
-      "a": 2935270,
-      "c": 4178,
-      "d": 809858
+      "a": 2938458,
+      "c": 4184,
+      "d": 811248
     },
-    "total": 4178
+    "total": 4184
   },
   {
     "avatar_url": "https://avatars.githubusercontent.com/u/1854100?v=4",
@@ -1765,15 +1765,15 @@
       "poooi/lib-battle": 1,
       "poooi/plugin-Akashic-records": 5,
       "poooi/plugin-prophet": 4,
-      "poooi/poi": 80,
+      "poooi/poi": 81,
       "poooi/website-kai": 3
     },
     "stat": {
-      "a": 35360,
-      "c": 94,
-      "d": 15423
+      "a": 35379,
+      "c": 95,
+      "d": 15430
     },
-    "total": 94
+    "total": 95
   },
   {
     "avatar_url": "https://avatars.githubusercontent.com/in/15368?v=4",
@@ -1783,15 +1783,15 @@
     "login": "github-actions[bot]",
     "name": null,
     "perRepo": {
-      "poooi/contributors": 1,
+      "poooi/contributors": 2,
       "poooi/plugin-translator": 6
     },
     "stat": {
-      "a": 188786,
-      "c": 7,
-      "d": 163806
+      "a": 191882,
+      "c": 8,
+      "d": 163923
     },
-    "total": 7
+    "total": 8
   },
   {
     "avatar_url": "https://avatars.githubusercontent.com/u/1707683?v=4",
