@@ -164,7 +164,7 @@
       "poooi/plugin-ship-info": 50,
       "poooi/plugin-ship-panel-patcher": 19,
       "poooi/plugin-translator": 37,
-      "poooi/poi": 2917,
+      "poooi/poi": 2920,
       "poooi/poi-asset-themes": 30,
       "poooi/poi-compact-info": 12,
       "poooi/poi-plugin-ezexped": 9,
@@ -177,11 +177,11 @@
       "ruiii/poi_theme_paper_dark": 2
     },
     "stat": {
-      "a": 592648,
-      "c": 4035,
-      "d": 508746
+      "a": 601331,
+      "c": 4038,
+      "d": 511173
     },
-    "total": 4035
+    "total": 4038
   },
   {
     "avatar_url": "https://avatars.githubusercontent.com/u/10855724?v=4",
@@ -574,7 +574,7 @@
       "poooi/plugin-navy-staff": 7,
       "poooi/plugin-navy-staff-legacy": 52,
       "poooi/plugin-new-window": 43,
-      "poooi/plugin-prophet": 408,
+      "poooi/plugin-prophet": 409,
       "poooi/plugin-quest": 171,
       "poooi/plugin-report": 169,
       "poooi/plugin-secretary": 66,
@@ -593,14 +593,14 @@
       "poooi/translator-worker": 2,
       "poooi/uptime": 1,
       "poooi/website": 170,
-      "poooi/website-kai": 126
+      "poooi/website-kai": 127
     },
     "stat": {
-      "a": 2938458,
-      "c": 4184,
-      "d": 811248
+      "a": 2940263,
+      "c": 4186,
+      "d": 812209
     },
-    "total": 4184
+    "total": 4186
   },
   {
     "avatar_url": "https://avatars.githubusercontent.com/u/1854100?v=4",
@@ -1765,15 +1765,15 @@
       "poooi/lib-battle": 1,
       "poooi/plugin-Akashic-records": 5,
       "poooi/plugin-prophet": 4,
-      "poooi/poi": 81,
+      "poooi/poi": 85,
       "poooi/website-kai": 3
     },
     "stat": {
-      "a": 35379,
-      "c": 95,
-      "d": 15430
+      "a": 44066,
+      "c": 99,
+      "d": 17861
     },
-    "total": 95
+    "total": 99
   },
   {
     "avatar_url": "https://avatars.githubusercontent.com/in/15368?v=4",
@@ -1783,15 +1783,15 @@
     "login": "github-actions[bot]",
     "name": null,
     "perRepo": {
-      "poooi/contributors": 2,
+      "poooi/contributors": 3,
       "poooi/plugin-translator": 6
     },
     "stat": {
-      "a": 191882,
-      "c": 8,
-      "d": 163923
+      "a": 191959,
+      "c": 9,
+      "d": 164000
     },
-    "total": 8
+    "total": 9
   },
   {
     "avatar_url": "https://avatars.githubusercontent.com/u/1707683?v=4",
@@ -1845,6 +1845,23 @@
       "a": 1,
       "c": 1,
       "d": 1
+    },
+    "total": 1
+  },
+  {
+    "avatar_url": "https://avatars.githubusercontent.com/u/17778751?v=4",
+    "firstCommitTime": 1789257600,
+    "html_url": "https://github.com/momocow",
+    "id": 17778751,
+    "login": "momocow",
+    "name": "牛牛",
+    "perRepo": {
+      "poooi/poi": 1
+    },
+    "stat": {
+      "a": 4,
+      "c": 1,
+      "d": 4
     },
     "total": 1
   }
