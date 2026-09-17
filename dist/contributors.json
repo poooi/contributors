@@ -1783,15 +1783,15 @@
     "login": "github-actions[bot]",
     "name": null,
     "perRepo": {
-      "poooi/contributors": 3,
+      "poooi/contributors": 4,
       "poooi/plugin-translator": 6
     },
     "stat": {
-      "a": 191959,
-      "c": 9,
-      "d": 164000
+      "a": 198963,
+      "c": 10,
+      "d": 167284
     },
-    "total": 9
+    "total": 10
   },
   {
     "avatar_url": "https://avatars.githubusercontent.com/u/1707683?v=4",
