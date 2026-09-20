@@ -1,12 +1,12 @@
 {
-  "version": "cf6869736f14e6aa786c10856c5224de83c34b37a8693a325bc94d2f2008c75b",
+  "version": "ca707a0fd485590fe633e39ecabfa274936fcdebe01a4e434d499f4c245e2c3f",
   "schemaVersion": 1,
   "cellSize": 96,
   "displaySize": 48,
   "pixelRatio": 2,
   "sheets": [
     {
-      "url": "avatars-0.a06106781b33f676.webp",
+      "url": "avatars-0.09ac70e5411a47d5.webp",
       "width": 1536,
       "height": 1056
     }
@@ -82,926 +82,905 @@
       "width": 96,
       "height": 96
     },
-    "github:chiba-bot": {
-      "sheet": 0,
-      "x": 960,
-      "y": 0,
-      "width": 96,
-      "height": 96
-    },
     "github:chibaheit": {
       "sheet": 0,
-      "x": 1056,
+      "x": 960,
       "y": 0,
       "width": 96,
       "height": 96
     },
     "github:choohoo": {
       "sheet": 0,
-      "x": 1152,
+      "x": 1056,
       "y": 0,
       "width": 96,
       "height": 96
     },
     "github:cirnov": {
       "sheet": 0,
-      "x": 1248,
-      "y": 0,
-      "width": 96,
-      "height": 96
-    },
-    "github:claude": {
-      "sheet": 0,
-      "x": 1344,
+      "x": 1152,
       "y": 0,
       "width": 96,
       "height": 96
     },
     "github:cmj2002": {
       "sheet": 0,
-      "x": 1440,
+      "x": 1248,
       "y": 0,
       "width": 96,
       "height": 96
     },
     "github:cocoasoda": {
       "sheet": 0,
-      "x": 0,
-      "y": 96,
+      "x": 1344,
+      "y": 0,
       "width": 96,
       "height": 96
     },
     "github:connorzhangyu": {
       "sheet": 0,
-      "x": 96,
-      "y": 96,
+      "x": 1440,
+      "y": 0,
       "width": 96,
       "height": 96
     },
     "github:daviddiao": {
       "sheet": 0,
-      "x": 192,
+      "x": 0,
       "y": 96,
       "width": 96,
       "height": 96
     },
     "github:dibel": {
       "sheet": 0,
-      "x": 288,
+      "x": 96,
       "y": 96,
       "width": 96,
       "height": 96
     },
     "github:dkwingsmt": {
       "sheet": 0,
-      "x": 384,
+      "x": 192,
       "y": 96,
       "width": 96,
       "height": 96
     },
     "github:drelatgithub": {
       "sheet": 0,
-      "x": 480,
+      "x": 288,
       "y": 96,
       "width": 96,
       "height": 96
     },
     "github:edwardaaaa": {
       "sheet": 0,
-      "x": 576,
+      "x": 384,
       "y": 96,
       "width": 96,
       "height": 96
     },
     "github:einizylg": {
       "sheet": 0,
-      "x": 672,
+      "x": 480,
       "y": 96,
       "width": 96,
       "height": 96
     },
     "github:fengmk2": {
       "sheet": 0,
-      "x": 768,
+      "x": 576,
       "y": 96,
       "width": 96,
       "height": 96
     },
     "github:gakada": {
       "sheet": 0,
-      "x": 864,
-      "y": 96,
-      "width": 96,
-      "height": 96
-    },
-    "github:github-actions[bot]": {
-      "sheet": 0,
-      "x": 960,
+      "x": 672,
       "y": 96,
       "width": 96,
       "height": 96
     },
     "github:gizeta": {
       "sheet": 0,
-      "x": 1056,
+      "x": 768,
       "y": 96,
       "width": 96,
       "height": 96
     },
     "github:gnattu": {
       "sheet": 0,
-      "x": 1152,
+      "x": 864,
       "y": 96,
       "width": 96,
       "height": 96
     },
     "github:govizlora": {
       "sheet": 0,
-      "x": 1248,
+      "x": 960,
       "y": 96,
       "width": 96,
       "height": 96
     },
     "github:grzhan": {
       "sheet": 0,
-      "x": 1344,
+      "x": 1056,
       "y": 96,
       "width": 96,
       "height": 96
     },
     "github:h5nc": {
       "sheet": 0,
-      "x": 1440,
+      "x": 1152,
       "y": 96,
       "width": 96,
       "height": 96
     },
     "github:hanzhao": {
       "sheet": 0,
-      "x": 0,
-      "y": 192,
+      "x": 1248,
+      "y": 96,
       "width": 96,
       "height": 96
     },
     "github:hetmesaskalana": {
       "sheet": 0,
-      "x": 96,
-      "y": 192,
+      "x": 1344,
+      "y": 96,
       "width": 96,
       "height": 96
     },
     "github:hiddencake": {
       "sheet": 0,
-      "x": 192,
-      "y": 192,
+      "x": 1440,
+      "y": 96,
       "width": 96,
       "height": 96
     },
     "github:hotate29": {
       "sheet": 0,
-      "x": 288,
+      "x": 0,
       "y": 192,
       "width": 96,
       "height": 96
     },
     "github:huhums": {
       "sheet": 0,
-      "x": 384,
+      "x": 96,
       "y": 192,
       "width": 96,
       "height": 96
     },
     "github:huihuimoe": {
       "sheet": 0,
-      "x": 480,
+      "x": 192,
       "y": 192,
       "width": 96,
       "height": 96
     },
     "github:icosahedraldice": {
       "sheet": 0,
-      "x": 576,
+      "x": 288,
       "y": 192,
       "width": 96,
       "height": 96
     },
     "github:ilufang": {
       "sheet": 0,
-      "x": 672,
+      "x": 384,
       "y": 192,
       "width": 96,
       "height": 96
     },
     "github:isso0424": {
       "sheet": 0,
-      "x": 768,
+      "x": 480,
       "y": 192,
       "width": 96,
       "height": 96
     },
     "github:javran": {
       "sheet": 0,
-      "x": 864,
+      "x": 576,
       "y": 192,
       "width": 96,
       "height": 96
     },
     "github:jayjayzju": {
       "sheet": 0,
-      "x": 960,
+      "x": 672,
       "y": 192,
       "width": 96,
       "height": 96
     },
     "github:jenningswu": {
       "sheet": 0,
-      "x": 1056,
+      "x": 768,
       "y": 192,
       "width": 96,
       "height": 96
     },
     "github:jie-lyu": {
       "sheet": 0,
-      "x": 1152,
+      "x": 864,
       "y": 192,
       "width": 96,
       "height": 96
     },
     "github:kagamichan": {
       "sheet": 0,
-      "x": 1248,
+      "x": 960,
       "y": 192,
       "width": 96,
       "height": 96
     },
     "github:kochiyaocean": {
       "sheet": 0,
-      "x": 1344,
+      "x": 1056,
       "y": 192,
       "width": 96,
       "height": 96
     },
     "github:kphrx": {
       "sheet": 0,
-      "x": 1440,
+      "x": 1152,
       "y": 192,
       "width": 96,
       "height": 96
     },
     "github:laplamgor": {
       "sheet": 0,
-      "x": 0,
-      "y": 288,
+      "x": 1248,
+      "y": 192,
       "width": 96,
       "height": 96
     },
     "github:lawvs": {
       "sheet": 0,
-      "x": 96,
-      "y": 288,
+      "x": 1344,
+      "y": 192,
       "width": 96,
       "height": 96
     },
     "github:liu-ziyang": {
       "sheet": 0,
-      "x": 192,
-      "y": 288,
+      "x": 1440,
+      "y": 192,
       "width": 96,
       "height": 96
     },
     "github:llc1123": {
       "sheet": 0,
-      "x": 288,
+      "x": 0,
       "y": 288,
       "width": 96,
       "height": 96
     },
     "github:lostxine": {
       "sheet": 0,
-      "x": 384,
+      "x": 96,
       "y": 288,
       "width": 96,
       "height": 96
     },
     "github:machenhao": {
       "sheet": 0,
-      "x": 480,
+      "x": 192,
       "y": 288,
       "width": 96,
       "height": 96
     },
     "github:malichan": {
       "sheet": 0,
-      "x": 576,
+      "x": 288,
       "y": 288,
       "width": 96,
       "height": 96
     },
     "github:mikualpha": {
       "sheet": 0,
-      "x": 672,
+      "x": 384,
       "y": 288,
       "width": 96,
       "height": 96
     },
     "github:mistgfcs": {
       "sheet": 0,
-      "x": 768,
+      "x": 480,
       "y": 288,
       "width": 96,
       "height": 96
     },
     "github:momocow": {
       "sheet": 0,
-      "x": 864,
+      "x": 576,
       "y": 288,
       "width": 96,
       "height": 96
     },
     "github:myzwillmake": {
       "sheet": 0,
-      "x": 960,
+      "x": 672,
       "y": 288,
       "width": 96,
       "height": 96
     },
     "github:natlee": {
       "sheet": 0,
-      "x": 1056,
+      "x": 768,
       "y": 288,
       "width": 96,
       "height": 96
     },
     "github:nuclear357": {
       "sheet": 0,
-      "x": 1152,
+      "x": 864,
       "y": 288,
       "width": 96,
       "height": 96
     },
     "github:onijam": {
       "sheet": 0,
-      "x": 1248,
+      "x": 960,
       "y": 288,
       "width": 96,
       "height": 96
     },
     "github:pertrial": {
       "sheet": 0,
-      "x": 1344,
+      "x": 1056,
       "y": 288,
       "width": 96,
       "height": 96
     },
     "github:rainmistmarisa": {
       "sheet": 0,
-      "x": 1440,
+      "x": 1152,
       "y": 288,
       "width": 96,
       "height": 96
     },
     "github:rangho": {
       "sheet": 0,
-      "x": 0,
-      "y": 384,
+      "x": 1248,
+      "y": 288,
       "width": 96,
       "height": 96
     },
     "github:ruiii": {
       "sheet": 0,
-      "x": 96,
-      "y": 384,
+      "x": 1344,
+      "y": 288,
       "width": 96,
       "height": 96
     },
     "github:sage417": {
       "sheet": 0,
-      "x": 192,
-      "y": 384,
+      "x": 1440,
+      "y": 288,
       "width": 96,
       "height": 96
     },
     "github:sairoutine": {
       "sheet": 0,
-      "x": 288,
+      "x": 0,
       "y": 384,
       "width": 96,
       "height": 96
     },
     "github:season千": {
       "sheet": 0,
-      "x": 384,
+      "x": 96,
       "y": 384,
       "width": 96,
       "height": 96
     },
     "github:senasiko": {
       "sheet": 0,
-      "x": 480,
+      "x": 192,
       "y": 384,
       "width": 96,
       "height": 96
     },
     "github:sgqy": {
       "sheet": 0,
-      "x": 576,
+      "x": 288,
       "y": 384,
       "width": 96,
       "height": 96
     },
     "github:siw1998": {
       "sheet": 0,
-      "x": 672,
+      "x": 384,
       "y": 384,
       "width": 96,
       "height": 96
     },
     "github:slime7": {
       "sheet": 0,
-      "x": 768,
+      "x": 480,
       "y": 384,
       "width": 96,
       "height": 96
     },
     "github:sorayama": {
       "sheet": 0,
-      "x": 864,
+      "x": 576,
       "y": 384,
       "width": 96,
       "height": 96
     },
     "github:sorewachigauyo": {
       "sheet": 0,
-      "x": 960,
+      "x": 672,
       "y": 384,
       "width": 96,
       "height": 96
     },
     "github:ssummer-ui": {
       "sheet": 0,
-      "x": 1056,
+      "x": 768,
       "y": 384,
       "width": 96,
       "height": 96
     },
     "github:sunev": {
       "sheet": 0,
-      "x": 1152,
+      "x": 864,
       "y": 384,
       "width": 96,
       "height": 96
     },
     "github:surlavi": {
       "sheet": 0,
-      "x": 1248,
+      "x": 960,
       "y": 384,
       "width": 96,
       "height": 96
     },
     "github:swordfeng": {
       "sheet": 0,
-      "x": 1344,
+      "x": 1056,
       "y": 384,
       "width": 96,
       "height": 96
     },
     "github:syncsyncsynchalt": {
       "sheet": 0,
-      "x": 1440,
+      "x": 1152,
       "y": 384,
       "width": 96,
       "height": 96
     },
     "github:taikono-himazin": {
       "sheet": 0,
-      "x": 0,
-      "y": 480,
+      "x": 1248,
+      "y": 384,
       "width": 96,
       "height": 96
     },
     "github:taroxd": {
       "sheet": 0,
-      "x": 96,
-      "y": 480,
+      "x": 1344,
+      "y": 384,
       "width": 96,
       "height": 96
     },
     "github:tengattack": {
       "sheet": 0,
-      "x": 192,
-      "y": 480,
+      "x": 1440,
+      "y": 384,
       "width": 96,
       "height": 96
     },
     "github:tricklin": {
       "sheet": 0,
-      "x": 288,
+      "x": 0,
       "y": 480,
       "width": 96,
       "height": 96
     },
     "github:tuziemon": {
       "sheet": 0,
-      "x": 384,
+      "x": 96,
       "y": 480,
       "width": 96,
       "height": 96
     },
     "github:ursm": {
       "sheet": 0,
-      "x": 480,
+      "x": 192,
       "y": 480,
       "width": 96,
       "height": 96
     },
     "github:vuryleo": {
       "sheet": 0,
-      "x": 576,
+      "x": 288,
       "y": 480,
       "width": 96,
       "height": 96
     },
     "github:wafer-li": {
       "sheet": 0,
-      "x": 672,
+      "x": 384,
       "y": 480,
       "width": 96,
       "height": 96
     },
     "github:werseter": {
       "sheet": 0,
-      "x": 768,
+      "x": 480,
       "y": 480,
       "width": 96,
       "height": 96
     },
     "github:wudifeixue": {
       "sheet": 0,
-      "x": 864,
+      "x": 576,
       "y": 480,
       "width": 96,
       "height": 96
     },
     "github:xdamman": {
       "sheet": 0,
-      "x": 960,
+      "x": 672,
       "y": 480,
       "width": 96,
       "height": 96
     },
     "github:yshkflyer": {
       "sheet": 0,
-      "x": 1056,
+      "x": 768,
       "y": 480,
       "width": 96,
       "height": 96
     },
     "github:yukixz": {
       "sheet": 0,
-      "x": 1152,
+      "x": 864,
       "y": 480,
       "width": 96,
       "height": 96
     },
     "github:ywjno": {
       "sheet": 0,
-      "x": 1248,
+      "x": 960,
       "y": 480,
       "width": 96,
       "height": 96
     },
     "github:zqzhang1996": {
       "sheet": 0,
-      "x": 1344,
+      "x": 1056,
       "y": 480,
       "width": 96,
       "height": 96
     },
     "github:zyc434343": {
       "sheet": 0,
-      "x": 1440,
+      "x": 1152,
       "y": 480,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/_akuryo": {
       "sheet": 0,
-      "x": 0,
-      "y": 576,
+      "x": 1248,
+      "y": 480,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/akiramioz": {
       "sheet": 0,
-      "x": 96,
-      "y": 576,
+      "x": 1344,
+      "y": 480,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/ariannaxuan": {
       "sheet": 0,
-      "x": 672,
+      "x": 384,
       "y": 576,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/chris-xu": {
       "sheet": 0,
-      "x": 864,
+      "x": 576,
       "y": 576,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/cup1": {
       "sheet": 0,
-      "x": 960,
+      "x": 672,
       "y": 576,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/eric-song": {
       "sheet": 0,
-      "x": 1056,
+      "x": 768,
       "y": 576,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/feiyue": {
       "sheet": 0,
-      "x": 1248,
+      "x": 960,
       "y": 576,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/geishin": {
       "sheet": 0,
-      "x": 1344,
+      "x": 1056,
       "y": 576,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/glitterpoi": {
       "sheet": 0,
-      "x": 1440,
+      "x": 1152,
       "y": 576,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/grzhan": {
       "sheet": 0,
-      "x": 0,
-      "y": 672,
+      "x": 1248,
+      "y": 576,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/gu3-shou3-ren3-dai4": {
       "sheet": 0,
-      "x": 96,
-      "y": 672,
+      "x": 1344,
+      "y": 576,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/hao-lan": {
       "sheet": 0,
-      "x": 1248,
+      "x": 960,
       "y": 672,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/helphelp-mrquin": {
       "sheet": 0,
-      "x": 1344,
+      "x": 1056,
       "y": 672,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/hibiki": {
       "sheet": 0,
-      "x": 1440,
+      "x": 1152,
       "y": 672,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/him": {
       "sheet": 0,
-      "x": 0,
-      "y": 768,
+      "x": 1248,
+      "y": 672,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/hxy8241": {
       "sheet": 0,
-      "x": 96,
-      "y": 768,
+      "x": 1344,
+      "y": 672,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/j-k": {
       "sheet": 0,
-      "x": 192,
-      "y": 768,
+      "x": 1440,
+      "y": 672,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/jayjayzju": {
       "sheet": 0,
-      "x": 288,
+      "x": 0,
       "y": 768,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/jenningswu": {
       "sheet": 0,
-      "x": 384,
+      "x": 96,
       "y": 768,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/karlcheong": {
       "sheet": 0,
-      "x": 480,
+      "x": 192,
       "y": 768,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/kaynn-cahya": {
       "sheet": 0,
-      "x": 576,
+      "x": 288,
       "y": 768,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/kumachandaisugi": {
       "sheet": 0,
-      "x": 672,
+      "x": 384,
       "y": 768,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/lan2-yue4-lanyue": {
       "sheet": 0,
-      "x": 768,
+      "x": 480,
       "y": 768,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/leticia1": {
       "sheet": 0,
-      "x": 864,
+      "x": 576,
       "y": 768,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/liang-ting-kuo": {
       "sheet": 0,
-      "x": 960,
+      "x": 672,
       "y": 768,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/liang2-gong1": {
       "sheet": 0,
-      "x": 1056,
+      "x": 768,
       "y": 768,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/lolis_daydream": {
       "sheet": 0,
-      "x": 1152,
+      "x": 864,
       "y": 768,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/lt-syou": {
       "sheet": 0,
-      "x": 1248,
+      "x": 960,
       "y": 768,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/magica": {
       "sheet": 0,
-      "x": 1344,
+      "x": 1056,
       "y": 768,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/orekii": {
       "sheet": 0,
-      "x": 1440,
+      "x": 1152,
       "y": 768,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/owenniu233": {
       "sheet": 0,
-      "x": 0,
-      "y": 864,
+      "x": 1248,
+      "y": 768,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/saerdodus": {
       "sheet": 0,
-      "x": 384,
+      "x": 96,
       "y": 864,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/semperfi201": {
       "sheet": 0,
-      "x": 480,
+      "x": 192,
       "y": 864,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/sorayama": {
       "sheet": 0,
-      "x": 672,
+      "x": 384,
       "y": 864,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/tachibana-ochiba1": {
       "sheet": 0,
-      "x": 768,
+      "x": 480,
       "y": 864,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/user-952d7d18": {
       "sheet": 0,
-      "x": 960,
+      "x": 672,
       "y": 864,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/user322": {
       "sheet": 0,
-      "x": 1152,
+      "x": 864,
       "y": 864,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/xiaoyu-wang": {
       "sheet": 0,
-      "x": 96,
-      "y": 960,
+      "x": 1344,
+      "y": 864,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/yang-pei1": {
       "sheet": 0,
-      "x": 192,
-      "y": 960,
+      "x": 1440,
+      "y": 864,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/yohei-igata": {
       "sheet": 0,
-      "x": 288,
+      "x": 0,
       "y": 960,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/yoshitaka-kato": {
       "sheet": 0,
-      "x": 384,
+      "x": 96,
       "y": 960,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/yuealas": {
       "sheet": 0,
-      "x": 480,
+      "x": 192,
       "y": 960,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/yuli-lin": {
       "sheet": 0,
-      "x": 576,
+      "x": 288,
       "y": 960,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/yusuke-ohshima1": {
       "sheet": 0,
-      "x": 672,
+      "x": 384,
       "y": 960,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/z-w": {
       "sheet": 0,
-      "x": 768,
+      "x": 480,
       "y": 960,
       "width": 96,
       "height": 96
     },
     "oc:https://opencollective.com/zhao4-zhi1-yang2": {
       "sheet": 0,
-      "x": 864,
+      "x": 576,
       "y": 960,
       "width": 96,
       "height": 96
@@ -1537,28 +1516,10 @@
       "profile": "https://github.com/pertrial"
     },
     {
-      "id": "github:chiba-bot",
-      "login": "chiba-bot",
-      "name": "chiba-bot",
-      "profile": "https://github.com/chiba-bot"
-    },
-    {
       "id": "github:zqzhang1996",
       "login": "zqzhang1996",
       "name": "zqzhang1996",
       "profile": "https://github.com/zqzhang1996"
-    },
-    {
-      "id": "github:claude",
-      "login": "claude",
-      "name": "Claude",
-      "profile": "https://github.com/claude"
-    },
-    {
-      "id": "github:github-actions[bot]",
-      "login": "github-actions[bot]",
-      "name": "github-actions[bot]",
-      "profile": "https://github.com/apps/github-actions"
     },
     {
       "id": "github:huihuimoe",
