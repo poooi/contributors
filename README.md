@@ -150,6 +150,12 @@ and a first-run OC failure publishing nothing.
   the contributor using data from the previous `dist/contributors.json`. Missing
   repos during a failed org discovery do not mean deletion — the
   archived/manifest repo list is used instead.
+- **Bots are excluded everywhere.** One shared, case-insensitive predicate drops
+  GitHub Apps (`type: Bot`), `[bot]`-suffixed logins, the curated `IGNORES`
+  list, and the known user-account bots (`chiba-bot`, `claude`) before stats are
+  archived, before any profile lookup, and from the final output — so bot-only
+  activity cannot churn `cache`/`dist`. Ordinary names that merely contain "bot"
+  are untouched, and a bot-only payload never replaces a known human archive.
 - **Fatal persistence.** Archive writes go through a same-directory temp file
   and are write-if-changed, so a partial write cannot leave a truncated archive
   and a write failure fails the build instead of silently pretending success.

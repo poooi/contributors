@@ -5,6 +5,7 @@ import { join } from 'path'
 import pRetry from 'p-retry'
 import sharp from 'sharp'
 import { writeIfChanged, Writer } from './atomic'
+import { isExcludedLogin } from './config'
 import {
   collectSupporters,
   isHttpUrl,
@@ -436,7 +437,14 @@ export const refreshAvatars = async (
 
   await saveSupportersArchive(collection.supporters, options.archivePath)
 
-  const contributors: ManifestContributor[] = options.contributors.map(
+  // Shared bot exclusion at the refresh boundary: this also protects the
+  // standalone build:avatars path from reintroducing bots from an older
+  // published contributors.json.
+  const contributorInputs = options.contributors.filter(
+    contributor => !isExcludedLogin(contributor.login),
+  )
+
+  const contributors: ManifestContributor[] = contributorInputs.map(
     contributor => ({
       id: `github:${contributor.login.toLowerCase()}`,
       login: contributor.login,
@@ -458,7 +466,7 @@ export const refreshAvatars = async (
   const contributorsWithImages: Map<string, Buffer> = new Map()
   const images: Map<string, Buffer> = new Map()
   await bluebird.map(
-    options.contributors,
+    contributorInputs,
     async (contributor, index) => {
       const id = contributors[index].id
       const candidates = isHttpUrl(contributor.avatar_url)

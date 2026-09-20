@@ -5,6 +5,8 @@ import sharp from 'sharp'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { BuildOptions, createBuildDeps, runBuild } from './build'
 import { avatarIds, AvatarManifest, sha256Hex } from './avatars'
+import { getContributors as fetchContributors, OctokitLike } from './github'
+import { saveCachedData } from './cache'
 import { Stat, Week } from './types'
 
 const ALICE_URL = 'https://img.example/alice.png'
@@ -18,6 +20,23 @@ const stat = (login: string, total: number): Stat => ({
   total,
   weeks: [week],
   author: { login } as unknown as Stat['author'],
+})
+
+const botStat = (login: string, total: number): Stat => ({
+  total,
+  weeks: [week],
+  author: { login, type: 'Bot' } as unknown as Stat['author'],
+})
+
+const fakeOctokit = (data: Stat[]): OctokitLike => ({
+  rest: {
+    repos: {
+      getContributorsStats: async () => ({ status: 200, data }),
+      listForOrg: {},
+    },
+    users: { getByUsername: async () => ({ data: {} }) },
+  },
+  paginate: async () => [],
 })
 
 const jsonResponse = (data: unknown): Response =>
@@ -386,5 +405,63 @@ describe('runBuild integration (real avatar + sprite + svg pipeline)', () => {
     expect(
       await fs.pathExists(join(dir, 'cache', 'opencollective', 'supporters.json')),
     ).toBe(false)
+  })
+
+  it('keeps cache and outputs byte-identical when only bot totals change', async () => {
+    const cacheDir = join(dir, 'cache')
+    const humanUrl = 'https://img.example/Javran.png'
+    state.images[humanUrl] = await patternPng()
+    const fetchImpl = makeFetch(state).fetchImpl
+
+    const human = stat('Javran', 5)
+    const depsFor = (raw: Stat[]) =>
+      createBuildDeps(buildOptions(fetchImpl), {
+        getRepos: async () => [{ full_name: 'poooi/poi' }],
+        getContributors: (owner, repo, previous) =>
+          fetchContributors(owner, repo, {
+            octokit: fakeOctokit(raw),
+            previous,
+            retry: {
+              retries: 0,
+              minTimeout: 0,
+              maxTimeout: 0,
+              totalBudgetMs: 1000,
+              requestTimeoutMs: 1000,
+              sleep: async () => {},
+              now: () => 0,
+            },
+            save: (name, data) => saveCachedData(name, data, cacheDir),
+          }),
+        getUser: async login =>
+          profile(login, login, `https://img.example/${login}.png`),
+        log: () => {},
+        warn: () => {},
+      })
+
+    await runBuild(depsFor([human, botStat('github-actions[bot]', 14)]))
+    const manifestPath = join(dir, 'dist', 'avatars', 'manifest.json')
+    const archivePath = join(cacheDir, 'poooi_poi.json')
+    const firstManifest = (await fs.readJson(manifestPath)) as AvatarManifest
+    const first = {
+      cache: await fs.readFile(archivePath),
+      contributors: await fs.readFile(join(dir, 'dist', 'contributors.json')),
+      svg: await fs.readFile(join(dir, 'dist', 'graph.svg')),
+      manifest: await fs.readFile(manifestPath),
+      sheet: await fs.readFile(join(dir, 'dist', 'avatars', firstManifest.sheets[0].url)),
+    }
+    expect(first.cache.toString('utf8')).not.toContain('github-actions')
+
+    // Only the bot total changed; every human-facing artifact must be stable.
+    await runBuild(depsFor([human, botStat('github-actions[bot]', 15)]))
+    const secondManifest = (await fs.readJson(manifestPath)) as AvatarManifest
+    expect(await fs.readFile(archivePath)).toEqual(first.cache)
+    expect(await fs.readFile(join(dir, 'dist', 'contributors.json'))).toEqual(
+      first.contributors,
+    )
+    expect(await fs.readFile(join(dir, 'dist', 'graph.svg'))).toEqual(first.svg)
+    expect(await fs.readFile(manifestPath)).toEqual(first.manifest)
+    expect(
+      await fs.readFile(join(dir, 'dist', 'avatars', secondManifest.sheets[0].url)),
+    ).toEqual(first.sheet)
   })
 })

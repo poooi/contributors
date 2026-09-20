@@ -1,3 +1,6 @@
+import fs from 'fs-extra'
+import os from 'os'
+import { join } from 'path'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import {
   getContributors,
@@ -13,6 +16,7 @@ import {
   validateContributorsPayload,
   withBoundedRetry,
 } from './github'
+import { loadCachedData, saveCachedData } from './cache'
 import { Stat, Week } from './types'
 
 const week = (overrides: Partial<Week> = {}): Week => ({
@@ -27,6 +31,12 @@ const stat = (login: string | null, total = 1): Stat => ({
   total,
   weeks: [week()],
   author: login ? ({ login } as unknown as Stat['author']) : null,
+})
+
+const botStat = (login: string, type = 'Bot', total = 1): Stat => ({
+  total,
+  weeks: [week()],
+  author: { login, type } as unknown as Stat['author'],
 })
 
 interface FakeOptions {
@@ -399,6 +409,145 @@ describe('getContributors refresh behaviour', () => {
     })
     expect(result).toEqual(previous)
     expect(signal?.aborted).toBe(true)
+  })
+
+  it('excludes bots before persisting the archive', async () => {
+    const human = stat('Javran', 5)
+    const fresh = [
+      human,
+      botStat('github-actions[bot]'),
+      botStat('some-app', 'Bot'),
+      botStat('CustomTool[bot]', 'User'),
+      botStat('chiba-bot', 'User'),
+      botStat('claude', 'User'),
+    ]
+    const client = makeClient({
+      getContributorsStats: async () => ({ status: 200, data: fresh }),
+    })
+    const save = vi.fn(async () => true)
+    const result = await getContributors('Javran', 'mo2', {
+      octokit: client,
+      retry: fastRetry(),
+      save,
+    })
+    expect(result).toEqual([human])
+    expect(save).toHaveBeenCalledWith('Javran/mo2', [human])
+  })
+
+  it('drops legacy bot rows from the failure fallback', async () => {
+    const previous = [stat('Javran', 5), botStat('github-actions[bot]', 'Bot', 15)]
+    const client = makeClient({
+      getContributorsStats: async () => {
+        throw { status: 500 }
+      },
+    })
+    const result = await getContributors('Javran', 'mo2', {
+      octokit: client,
+      previous,
+      retry: fastRetry(),
+      save: vi.fn(async () => true),
+    })
+    expect(result).toEqual([previous[0]])
+  })
+
+  it('persists an empty archive for an all-bot repo', async () => {
+    const client = makeClient({
+      getContributorsStats: async () => ({
+        status: 200,
+        data: [botStat('github-actions[bot]', 'Bot', 15)],
+      }),
+    })
+    const save = vi.fn(async () => true)
+    const result = await getContributors('Javran', 'mo2', {
+      octokit: client,
+      previous: [botStat('github-actions[bot]', 'Bot', 14)],
+      retry: fastRetry(),
+      save,
+    })
+    expect(result).toEqual([])
+    expect(save).toHaveBeenCalledWith('Javran/mo2', [])
+  })
+
+  it('preserves previous humans when a fresh payload filters to zero', async () => {
+    const previous = [stat('Javran', 5), botStat('github-actions[bot]', 'Bot', 14)]
+    const client = makeClient({
+      getContributorsStats: async () => ({
+        status: 200,
+        data: [botStat('github-actions[bot]', 'Bot', 15)],
+      }),
+    })
+    const save = vi.fn(async () => true)
+    const result = await getContributors('Javran', 'mo2', {
+      octokit: client,
+      previous,
+      retry: fastRetry(),
+      save,
+    })
+    expect(result).toEqual([previous[0]])
+    expect(save).not.toHaveBeenCalled()
+  })
+
+  it('does not freeze a human refresh when a bot disappears with null authors', async () => {
+    const previous = [stat('Javran', 5), botStat('github-actions[bot]', 'Bot', 15)]
+    const fresh = [stat('Javran', 6), stat(null, 1)]
+    const client = makeClient({
+      getContributorsStats: async () => ({ status: 200, data: fresh }),
+    })
+    const save = vi.fn(async () => true)
+    const result = await getContributors('Javran', 'mo2', {
+      octokit: client,
+      previous,
+      retry: fastRetry(),
+      save,
+    })
+    expect(result).toEqual(fresh)
+    expect(save).toHaveBeenCalledWith('Javran/mo2', fresh)
+  })
+
+  it('does not rewrite the archive when only bot totals change', async () => {
+    const dir = await fs.mkdtemp(join(os.tmpdir(), 'contributors-bot-'))
+    try {
+      const human = stat('Javran', 5)
+      const changes: boolean[] = []
+      const save = async (name: string, data: Stat[]) => {
+        const changed = await saveCachedData(name, data, dir)
+        changes.push(changed)
+        return changed
+      }
+
+      const first = makeClient({
+        getContributorsStats: async () => ({
+          status: 200,
+          data: [human, botStat('github-actions[bot]', 'Bot', 14)],
+        }),
+      })
+      await getContributors('poooi', 'poi', {
+        octokit: first,
+        previous: null,
+        retry: fastRetry(),
+        save,
+      })
+      const archived = await loadCachedData('poooi/poi', dir)
+      expect(archived).toEqual([human])
+
+      const second = makeClient({
+        getContributorsStats: async () => ({
+          status: 200,
+          data: [human, botStat('github-actions[bot]', 'Bot', 15)],
+        }),
+      })
+      const result = await getContributors('poooi', 'poi', {
+        octokit: second,
+        previous: archived,
+        retry: fastRetry(),
+        save,
+      })
+      expect(result).toEqual([human])
+      // First run wrote the human archive; the bot-only increase was a no-op.
+      expect(changes).toEqual([true, false])
+    } finally {
+      await fs.remove(dir)
+    }
   })
 })
 

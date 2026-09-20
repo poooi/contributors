@@ -2,6 +2,7 @@ import { Octokit } from '@octokit/rest'
 import childProcess from 'child_process'
 import { promisify } from 'util'
 import { saveCachedData } from './cache'
+import { isExcludedContributor } from './config'
 import { Repo, Stat, Week } from './types'
 
 const execFile = promisify(childProcess.execFile)
@@ -309,10 +310,16 @@ export interface GetContributorsOptions {
   save?: (repoFullName: string, data: Stat[]) => Promise<unknown>
 }
 
+// Bots are never trusted, archived, or returned: bot-only activity must not
+// churn the archives or published output.
+const withoutBots = (stats: Stat[]): Stat[] =>
+  stats.filter(entry => !isExcludedContributor(entry.author))
+
 // Always refresh from GitHub on a normal build, but never replace valid
 // historical data with a failure, empty or malformed response. The previous
-// archive (if any) is returned as a fallback. Archive persistence failures
-// propagate so the build fails loudly instead of pretending success.
+// archive (if any) is returned as a fallback, with any legacy bot rows removed.
+// Archive persistence failures propagate so the build fails loudly instead of
+// pretending success.
 export const getContributors = async (
   owner: string,
   repo: string,
@@ -324,38 +331,61 @@ export const getContributors = async (
   const config: RetryConfig = { ...defaultRetryConfig, ...options.retry }
   const save = options.save ?? saveCachedData
 
-  let data: Stat[]
+  let raw: Stat[]
   try {
-    data = await withBoundedRetry(
+    raw = await withBoundedRetry(
       (_attempt, requestTimeoutMs) =>
         fetchContributorStats(client, owner, repo, requestTimeoutMs),
       config,
     )
   } catch (error) {
     console.error(`[ERROR] failed to refresh ${repoFullName}:`, error)
-    if (previous && previous.length > 0) {
+    const fallback = withoutBots(previous ?? [])
+    if (fallback.length > 0) {
       console.warn(`⚠️  keeping previous archived stats for ${repoFullName}`)
-      return previous
     }
-    return previous ?? []
+    return fallback
   }
 
-  if (data.length === 0) {
+  // A truly empty payload is treated like a transient failure: keep the last
+  // good human archive rather than overwriting it with nothing.
+  if (raw.length === 0) {
     console.warn(`⚠️  empty data for ${repoFullName}; keeping previous archive`)
-    return previous && previous.length > 0 ? previous : []
+    return withoutBots(previous ?? [])
+  }
+
+  const fresh = withoutBots(raw)
+  const previouslyKnown = withoutBots(previous ?? [])
+
+  // A valid payload that only contains bots: if we already know humans, keep
+  // them (the bot-only payload may be partial), otherwise persist an empty
+  // archive so an all-bot repo stops churning and stays stable.
+  if (fresh.length === 0) {
+    if (previouslyKnown.length > 0) {
+      console.warn(
+        `⚠️  ${repoFullName}: fresh data had no human contributors; keeping previous archive`,
+      )
+      return previouslyKnown
+    }
+    await save(repoFullName, [])
+    console.info(
+      `✅ Refreshed 0 human contributors for ${repoFullName} (bots excluded)`,
+    )
+    return []
   }
 
   // GitHub can return null-author entries that hide identities which were
   // previously attributable (e.g. account renames/deletions). If that hides a
-  // contributor we already know about, keep the entire previous snapshot rather
-  // than mixing fresh totals heuristically.
+  // contributor we already know about, keep the entire previous human snapshot
+  // rather than mixing fresh totals heuristically. Bot disappearance is ignored
+  // so it can never freeze a genuine human refresh.
   const knownLogins = new Set(
-    (previous ?? []).filter(stat => stat.author).map(stat => stat.author!.login),
+    previouslyKnown.filter(stat => stat.author).map(stat => stat.author!.login),
   )
   const freshLogins = new Set(
-    data.filter(stat => stat.author).map(stat => stat.author!.login),
+    fresh.filter(stat => stat.author).map(stat => stat.author!.login),
   )
-  const hasNullAuthors = data.some(stat => !stat.author)
+  const hasNullAuthors = fresh.some(stat => !stat.author)
   const lostIdentities = [...knownLogins].filter(login => !freshLogins.has(login))
 
   if (hasNullAuthors && lostIdentities.length > 0) {
@@ -364,20 +394,20 @@ export const getContributors = async (
         ', ',
       )}); keeping previous archived stats`,
     )
-    return previous as Stat[]
+    return previouslyKnown
   }
 
   if (hasNullAuthors) {
     console.warn(
-      `⚠️  ${repoFullName}: ${data.filter(stat => !stat.author).length}/${
-        data.length
+      `⚠️  ${repoFullName}: ${fresh.filter(stat => !stat.author).length}/${
+        fresh.length
       } contributors have null author (skipped when aggregating)`,
     )
   }
 
-  await save(repoFullName, data)
-  console.info(`✅ Refreshed ${data.length} contributors for ${repoFullName}`)
-  return data
+  await save(repoFullName, fresh)
+  console.info(`✅ Refreshed ${fresh.length} contributors for ${repoFullName}`)
+  return fresh
 }
 
 export const getRepos = async (octokit?: OctokitLike): Promise<Repo[]> => {

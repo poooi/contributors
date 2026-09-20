@@ -24,6 +24,12 @@ const stat = (login: string | null, total = 1): Stat => ({
   author: login ? ({ login } as unknown as Stat['author']) : null,
 })
 
+const bot = (login: string, type = 'Bot', total = 1): Stat => ({
+  total,
+  weeks: [week()],
+  author: { login, type } as unknown as Stat['author'],
+})
+
 describe('splitRepo', () => {
   it('keeps underscores in the repo part', () => {
     expect(splitRepo('ruiii/poi_theme_paper_dark')).toEqual([
@@ -67,6 +73,15 @@ describe('toKnownUsers', () => {
       { login: 'Javran', avatar_url: 'avatar', html_url: 'url' } as ContributorSimple,
     ])
     expect(users.get('Javran')).toMatchObject({ avatar_url: 'avatar', html_url: 'url' })
+  })
+
+  it('never seeds a bot from the previous output', () => {
+    const users = toKnownUsers([
+      { login: 'chiba-bot', avatar_url: 'a', html_url: 'h' } as ContributorSimple,
+      { login: 'github-actions[bot]', avatar_url: 'a', html_url: 'h' } as ContributorSimple,
+      { login: 'Javran', avatar_url: 'a', html_url: 'h' } as ContributorSimple,
+    ])
+    expect([...users.keys()]).toEqual(['Javran'])
   })
 })
 
@@ -119,6 +134,32 @@ describe('aggregateContributors', () => {
       },
     )
     expect(Object.keys(collection)).toEqual(['Javran'])
+  })
+
+  it('excludes bots before profile lookup and from the collection', async () => {
+    const getUser = vi.fn(async (login: string) => ({
+      login,
+      avatar_url: 'a',
+      html_url: 'h',
+    }))
+    const collection = await aggregateContributors(
+      [
+        {
+          repoName: 'a/repo',
+          stats: [
+            stat('Javran', 2),
+            bot('some-app', 'Bot'),
+            bot('CustomTool[bot]', 'User'),
+            bot('chiba-bot', 'User'),
+            bot('claude', 'User'),
+          ],
+        },
+      ],
+      { getUser, knownUsers: new Map(), aliases: {} },
+    )
+    expect(Object.keys(collection)).toEqual(['Javran'])
+    expect(getUser).toHaveBeenCalledTimes(1)
+    expect(getUser).toHaveBeenCalledWith('Javran')
   })
 })
 
@@ -235,6 +276,22 @@ describe('runBuild', () => {
     expect(astra?.html_url).toBe(OVERWRITES['Astra-RX'].html_url)
     // A different override key was not collected, so it must not appear.
     expect(json.some(entry => entry.login === 'Chibaheit')).toBe(false)
+  })
+
+  it('never publishes bots even if a collector returns them', async () => {
+    const { deps, writes } = makeHarness({
+      getContributors: async () => [
+        stat('Javran', 1),
+        bot('github-actions[bot]'),
+        bot('chiba-bot', 'User'),
+      ],
+    })
+    await runBuild(deps)
+    const json = JSON.parse(writes[0].json) as Array<{ login: string }>
+    const logins = json.map(entry => entry.login)
+    expect(logins).toContain('Javran')
+    expect(logins).not.toContain('github-actions[bot]')
+    expect(logins).not.toContain('chiba-bot')
   })
 
   it('refreshes avatars and reuses their images for graph.svg', async () => {
