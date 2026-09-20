@@ -7,7 +7,8 @@ import { join } from 'path'
 import {
   ALIAS,
   IGNORED_REPO,
-  IGNORES,
+  isExcludedContributor,
+  isExcludedLogin,
   MORE_PEOPLE,
   MORE_REPO,
   OVERWRITES,
@@ -82,6 +83,9 @@ export const toKnownUsers = (
   const users = new Map<string, UserProfile>()
   previous.forEach(entry => {
     if (!entry || typeof entry.login !== 'string') {
+      return
+    }
+    if (isExcludedLogin(entry.login)) {
       return
     }
     const detailed = entry as unknown as Partial<Contributor>
@@ -178,8 +182,15 @@ export const aggregateContributors = async (
       if (!stat.author) {
         continue
       }
+      if (isExcludedContributor(stat.author)) {
+        continue
+      }
       const originalLogin = stat.author.login
-      logins.add(options.aliases[originalLogin] || originalLogin)
+      const login = options.aliases[originalLogin] || originalLogin
+      if (isExcludedLogin(login)) {
+        continue
+      }
+      logins.add(login)
     }
   }
 
@@ -200,13 +211,20 @@ export const aggregateContributors = async (
       const { total, weeks, author } = stat
       // Entries with a null author cannot be attributed to a user (e.g.
       // commits from deleted accounts); skip them. Historical attributable
-      // data is never removed by this.
+      // data is never removed by this. Bots are excluded before any profile
+      // lookup so they can never re-enter through aliases or known users.
       if (!author) {
+        continue
+      }
+      if (isExcludedContributor(author)) {
         continue
       }
 
       const originalLogin = author.login
       const login = options.aliases[originalLogin] || originalLogin
+      if (isExcludedLogin(login)) {
+        continue
+      }
       const existing = contributors[login]
 
       if (!existing) {
@@ -342,7 +360,7 @@ export const runBuild = async (deps: BuildDeps): Promise<BuildResult> => {
   const data: ContributorSimple[] = [
     ...MORE_PEOPLE,
     ..._.sortBy(overwritten, contributor => contributor.firstCommitTime),
-  ].filter(contributor => !IGNORES.includes(contributor.login))
+  ].filter(contributor => !isExcludedLogin(contributor.login))
 
   // Refresh public donors and avatar sprites (this already publishes
   // dist/avatars), then generate the complete JSON and SVG before writing the

@@ -43,6 +43,42 @@ export const ALIAS: Alias = {
 
 export const IGNORES = ['codacy-badger', 'dependabot-preview[bot]', 'renovate[bot]', 'dependabot[bot]']
 
+// Bot accounts that report as ordinary users rather than `type: Bot`.
+export const BOT_LOGINS = ['chiba-bot', 'claude']
+
+const EXCLUDED_LOGINS = new Set(
+  [...IGNORES, ...BOT_LOGINS].map(login => login.trim().toLowerCase()),
+)
+
+export interface ExcludableAuthor {
+  login: string
+  type?: string | null
+}
+
+// Shared, case-insensitive bot exclusion: GitHub `type: Bot`, `[bot]`-suffixed
+// logins, and the curated IGNORES/BOT_LOGINS lists. Deliberately does not match
+// arbitrary "bot" substrings, which appear in human names.
+export const isExcludedContributor = (
+  author: ExcludableAuthor | null | undefined,
+): boolean => {
+  if (!author || typeof author.login !== 'string') {
+    return false
+  }
+  if (
+    typeof author.type === 'string' &&
+    author.type.trim().toLowerCase() === 'bot'
+  ) {
+    return true
+  }
+  const login = author.login.trim().toLowerCase()
+  return login.endsWith('[bot]') || EXCLUDED_LOGINS.has(login)
+}
+
+// Login-only variant for stored people that no longer carry the GitHub type.
+export const isExcludedLogin = (login: string): boolean =>
+  isExcludedContributor({ login })
+
+
 export const OVERWRITES: ContributorOverwrite = {
   'Astra-RX': {
     html_url: 'http://www.weibo.com/pheliox',

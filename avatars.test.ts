@@ -392,7 +392,9 @@ describe('refreshAvatars', () => {
     } = {},
   ) => {
     const seenHeaders: Array<Record<string, unknown> | undefined> = []
+    const calls: string[] = []
     const fetchImpl = vi.fn(async (url: string, init?: RequestInit) => {
+      calls.push(url)
       seenHeaders.push(init?.headers as Record<string, unknown> | undefined)
       if (url.includes('rest.opencollective.com')) {
         if (overrides.ocFails) {
@@ -403,7 +405,7 @@ describe('refreshAvatars', () => {
       const buffer = overrides.images?.[url]
       return buffer ? imageResponse(buffer) : new Response('nope', { status: 404 })
     })
-    return { fetchImpl, seenHeaders }
+    return { fetchImpl, seenHeaders, calls }
   }
 
   it('publishes sheets and a manifest with ordered people and omitted missing images', async () => {
@@ -443,6 +445,39 @@ describe('refreshAvatars', () => {
     expect(await fs.pathExists(archivePath)).toBe(true)
     // No GitHub credentials ever forwarded to OC or image hosts.
     seenHeaders.forEach(headers => expect(headers?.Authorization).toBeUndefined())
+  })
+
+  it('excludes bots at the refresh boundary (protects build:avatars)', async () => {
+    const botContributor = {
+      login: 'github-actions[bot]',
+      name: '',
+      avatar_url: 'https://img.example/bot.png',
+      html_url: 'https://github.com/apps/github-actions',
+    } as ContributorSimple
+    const userBot = {
+      login: 'chiba-bot',
+      name: 'Chiba Bot',
+      avatar_url: 'https://img.example/chiba.png',
+      html_url: 'https://github.com/chiba-bot',
+    } as ContributorSimple
+    const { fetchImpl, calls } = routedFetch({
+      images: { 'https://img.example/alice.png': await makeImage(3, 3, 3) },
+    })
+    await refreshAvatars({
+      contributors: [...contributors, botContributor, userBot],
+      fetchImpl: fetchImpl as unknown as typeof fetch,
+      cacheDir,
+      distDir,
+      archivePath,
+    })
+    const manifest = await fs.readJson(join(distDir, MANIFEST_FILENAME))
+    expect(manifest.contributors.map((c: { login: string }) => c.login)).toEqual([
+      'Alice',
+    ])
+    expect(manifest.avatars['github:github-actions[bot]']).toBeUndefined()
+    expect(manifest.avatars['github:chiba-bot']).toBeUndefined()
+    expect(calls).not.toContain('https://img.example/bot.png')
+    expect(calls).not.toContain('https://img.example/chiba.png')
   })
 
   it('leaves the previous manifest byte-for-byte when OC fails', async () => {
