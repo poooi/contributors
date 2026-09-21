@@ -552,7 +552,7 @@
     "login": "KagamiChan",
     "name": "かがみ",
     "perRepo": {
-      "poooi/contributors": 63,
+      "poooi/contributors": 64,
       "poooi/dev.poi.moe": 43,
       "poooi/eslint-config-poi-plugin": 16,
       "poooi/fixtures": 1,
@@ -596,11 +596,11 @@
       "poooi/website-kai": 127
     },
     "stat": {
-      "a": 2940263,
-      "c": 4186,
-      "d": 812209
+      "a": 2942769,
+      "c": 4187,
+      "d": 861532
     },
-    "total": 4186
+    "total": 4187
   },
   {
     "avatar_url": "https://avatars.githubusercontent.com/u/1854100?v=4",
