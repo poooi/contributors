@@ -58,6 +58,17 @@ const readFileIfChanged = async (
 
 const serialize = (data: unknown): string => `${JSON.stringify(data, null, 2)}\n`
 
+// GitHub appends zero-activity weeks (`a = d = c = 0`) even when nothing
+// happened, which otherwise churns every archive. Drop them without mutating
+// the input by copying each stat with a filtered weeks array.
+const omitEmptyWeeks = (data: Stat[]): Stat[] =>
+  data.map(stat => ({
+    ...stat,
+    weeks: stat.weeks.filter(
+      week => week.a !== 0 || week.d !== 0 || week.c !== 0,
+    ),
+  }))
+
 // Load archived data for a repo. Returns null when no archive exists. A corrupt
 // archive is treated as absent (and will be rebuilt from the API) rather than
 // crashing the whole build.
@@ -90,7 +101,7 @@ export const saveCachedData = async (
 ): Promise<boolean> => {
   const filePath = getCacheFilePath(repoFullName, dir)
   await fs.ensureDir(dir)
-  return readFileIfChanged(filePath, serialize(data))
+  return readFileIfChanged(filePath, serialize(omitEmptyWeeks(data)))
 }
 
 // List all repos that have archived data.

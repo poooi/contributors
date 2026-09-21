@@ -76,6 +76,108 @@ describe('archive persistence', () => {
   })
 })
 
+describe('empty-week normalization', () => {
+  it('omits zero-activity weeks without mutating the input', async () => {
+    const input: Stat[] = [
+      {
+        total: 6,
+        weeks: [
+          { w: 1, a: 1, d: 0, c: 1 },
+          { w: 2, a: 0, d: 0, c: 0 },
+          { w: 3, a: 0, d: 0, c: 2 },
+          { w: 4, a: 2, d: 0, c: 0 },
+          { w: 5, a: 0, d: 3, c: 0 },
+        ],
+        author: { login: 'Alice' } as unknown as Stat['author'],
+      },
+    ]
+    const snapshot = JSON.parse(JSON.stringify(input))
+
+    expect(await saveCachedData('poooi/poi', input, dir)).toBe(true)
+    expect(await loadCachedData('poooi/poi', dir)).toEqual([
+      {
+        total: 6,
+        weeks: [
+          { w: 1, a: 1, d: 0, c: 1 },
+          { w: 3, a: 0, d: 0, c: 2 },
+          { w: 4, a: 2, d: 0, c: 0 },
+          { w: 5, a: 0, d: 3, c: 0 },
+        ],
+        author: { login: 'Alice' },
+      },
+    ])
+    expect(input).toEqual(snapshot)
+  })
+
+  it('skips rewriting when only appended zero weeks change', async () => {
+    const base: Stat[] = [
+      {
+        total: 3,
+        weeks: [{ w: 1, a: 3, d: 1, c: 2 }],
+        author: { login: 'Alice' } as unknown as Stat['author'],
+      },
+    ]
+    const appended: Stat[] = [
+      {
+        total: 3,
+        weeks: [
+          { w: 1, a: 3, d: 1, c: 2 },
+          { w: 2, a: 0, d: 0, c: 0 },
+        ],
+        author: { login: 'Alice' } as unknown as Stat['author'],
+      },
+    ]
+
+    expect(await saveCachedData('poooi/poi', base, dir)).toBe(true)
+    expect(await saveCachedData('poooi/poi', appended, dir)).toBe(false)
+    expect(await loadCachedData('poooi/poi', dir)).toEqual(base)
+  })
+
+  it('retains all-zero contributors and null authors', async () => {
+    const input: Stat[] = [
+      {
+        total: 0,
+        weeks: [{ w: 1, a: 0, d: 0, c: 0 }],
+        author: { login: 'Alice' } as unknown as Stat['author'],
+      },
+      { total: 0, weeks: [{ w: 1, a: 0, d: 0, c: 0 }], author: null },
+    ]
+
+    expect(await saveCachedData('poooi/poi', input, dir)).toBe(true)
+    const loaded = (await loadCachedData('poooi/poi', dir))!
+    expect(loaded).toHaveLength(2)
+    expect(loaded[0]).toMatchObject({ total: 0, weeks: [] })
+    expect(loaded[1].author).toBeNull()
+    expect(loaded[1].weeks).toEqual([])
+  })
+
+  it('normalizes a legacy archive that still contains empty weeks', async () => {
+    const legacy: Stat[] = [
+      {
+        total: 1,
+        weeks: [
+          { w: 1, a: 1, d: 0, c: 1 },
+          { w: 2, a: 0, d: 0, c: 0 },
+        ],
+        author: { login: 'Alice' } as unknown as Stat['author'],
+      },
+    ]
+    await fs.outputFile(
+      join(dir, 'poooi_poi.json'),
+      `${JSON.stringify(legacy, null, 2)}\n`,
+    )
+
+    expect(await saveCachedData('poooi/poi', legacy, dir)).toBe(true)
+    expect(await loadCachedData('poooi/poi', dir)).toEqual([
+      {
+        total: 1,
+        weeks: [{ w: 1, a: 1, d: 0, c: 1 }],
+        author: { login: 'Alice' },
+      },
+    ])
+  })
+})
+
 describe('repo manifest', () => {
   it('lists archived repos, ignores the manifest, keeps underscores', async () => {
     await saveCachedData('poooi/poi', stats('a'), dir)
