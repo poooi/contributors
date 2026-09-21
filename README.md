@@ -156,6 +156,11 @@ and a first-run OC failure publishing nothing.
   archived, before any profile lookup, and from the final output — so bot-only
   activity cannot churn `cache`/`dist`. Ordinary names that merely contain "bot"
   are untouched, and a bot-only payload never replaces a known human archive.
+- **Empty weeks are not archived.** GitHub appends zero-activity weeks
+  (`a = d = c = 0`) even when nothing happened. They carry no data and only churn
+  the archive, so they are dropped when a snapshot is serialized. Inputs are
+  copied rather than mutated, and every contributor (including null-author and
+  all-zero ones), total, metadata and ordering are preserved.
 - **Fatal persistence.** Archive writes go through a same-directory temp file
   and are write-if-changed, so a partial write cannot leave a truncated archive
   and a write failure fails the build instead of silently pretending success.

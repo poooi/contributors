@@ -3,7 +3,7 @@ import os from 'os'
 import { join } from 'path'
 import sharp from 'sharp'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { BuildOptions, createBuildDeps, runBuild } from './build'
+import { BuildDeps, BuildOptions, createBuildDeps, runBuild } from './build'
 import { avatarIds, AvatarManifest, sha256Hex } from './avatars'
 import { getContributors as fetchContributors, OctokitLike } from './github'
 import { saveCachedData } from './cache'
@@ -16,11 +16,13 @@ const BOB_URL = 'https://img.example/bob.png'
 const DONOR_URL = 'https://example.com/donor.png'
 
 const week: Week = { w: 1, a: 1, d: 0, c: 1 }
-const stat = (login: string, total: number): Stat => ({
+const statWithWeeks = (login: string, total: number, weeks: Week[]): Stat => ({
   total,
-  weeks: [week],
+  weeks,
   author: { login } as unknown as Stat['author'],
 })
+const stat = (login: string, total: number): Stat =>
+  statWithWeeks(login, total, [week])
 
 const botStat = (login: string, total: number): Stat => ({
   total,
@@ -148,6 +150,37 @@ const makeDeps = (fetchImpl: typeof fetch, aliceUrl: string = ALICE_URL) =>
       login.toLowerCase() === 'alice'
         ? profile('Alice', '', aliceUrl)
         : profile('Bob', 'Bob', BOB_URL),
+    log: () => {},
+    warn: () => {},
+  })
+
+// Deps that drive the real getContributors -> validation -> saveCachedData path
+// against an injected stats payload, exercising the archive persistence
+// boundary end to end.
+const realContributorDeps = (
+  fetchImpl: typeof fetch,
+  cacheDir: string,
+  raw: Stat[],
+): BuildDeps =>
+  createBuildDeps(buildOptions(fetchImpl), {
+    getRepos: async () => [{ full_name: 'poooi/poi' }],
+    getContributors: (owner, repo, previous) =>
+      fetchContributors(owner, repo, {
+        octokit: fakeOctokit(`${owner}/${repo}` === 'poooi/poi' ? raw : []),
+        previous,
+        retry: {
+          retries: 0,
+          minTimeout: 0,
+          maxTimeout: 0,
+          totalBudgetMs: 1000,
+          requestTimeoutMs: 1000,
+          sleep: async () => {},
+          now: () => 0,
+        },
+        save: (name, data) => saveCachedData(name, data, cacheDir),
+      }),
+    getUser: async login =>
+      profile(login, login, `https://img.example/${login}.png`),
     log: () => {},
     warn: () => {},
   })
@@ -415,28 +448,7 @@ describe('runBuild integration (real avatar + sprite + svg pipeline)', () => {
 
     const human = stat('Javran', 5)
     const depsFor = (raw: Stat[]) =>
-      createBuildDeps(buildOptions(fetchImpl), {
-        getRepos: async () => [{ full_name: 'poooi/poi' }],
-        getContributors: (owner, repo, previous) =>
-          fetchContributors(owner, repo, {
-            octokit: fakeOctokit(raw),
-            previous,
-            retry: {
-              retries: 0,
-              minTimeout: 0,
-              maxTimeout: 0,
-              totalBudgetMs: 1000,
-              requestTimeoutMs: 1000,
-              sleep: async () => {},
-              now: () => 0,
-            },
-            save: (name, data) => saveCachedData(name, data, cacheDir),
-          }),
-        getUser: async login =>
-          profile(login, login, `https://img.example/${login}.png`),
-        log: () => {},
-        warn: () => {},
-      })
+      realContributorDeps(fetchImpl, cacheDir, raw)
 
     await runBuild(depsFor([human, botStat('github-actions[bot]', 14)]))
     const manifestPath = join(dir, 'dist', 'avatars', 'manifest.json')
@@ -463,5 +475,81 @@ describe('runBuild integration (real avatar + sprite + svg pipeline)', () => {
     expect(
       await fs.readFile(join(dir, 'dist', 'avatars', secondManifest.sheets[0].url)),
     ).toEqual(first.sheet)
+  })
+
+  it('normalizes appended empty human weeks and resumes on real activity', async () => {
+    const cacheDir = join(dir, 'cache')
+    const humanUrl = 'https://img.example/Javran.png'
+    state.images[humanUrl] = await patternPng()
+    const fetchImpl = makeFetch(state).fetchImpl
+
+    const weekOne: Week = { w: 1000, a: 5, d: 1, c: 3 }
+    const emptyWeek: Week = { w: 2000, a: 0, d: 0, c: 0 }
+    const activeWeek: Week = { w: 2000, a: 2, d: 0, c: 1 }
+
+    await runBuild(
+      realContributorDeps(fetchImpl, cacheDir, [
+        statWithWeeks('Javran', 3, [weekOne]),
+      ]),
+    )
+    const archivePath = join(cacheDir, 'poooi_poi.json')
+    const manifestPath = join(dir, 'dist', 'avatars', 'manifest.json')
+    const firstManifest = (await fs.readJson(manifestPath)) as AvatarManifest
+    const first = {
+      cache: await fs.readFile(archivePath),
+      contributors: await fs.readFile(join(dir, 'dist', 'contributors.json')),
+      svg: await fs.readFile(join(dir, 'dist', 'graph.svg')),
+      manifest: await fs.readFile(manifestPath),
+      sheet: await fs.readFile(join(dir, 'dist', 'avatars', firstManifest.sheets[0].url)),
+    }
+    const firstContributors = JSON.parse(
+      first.contributors.toString('utf8'),
+    ) as Array<{ login: string; firstCommitTime: number }>
+    const firstCommitTime = firstContributors.find(
+      entry => entry.login === 'Javran',
+    )!.firstCommitTime
+
+    // GitHub appends a zero-activity week with identical human totals: nothing
+    // human-facing changes and the archive is not rewritten.
+    await runBuild(
+      realContributorDeps(fetchImpl, cacheDir, [
+        statWithWeeks('Javran', 3, [weekOne, emptyWeek]),
+      ]),
+    )
+    const secondManifest = (await fs.readJson(manifestPath)) as AvatarManifest
+    expect(await fs.readFile(archivePath)).toEqual(first.cache)
+    expect(await fs.readFile(join(dir, 'dist', 'contributors.json'))).toEqual(
+      first.contributors,
+    )
+    expect(await fs.readFile(join(dir, 'dist', 'graph.svg'))).toEqual(first.svg)
+    expect(await fs.readFile(manifestPath)).toEqual(first.manifest)
+    expect(
+      await fs.readFile(join(dir, 'dist', 'avatars', secondManifest.sheets[0].url)),
+    ).toEqual(first.sheet)
+
+    // The previously-empty week gains real activity: the archive and JSON
+    // counts update, and firstCommitTime is preserved.
+    await runBuild(
+      realContributorDeps(fetchImpl, cacheDir, [
+        statWithWeeks('Javran', 4, [weekOne, activeWeek]),
+      ]),
+    )
+    const archived = (await fs.readJson(archivePath)) as Stat[]
+    expect(archived[0].total).toBe(4)
+    expect(archived[0].weeks).toEqual([weekOne, activeWeek])
+
+    const contributors = JSON.parse(
+      await fs.readFile(join(dir, 'dist', 'contributors.json'), 'utf8'),
+    ) as Array<{
+      login: string
+      total: number
+      stat: { a: number; d: number; c: number }
+      firstCommitTime: number
+    }>
+    const javran = contributors.find(entry => entry.login === 'Javran')!
+    expect(javran.total).toBe(4)
+    expect(javran.stat).toEqual({ a: 7, d: 1, c: 4 })
+    expect(javran.firstCommitTime).toBe(firstCommitTime)
+    expect(firstCommitTime).toBe(1000)
   })
 })
