@@ -552,7 +552,7 @@
     "login": "KagamiChan",
     "name": "かがみ",
     "perRepo": {
-      "poooi/contributors": 64,
+      "poooi/contributors": 65,
       "poooi/dev.poi.moe": 43,
       "poooi/eslint-config-poi-plugin": 16,
       "poooi/fixtures": 1,
@@ -579,7 +579,7 @@
       "poooi/plugin-report": 169,
       "poooi/plugin-secretary": 66,
       "poooi/plugin-server": 6,
-      "poooi/plugin-ship-info": 551,
+      "poooi/plugin-ship-info": 553,
       "poooi/plugin-translator": 179,
       "poooi/poi": 1111,
       "poooi/poi-asset-themes": 16,
@@ -596,11 +596,11 @@
       "poooi/website-kai": 127
     },
     "stat": {
-      "a": 2942769,
-      "c": 4187,
-      "d": 861532
+      "a": 2962697,
+      "c": 4190,
+      "d": 2083762
     },
-    "total": 4187
+    "total": 4190
   },
   {
     "avatar_url": "https://avatars.githubusercontent.com/u/1854100?v=4",
