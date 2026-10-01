@@ -160,7 +160,7 @@
       "poooi/plugin-quest": 15,
       "poooi/plugin-report": 9,
       "poooi/plugin-secretary": 10,
-      "poooi/plugin-senka-calc": 39,
+      "poooi/plugin-senka-calc": 48,
       "poooi/plugin-ship-info": 50,
       "poooi/plugin-ship-panel-patcher": 19,
       "poooi/plugin-translator": 37,
@@ -177,11 +177,11 @@
       "ruiii/poi_theme_paper_dark": 2
     },
     "stat": {
-      "a": 601331,
-      "c": 4038,
-      "d": 511173
+      "a": 601793,
+      "c": 4047,
+      "d": 511433
     },
-    "total": 4038
+    "total": 4047
   },
   {
     "avatar_url": "https://avatars.githubusercontent.com/u/10855724?v=4",
