@@ -1,12 +1,12 @@
 {
-  "version": "556b0de345f045ab77fe86300f017aac6b83e9aec5342e2a9c6494ba048e1503",
+  "version": "f3058a38342866821a0653402bd6ac4f8ff6ceeebd1d114741787910e25ebd3e",
   "schemaVersion": 1,
   "cellSize": 96,
   "displaySize": 48,
   "pixelRatio": 2,
   "sheets": [
     {
-      "url": "avatars-0.8d64611da3186b57.webp",
+      "url": "avatars-0.82d590dbe6c8ebba.webp",
       "width": 1536,
       "height": 1056
     }
@@ -1056,7 +1056,7 @@
     {
       "id": "github:astra-rx",
       "login": "Astra-RX",
-      "name": "λ",
+      "name": "Astra",
       "profile": "http://www.weibo.com/pheliox"
     },
     {
