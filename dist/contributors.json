@@ -252,26 +252,30 @@
     "total": 878
   },
   {
-    "avatar_url": "https://avatars.githubusercontent.com/u/341015699?v=4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/1183568?v=4",
     "firstCommitTime": 1436659200,
     "html_url": "http://www.weibo.com/pheliox",
-    "id": 341015699,
-    "login": "Astra-RX",
-    "name": "Astra",
+    "id": 1183568,
+    "login": "Artoria9",
+    "name": "Artoria",
     "perRepo": {
-      "Astra-RX/paperblack": 31,
-      "Astra-RX/poi-theme-lumendark": 7,
+      "Artoria9/paperblack": 31,
+      "Artoria9/poi-theme-lumendark": 7,
+      "poooi/plugin-Akashic-records": 1,
       "poooi/plugin-exp-calculator": 1,
+      "poooi/plugin-expedition": 2,
+      "poooi/plugin-hensei-nikki": 3,
       "poooi/plugin-prophet": 7,
       "poooi/plugin-ship-info": 1,
-      "poooi/poi": 25
+      "poooi/poi": 25,
+      "poooi/poi-compact-info": 2
     },
     "stat": {
-      "a": 16062,
-      "c": 72,
-      "d": 11347
+      "a": 18066,
+      "c": 80,
+      "d": 11401
     },
-    "total": 72
+    "total": 80
   },
   {
     "avatar_url": "https://avatars.githubusercontent.com/u/5024901?v=4",
