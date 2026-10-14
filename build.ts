@@ -5,6 +5,7 @@ import _ from 'lodash'
 import { join } from 'path'
 
 import {
+  ACCOUNT_ALIAS,
   ALIAS,
   IGNORED_REPO,
   isExcludedContributor,
@@ -12,8 +13,14 @@ import {
   MORE_PEOPLE,
   MORE_REPO,
   OVERWRITES,
+  OVERWRITES_BY_ID,
 } from './config'
-import { getContributors as fetchContributors, getRepos, getUser } from './github'
+import {
+  getContributors as fetchContributors,
+  getRepos,
+  getUser,
+  getUserById,
+} from './github'
 import {
   CACHE_DIR,
   listCachedRepos,
@@ -37,6 +44,7 @@ import {
   Repo,
   Stat,
   UserProfile,
+  Week,
 } from './types'
 import { buildSvg, getFirstCommitTime, getImage, reduceStat } from './utils'
 
@@ -100,6 +108,35 @@ export const toKnownUsers = (
   return users
 }
 
+// Build a lookup of previously published users by stable numeric ID. This is
+// the only safe profile fallback for an identified contributor: a login-keyed
+// lookup could now belong to a different (recycled) account.
+export const toKnownUsersById = (
+  previous: ContributorSimple[],
+): Map<number, UserProfile> => {
+  const users = new Map<number, UserProfile>()
+  previous.forEach(entry => {
+    if (!entry || typeof entry.login !== 'string') {
+      return
+    }
+    if (isExcludedLogin(entry.login)) {
+      return
+    }
+    const detailed = entry as unknown as Partial<Contributor>
+    if (typeof detailed.id !== 'number' || !Number.isFinite(detailed.id)) {
+      return
+    }
+    users.set(detailed.id, {
+      login: entry.login,
+      name: detailed.name,
+      id: detailed.id,
+      avatar_url: entry.avatar_url,
+      html_url: entry.html_url,
+    })
+  })
+  return users
+}
+
 export interface RepoStats {
   repoName: string
   stats: Stat[]
@@ -109,6 +146,107 @@ export interface AggregateOptions {
   getUser: (login: string) => Promise<Record<string, unknown> | null>
   knownUsers: Map<string, UserProfile>
   aliases: Record<string, string>
+  // Identity-aware inputs. They are optional so callers without stable IDs keep
+  // working; identified contributors fall back conservatively when absent.
+  getUserById?: (id: number) => Promise<Record<string, unknown> | null>
+  knownUsersById?: Map<number, UserProfile>
+  accountAliases?: Record<number, number>
+  warn?: (message: string) => void
+}
+
+// Neutral profile URL for an identity that could not be resolved. The website
+// needs a valid HTTP profile URL, but the historical login may now belong to a
+// different (recycled) account, so link the bare GitHub host instead.
+export const NEUTRAL_PROFILE_URL = 'https://github.com/'
+
+// A `github.com/<user>` link is username-derived, so it is unsafe to attach to
+// an identity we could not resolve (the login may be recycled).
+const isGithubUsernameUrl = (value: unknown): boolean =>
+  typeof value === 'string' &&
+  /^https?:\/\/(www\.)?github\.com\/[^/]+\/?$/i.test(value)
+
+const authorNumericId = (author: Stat['author']): number | null => {
+  const id = (author as { id?: unknown } | null)?.id
+  return typeof id === 'number' && Number.isFinite(id) ? id : null
+}
+
+interface Accumulator {
+  identity: string
+  id: number | null
+  login: string
+  archivedLogin: string
+  total: number
+  stat: Pick<Week, 'a' | 'd' | 'c'>
+  perRepo: Record<string, number>
+  firstCommitTime: number
+}
+
+// Resolve an identified contributor by stable numeric ID. The lookup must
+// return the same ID to be trusted; a mismatch, 404 or transient failure keeps
+// the historical contribution/name/avatar and never links the old login.
+const resolveIdProfile = async (
+  accumulator: Accumulator,
+  options: AggregateOptions,
+  knownUsersById: Map<number, UserProfile>,
+): Promise<UserProfile> => {
+  const id = accumulator.id as number
+  const warn = options.warn ?? ((message: string) => console.warn(message))
+  if (options.getUserById) {
+    try {
+      const user = await options.getUserById(id)
+      if (
+        user &&
+        typeof user.id === 'number' &&
+        user.id === id &&
+        typeof user.avatar_url === 'string' &&
+        typeof user.html_url === 'string'
+      ) {
+        return {
+          login:
+            typeof user.login === 'string' && user.login.trim() !== ''
+              ? user.login
+              : accumulator.archivedLogin,
+          // Preserve `null` explicitly returned by GitHub rather than dropping
+          // the field.
+          name:
+            typeof user.name === 'string'
+              ? user.name
+              : user.name === null
+                ? null
+                : undefined,
+          id,
+          avatar_url: user.avatar_url,
+          html_url: user.html_url,
+        }
+      }
+      warn(
+        `⚠️  profile lookup for github id ${id} did not match the expected identity; keeping historical data`,
+      )
+    } catch (error) {
+      // A transient failure is never treated as a deletion; the next build
+      // retries the ID lookup.
+      warn(
+        `⚠️  failed to load profile for github id ${id}, keeping historical data: ${String(
+          error,
+        )}`,
+      )
+    }
+  }
+
+  // Fallback: a previously published profile for this exact ID supplies the
+  // historical login/name. The avatar is always ID-addressed: an archived
+  // avatar may belong to an alias source ID or be username-addressed, so it is
+  // not safe to attach to this identity. Never a login-keyed profile, which may
+  // be recycled.
+  const known = knownUsersById.get(id)
+  const knownForId = known && known.id === id ? known : undefined
+  return {
+    login: knownForId?.login ?? accumulator.archivedLogin,
+    name: knownForId?.name,
+    id,
+    avatar_url: `https://avatars.githubusercontent.com/u/${id}?v=4`,
+    html_url: NEUTRAL_PROFILE_URL,
+  }
 }
 
 const resolveProfile = async (
@@ -169,86 +307,125 @@ export const aggregateContributors = async (
   repoStats: RepoStats[],
   options: AggregateOptions,
 ): Promise<ContributorCollection> => {
-  const contributors: ContributorCollection = {}
+  const accountAliases = options.accountAliases ?? {}
+  const knownUsersById = options.knownUsersById ?? new Map<number, UserProfile>()
+  const warn = options.warn ?? ((message: string) => console.warn(message))
 
-  // Resolve the unique set of logins up front so profile lookups can run with
-  // bounded concurrency instead of sequentially.
-  const logins = new Set<string>()
-  for (const { stats } of repoStats) {
-    if (!Array.isArray(stats)) {
-      continue
-    }
-    for (const stat of stats) {
-      if (!stat.author) {
-        continue
-      }
-      if (isExcludedContributor(stat.author)) {
-        continue
-      }
-      const originalLogin = stat.author.login
-      const login = options.aliases[originalLogin] || originalLogin
-      if (isExcludedLogin(login)) {
-        continue
-      }
-      logins.add(login)
-    }
+  // Group by stable identity: the numeric account ID when known (so old/new
+  // login spellings of the same account merge), otherwise the login. Entries
+  // with a null author cannot be attributed and are skipped; bots are excluded
+  // before any profile lookup so they can never re-enter through aliases.
+  const accumulators = new Map<string, Accumulator>()
+
+  const accumulate = (acc: Accumulator, repoName: string, stat: Stat): void => {
+    acc.total += stat.total
+    acc.stat = reduceStat(stat.weeks, acc.stat)
+    acc.perRepo[repoName] = stat.total
+    acc.firstCommitTime = Math.min(
+      acc.firstCommitTime,
+      getFirstCommitTime(stat.weeks),
+    )
   }
-
-  const profiles = new Map<string, UserProfile>()
-  await bluebird.map(
-    [...logins],
-    async login => {
-      profiles.set(login, await resolveProfile(login, options))
-    },
-    { concurrency: PROFILE_CONCURRENCY },
-  )
 
   for (const { repoName, stats } of repoStats) {
     if (!Array.isArray(stats)) {
       continue
     }
     for (const stat of stats) {
-      const { total, weeks, author } = stat
-      // Entries with a null author cannot be attributed to a user (e.g.
-      // commits from deleted accounts); skip them. Historical attributable
-      // data is never removed by this. Bots are excluded before any profile
-      // lookup so they can never re-enter through aliases or known users.
-      if (!author) {
-        continue
-      }
-      if (isExcludedContributor(author)) {
+      const { author } = stat
+      if (!author || isExcludedContributor(author)) {
         continue
       }
 
-      const originalLogin = author.login
-      const login = options.aliases[originalLogin] || originalLogin
-      if (isExcludedLogin(login)) {
-        continue
-      }
-      const existing = contributors[login]
-
-      if (!existing) {
-        const profile = profiles.get(login)!
-        contributors[login] = {
-          avatar_url: profile.avatar_url,
-          firstCommitTime: getFirstCommitTime(weeks),
-          html_url: profile.html_url,
-          id: profile.id,
-          login: profile.login,
-          name: profile.name,
-          perRepo: { [repoName]: total },
-          stat: reduceStat(weeks),
-          total,
+      const id = authorNumericId(author)
+      let acc: Accumulator | undefined
+      if (id !== null) {
+        // A curated cross-account alias merges the source ID into the explicit
+        // target ID; otherwise the stable ID stands alone.
+        const effectiveId = accountAliases[id] ?? id
+        const identity = `id:${effectiveId}`
+        acc = accumulators.get(identity)
+        if (!acc) {
+          acc = {
+            identity,
+            id: effectiveId,
+            login: author.login,
+            archivedLogin: author.login,
+            total: 0,
+            stat: { a: 0, d: 0, c: 0 },
+            perRepo: {},
+            firstCommitTime: Infinity,
+          }
+          accumulators.set(identity, acc)
         }
       } else {
-        existing.total += total
-        existing.stat = reduceStat(weeks, existing.stat)
-        existing.perRepo[repoName] = total
-        existing.firstCommitTime = Math.min(
-          existing.firstCommitTime,
-          getFirstCommitTime(weeks),
-        )
+        const login = options.aliases[author.login] || author.login
+        if (isExcludedLogin(login)) {
+          continue
+        }
+        const identity = `login:${login.toLowerCase()}`
+        acc = accumulators.get(identity)
+        if (!acc) {
+          acc = {
+            identity,
+            id: null,
+            login,
+            archivedLogin: login,
+            total: 0,
+            stat: { a: 0, d: 0, c: 0 },
+            perRepo: {},
+            firstCommitTime: Infinity,
+          }
+          accumulators.set(identity, acc)
+        }
       }
+      accumulate(acc, repoName, stat)
+    }
+  }
+
+  const profiles = new Map<string, UserProfile>()
+  await bluebird.map(
+    [...accumulators.values()],
+    async accumulator => {
+      const profile =
+        accumulator.id !== null
+          ? await resolveIdProfile(accumulator, options, knownUsersById)
+          : await resolveProfile(accumulator.login, options)
+      profiles.set(accumulator.identity, profile)
+    },
+    { concurrency: PROFILE_CONCURRENCY },
+  )
+
+  const contributors: ContributorCollection = {}
+  const loginOwner = new Map<string, number | null>()
+  for (const accumulator of accumulators.values()) {
+    const profile = profiles.get(accumulator.identity)!
+    const login = profile.login
+    const loginKey = login.toLowerCase()
+    const owner = loginOwner.get(loginKey)
+    let key = login
+    if (owner !== undefined && owner !== accumulator.id) {
+      // Two different identities claim the same login (e.g. a recycled
+      // username across repos). Never merge or overwrite them silently.
+      warn(
+        `⚠️  login ${login} is claimed by different identities (${String(
+          owner,
+        )} and ${String(accumulator.id)}); keeping them separate`,
+      )
+      key = accumulator.identity
+    } else {
+      loginOwner.set(loginKey, accumulator.id)
+    }
+    contributors[key] = {
+      avatar_url: profile.avatar_url,
+      firstCommitTime: accumulator.firstCommitTime,
+      html_url: profile.html_url,
+      id: profile.id ?? accumulator.id,
+      login,
+      name: profile.name,
+      perRepo: accumulator.perRepo,
+      stat: accumulator.stat,
+      total: accumulator.total,
     }
   }
 
@@ -267,6 +444,7 @@ export interface BuildDeps {
     previous: Stat[] | null,
   ) => Promise<Stat[]>
   getUser: (login: string) => Promise<Record<string, unknown> | null>
+  getUserById: (id: number) => Promise<Record<string, unknown> | null>
   loadPreviousContributors: () => Promise<ContributorSimple[]>
   refreshAvatars: (
     contributors: ContributorSimple[],
@@ -336,10 +514,15 @@ export const runBuild = async (deps: BuildDeps): Promise<BuildResult> => {
 
   const previousOutput = await deps.loadPreviousContributors()
   const previousUsers = toKnownUsers(previousOutput)
+  const previousUsersById = toKnownUsersById(previousOutput)
   const collection = await aggregateContributors(repoStats, {
     getUser: deps.getUser,
     knownUsers: previousUsers,
     aliases: ALIAS,
+    getUserById: deps.getUserById,
+    knownUsersById: previousUsersById,
+    accountAliases: ACCOUNT_ALIAS,
+    warn: deps.warn,
   })
 
   // If we could not attribute a single contributor but we already have a full
@@ -351,10 +534,28 @@ export const runBuild = async (deps: BuildDeps): Promise<BuildResult> => {
   }
 
   // Apply overrides only to contributors that actually exist, so an override
-  // entry can never invent a phantom contributor.
-  const overwritten = _.mapValues(collection, (contributor, login) => {
-    const overwrite = OVERWRITES[login]
-    return overwrite ? _.merge({}, contributor, overwrite) : contributor
+  // entry can never invent a phantom contributor. Identified contributors are
+  // matched by stable numeric ID (following a legitimate rename, never a
+  // recycled login); only no-ID legacy rows fall back to the login-keyed map.
+  // An unresolved identity keeps its neutral profile link: a github.com/<user>
+  // override would otherwise re-introduce a username link that may now point at
+  // a recycled account.
+  const overwritten = _.mapValues(collection, contributor => {
+    const id =
+      typeof contributor.id === 'number' && Number.isFinite(contributor.id)
+        ? contributor.id
+        : null
+    const overwrite =
+      id !== null ? OVERWRITES_BY_ID[id] : OVERWRITES[contributor.login]
+    if (!overwrite) {
+      return contributor
+    }
+    const safeOverwrite =
+      contributor.html_url === NEUTRAL_PROFILE_URL &&
+      isGithubUsernameUrl(overwrite.html_url)
+        ? { ...overwrite, html_url: undefined }
+        : overwrite
+    return _.merge({}, contributor, safeOverwrite)
   })
 
   const data: ContributorSimple[] = [
@@ -493,6 +694,7 @@ export const createBuildDeps = (
         saveCachedData(repoFullName, data, options.repoCacheDir),
     }),
   getUser: login => getUser(login),
+  getUserById: id => getUserById(id),
   loadPreviousContributors: () => loadPreviousContributors(options.distDir),
   refreshAvatars: async contributors => {
     const result = await refreshAvatars({

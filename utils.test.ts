@@ -61,6 +61,34 @@ describe('buildSvg avatar fallback', () => {
     expect(svg).toContain('id="alice"')
   })
 
+  it('cannot reuse a former embedded avatar when a new ID reuses the login', async () => {
+    mockedFetch.mockRejectedValue(new Error('offline'))
+    const reusedLogin: ContributorSimple = {
+      login: 'alice',
+      id: 2,
+      avatar_url: 'https://avatars.example/alice.png',
+      html_url: 'https://github.com/alice',
+    }
+    const svgWithOldId = existingSvg.replace('id="alice"', 'id="github:id:1"')
+    await expect(
+      buildSvg([reusedLogin], { existingSvg: svgWithOldId }),
+    ).rejects.toThrow('offline')
+  })
+
+  it('reuses the embedded avatar across a same-ID rename', async () => {
+    mockedFetch.mockRejectedValue(new Error('offline'))
+    const renamed: ContributorSimple = {
+      login: 'alice-renamed',
+      id: 1,
+      avatar_url: 'https://avatars.example/alice.png',
+      html_url: 'https://github.com/alice-renamed',
+    }
+    const svgWithId = existingSvg.replace('id="alice"', 'id="github:id:1"')
+    const svg = await buildSvg([renamed], { existingSvg: svgWithId })
+    expect(svg).toContain('data:png;base64,UHJpb3I=')
+    expect(svg).toContain('id="github:id:1"')
+  })
+
   it('fails the render when an avatar cannot be fetched and has no fallback', async () => {
     mockedFetch.mockRejectedValue(new Error('offline'))
     await expect(buildSvg([alice])).rejects.toThrow('offline')

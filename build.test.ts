@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { MORE_REPO, OVERWRITES } from './config'
+import { MORE_REPO, OVERWRITES, OVERWRITES_BY_ID } from './config'
 import {
   aggregateContributors,
   BuildDeps,
@@ -28,6 +28,12 @@ const bot = (login: string, type = 'Bot', total = 1): Stat => ({
   total,
   weeks: [week()],
   author: { login, type } as unknown as Stat['author'],
+})
+
+const statWithId = (login: string, id: number, total = 1): Stat => ({
+  total,
+  weeks: [week()],
+  author: { login, id } as unknown as Stat['author'],
 })
 
 describe('splitRepo', () => {
@@ -161,6 +167,192 @@ describe('aggregateContributors', () => {
     expect(getUser).toHaveBeenCalledTimes(1)
     expect(getUser).toHaveBeenCalledWith('Javran')
   })
+
+  it('groups the same numeric ID across old and new login spellings', async () => {
+    const collection = await aggregateContributors(
+      [
+        { repoName: 'a/repo', stats: [statWithId('OldName', 42, 2)] },
+        { repoName: 'b/repo', stats: [statWithId('NewName', 42, 3)] },
+      ],
+      {
+        getUser: async () => {
+          throw new Error('must not look up an identified source by login')
+        },
+        knownUsers: new Map(),
+        aliases: {},
+        getUserById: async id => ({
+          login: 'NewName',
+          id,
+          avatar_url: 'https://a/42',
+          html_url: 'https://github.com/NewName',
+        }),
+      },
+    )
+    expect(Object.keys(collection)).toEqual(['NewName'])
+    expect(collection.NewName).toMatchObject({
+      id: 42,
+      total: 5,
+      perRepo: { 'a/repo': 2, 'b/repo': 3 },
+    })
+  })
+
+  it('merges a curated numeric alias source ID into its explicit target ID', async () => {
+    const getUserById = vi.fn(async (id: number) => ({
+      login: id === 3337921 ? 'yukixz' : 'dazzyd',
+      id,
+      avatar_url: 'https://a',
+      html_url: `https://github.com/${id}`,
+    }))
+    const collection = await aggregateContributors(
+      [
+        { repoName: 'a/repo', stats: [statWithId('dazzyd', 17616866, 2)] },
+        { repoName: 'b/repo', stats: [statWithId('yukixz', 3337921, 3)] },
+      ],
+      {
+        getUser: async () => {
+          throw new Error('alias must not be resolved by username lookup')
+        },
+        knownUsers: new Map(),
+        aliases: { dazzyd: 'yukixz' },
+        accountAliases: { 17616866: 3337921 },
+        getUserById,
+      },
+    )
+    expect(Object.keys(collection)).toEqual(['yukixz'])
+    expect(collection.yukixz.total).toBe(5)
+    expect(getUserById).toHaveBeenCalledWith(3337921)
+    expect(getUserById).not.toHaveBeenCalledWith(17616866)
+  })
+
+  it('does not merge different IDs that share a login, and warns', async () => {
+    const warn = vi.fn()
+    const collection = await aggregateContributors(
+      [
+        { repoName: 'a/repo', stats: [statWithId('Shared', 100, 2)] },
+        { repoName: 'b/repo', stats: [statWithId('Shared', 200, 3)] },
+      ],
+      {
+        getUser: async () => {
+          throw new Error('must not look up an identified source by login')
+        },
+        knownUsers: new Map(),
+        aliases: {},
+        warn,
+        getUserById: async id => ({
+          login: 'Shared',
+          id,
+          avatar_url: 'https://a',
+          html_url: `https://github.com/u${id}`,
+        }),
+      },
+    )
+    expect(
+      Object.values(collection)
+        .map(entry => entry.total)
+        .sort((a, b) => a - b),
+    ).toEqual([2, 3])
+    expect(warn).toHaveBeenCalled()
+  })
+
+  it('falls back to ID-addressed data when the live lookup returns a mismatched ID', async () => {
+    const warn = vi.fn()
+    const collection = await aggregateContributors(
+      [{ repoName: 'a/repo', stats: [statWithId('Ghost', 555, 4)] }],
+      {
+        getUser: async () => {
+          throw new Error('must not look up an identified source by login')
+        },
+        knownUsers: new Map(),
+        aliases: {},
+        warn,
+        getUserById: async () => ({
+          login: 'Imposter',
+          id: 999,
+          avatar_url: 'https://evil/avatar.png',
+          html_url: 'https://github.com/Imposter',
+        }),
+      },
+    )
+    expect(collection.Ghost).toMatchObject({
+      id: 555,
+      login: 'Ghost',
+      total: 4,
+      html_url: 'https://github.com/',
+      avatar_url: 'https://avatars.githubusercontent.com/u/555?v=4',
+    })
+    expect(warn).toHaveBeenCalled()
+  })
+
+  it('preserves contributions with a neutral link for a deleted (404) ID', async () => {
+    const collection = await aggregateContributors(
+      [{ repoName: 'a/repo', stats: [statWithId('Gone', 777, 6)] }],
+      {
+        getUser: async () => {
+          throw new Error('must not look up an identified source by login')
+        },
+        knownUsers: new Map(),
+        aliases: {},
+        getUserById: async () => null,
+      },
+    )
+    expect(collection.Gone).toMatchObject({
+      total: 6,
+      html_url: 'https://github.com/',
+      avatar_url: 'https://avatars.githubusercontent.com/u/777?v=4',
+    })
+  })
+
+  it('never treats a transient lookup failure as deletion and retries each build', async () => {
+    const getUserById = vi.fn(async () => {
+      throw { status: 500 }
+    })
+    const collection = await aggregateContributors(
+      [{ repoName: 'a/repo', stats: [statWithId('Flaky', 888, 7)] }],
+      {
+        getUser: async () => {
+          throw new Error('must not look up an identified source by login')
+        },
+        knownUsers: new Map(),
+        aliases: {},
+        getUserById,
+      },
+    )
+    expect(collection.Flaky.total).toBe(7)
+    expect(collection.Flaky.html_url).toBe('https://github.com/')
+    expect(getUserById).toHaveBeenCalledWith(888)
+  })
+
+  it('uses a matching-ID known profile for name/login but never a wrong-ID avatar', async () => {
+    const collection = await aggregateContributors(
+      [{ repoName: 'a/repo', stats: [statWithId('OldLogin', 321, 1)] }],
+      {
+        getUser: async () => {
+          throw new Error('must not look up an identified source by login')
+        },
+        knownUsers: new Map(),
+        knownUsersById: new Map([
+          [
+            321,
+            {
+              login: 'KnownLogin',
+              name: 'Known Name',
+              id: 321,
+              avatar_url: 'https://evil/wrong.png',
+              html_url: 'https://github.com/KnownLogin',
+            },
+          ],
+        ]),
+        aliases: {},
+        getUserById: async () => null,
+      },
+    )
+    expect(collection.KnownLogin).toMatchObject({
+      id: 321,
+      name: 'Known Name',
+      avatar_url: 'https://avatars.githubusercontent.com/u/321?v=4',
+      html_url: 'https://github.com/',
+    })
+  })
 })
 
 interface Harness {
@@ -178,6 +370,12 @@ const makeHarness = (overrides: Partial<BuildDeps> = {}): Harness => {
     loadCachedData: async () => null,
     getContributors: async () => [stat('Javran', 1)],
     getUser: async login => ({ login, avatar_url: `https://a/${login}`, html_url: `https://h/${login}` }),
+    getUserById: async id => ({
+      login: `user${id}`,
+      id,
+      avatar_url: `https://a/${id}`,
+      html_url: `https://github.com/user${id}`,
+    }),
     loadPreviousContributors: async () => [],
     refreshAvatars: async () => ({ images: new Map(), skipped: false }),
     buildSvg: async () => '<svg/>',
@@ -268,14 +466,61 @@ describe('runBuild', () => {
 
   it('applies overrides only to collected contributors, never inventing one', async () => {
     const { deps, writes } = makeHarness({
-      getContributors: async () => [stat('Astra-RX', 1)],
+      getContributors: async () => [stat('Chibaheit', 1)],
     })
     await runBuild(deps)
     const json = JSON.parse(writes[0].json) as Array<{ login: string; html_url: string }>
-    const astra = json.find(entry => entry.login === 'Astra-RX')
-    expect(astra?.html_url).toBe(OVERWRITES['Astra-RX'].html_url)
+    const chiba = json.find(entry => entry.login === 'Chibaheit')
+    expect(chiba?.html_url).toBe(OVERWRITES['Chibaheit'].html_url)
     // A different override key was not collected, so it must not appear.
-    expect(json.some(entry => entry.login === 'Chibaheit')).toBe(false)
+    expect(json.some(entry => entry.login === 'Artoria9')).toBe(false)
+  })
+
+  it('pins overrides by numeric ID so they follow a legitimate rename', async () => {
+    const { deps, writes } = makeHarness({
+      getContributors: async () => [statWithId('Artoria9', 1183568, 1)],
+      getUserById: async id => ({
+        login: 'Artoria9',
+        id,
+        avatar_url: 'https://a/1',
+        html_url: 'https://github.com/Artoria9',
+      }),
+    })
+    await runBuild(deps)
+    const json = JSON.parse(writes[0].json) as Array<{ login: string; html_url: string }>
+    expect(json.find(entry => entry.login === 'Artoria9')?.html_url).toBe(
+      OVERWRITES_BY_ID[1183568].html_url,
+    )
+  })
+
+  it('never lets a recycled login inherit a pinned override', async () => {
+    const { deps, writes } = makeHarness({
+      getContributors: async () => [statWithId('Artoria9', 999999, 1)],
+      getUserById: async id => ({
+        login: 'Artoria9',
+        id,
+        avatar_url: 'https://a/1',
+        html_url: 'https://github.com/Artoria9',
+      }),
+    })
+    await runBuild(deps)
+    const json = JSON.parse(writes[0].json) as Array<{ login: string; html_url: string }>
+    // Same login, different ID: the curated weibo link must not be inherited.
+    expect(json.find(entry => entry.login === 'Artoria9')?.html_url).toBe(
+      'https://github.com/Artoria9',
+    )
+  })
+
+  it('does not let an unresolved ID re-acquire a github username override link', async () => {
+    const { deps, writes } = makeHarness({
+      getContributors: async () => [statWithId('hanzhao', 6753092, 1)],
+      getUserById: async () => null,
+    })
+    await runBuild(deps)
+    const json = JSON.parse(writes[0].json) as Array<{ login: string; html_url: string }>
+    expect(json.find(entry => entry.login === 'hanzhao')?.html_url).toBe(
+      'https://github.com/',
+    )
   })
 
   it('never publishes bots even if a collector returns them', async () => {

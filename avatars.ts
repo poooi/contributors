@@ -13,6 +13,7 @@ import {
   Supporter,
 } from './opencollective'
 import { ContributorSimple } from './types'
+import { githubNumericIdentity } from './utils'
 
 export const CELL_SIZE = 96
 export const DISPLAY_SIZE = 48
@@ -444,9 +445,16 @@ export const refreshAvatars = async (
     contributor => !isExcludedLogin(contributor.login),
   )
 
+  // Identity is keyed by stable numeric GitHub ID when known, so a recycled
+  // login can never reuse another person's cached image; manual/legacy entries
+  // without an ID keep the login-based key. No runtime migration of existing
+  // login-keyed caches happens here (they cannot be proven to be the same
+  // person); verified caches are seeded offline during the transition.
   const contributors: ManifestContributor[] = contributorInputs.map(
     contributor => ({
-      id: `github:${contributor.login.toLowerCase()}`,
+      id:
+        githubNumericIdentity(contributor.id) ??
+        `github:${contributor.login.toLowerCase()}`,
       login: contributor.login,
       name: normalizeContributorName(contributor),
       profile: isHttpUrl(contributor.html_url)

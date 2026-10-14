@@ -55,7 +55,7 @@ export interface ContributorCollection {
 
 export type ContributorSimple = Pick<
   Contributor,
-  'html_url' | 'avatar_url' | 'login'
+  'html_url' | 'avatar_url' | 'login' | 'id'
 >
 
 // Fields used to render and aggregate a contributor. A profile may be partial
@@ -68,11 +68,24 @@ export interface UserProfile {
   avatar_url: string
   html_url: string
 }
+export type ContributorOverride = Partial<
+  Pick<Contributor, 'html_url' | 'avatar_url' | 'login' | 'name'>
+>
 export interface ContributorOverwrite {
-  [key: string]: Partial<
-    Pick<Contributor, 'html_url' | 'avatar_url' | 'login' | 'name'>
-  >
+  [key: string]: ContributorOverride
+}
+// Overrides pinned to a stable numeric GitHub ID so a curated link/name/avatar
+// follows a legitimate rename and can never be inherited by a recycled login.
+export interface ContributorOverwriteById {
+  [id: number]: ContributorOverride
 }
 export interface Alias {
   [key: string]: string
+}
+
+// Deliberate cross-account merges, pinned by stable numeric GitHub ID
+// (sourceId -> targetId). Because the pair is explicit, a recycled login can
+// never inherit the merge: only these exact IDs are joined.
+export interface AccountAlias {
+  [id: number]: number
 }
