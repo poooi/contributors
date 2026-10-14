@@ -166,38 +166,6 @@
     }
   },
   {
-    "total": 2,
-    "weeks": [
-      {
-        "w": 1439078400,
-        "a": 63,
-        "d": 15,
-        "c": 2
-      }
-    ],
-    "author": {
-      "login": "Astra-RX",
-      "id": 341015699,
-      "node_id": "U_kgDOFFN8kw",
-      "avatar_url": "https://avatars.githubusercontent.com/u/341015699?v=4",
-      "gravatar_id": "",
-      "url": "https://api.github.com/users/Astra-RX",
-      "html_url": "https://github.com/Astra-RX",
-      "followers_url": "https://api.github.com/users/Astra-RX/followers",
-      "following_url": "https://api.github.com/users/Astra-RX/following{/other_user}",
-      "gists_url": "https://api.github.com/users/Astra-RX/gists{/gist_id}",
-      "starred_url": "https://api.github.com/users/Astra-RX/starred{/owner}{/repo}",
-      "subscriptions_url": "https://api.github.com/users/Astra-RX/subscriptions",
-      "organizations_url": "https://api.github.com/users/Astra-RX/orgs",
-      "repos_url": "https://api.github.com/users/Astra-RX/repos",
-      "events_url": "https://api.github.com/users/Astra-RX/events{/privacy}",
-      "received_events_url": "https://api.github.com/users/Astra-RX/received_events",
-      "type": "User",
-      "user_view_type": "public",
-      "site_admin": false
-    }
-  },
-  {
     "total": 4,
     "weeks": [
       {
