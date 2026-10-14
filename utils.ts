@@ -11,6 +11,19 @@ const fetchOptions: RequestInit = {
   },
 }
 
+// Shared identity namespace: a stable numeric GitHub ID maps to
+// `github:id:<id>`; callers fall back to the lowercase login when no ID is
+// known (manual/legacy entries). A numeric GitHub username is legal, so the
+// `id:` marker prevents `github:123` colliding with a legacy login `123`.
+export const githubNumericIdentity = (id: unknown): string | null =>
+  typeof id === 'number' && Number.isFinite(id) ? `github:id:${id}` : null
+
+// SVG fallback key. Identified contributors key by numeric ID so a recycled
+// login can never reuse a former embedded image; no-ID rows keep the raw login
+// for existing consumers.
+export const svgContributorKey = (contributor: ContributorSimple): string =>
+  githubNumericIdentity(contributor.id) ?? contributor.login
+
 const AVATAR_SIZE = 64
 const AVATAR_RETRIES = 1
 const AVATAR_TIMEOUT_MS = 5_000
@@ -126,9 +139,11 @@ export const buildSvg = async (
     ? parseEmbeddedAvatars(options.existingSvg)
     : new Map<string, string>()
   const loadImage = options.getImage ?? getImage
+  const keys = contributors.map(svgContributorKey)
   const data = await bluebird.map(
     contributors,
-    ({ avatar_url, login }) => loadImage(avatar_url, embedded.get(login)),
+    (contributor, index) =>
+      loadImage(contributor.avatar_url, embedded.get(keys[index])),
     { concurrency: AVATAR_CONCURRENCY },
   )
   let posX = MARGIN
@@ -142,7 +157,7 @@ export const buildSvg = async (
     const image = `<image x="${posX}" y="${posY}" width="${AVATAR_SIZE}" height="${AVATAR_SIZE}" xlink:href="data:png;base64,${data[index]}"/>`
     imgs.push(`<a xlink:href="${escapeXmlAttribute(
       p.html_url,
-    )}" target="_blank" id="${escapeXmlAttribute(p.login)}">
+    )}" target="_blank" id="${escapeXmlAttribute(keys[index])}">
       ${image}
       <rect x="${posX - 2}" y="${posY - 2}" width="${AVATAR_SIZE +
       4}" height="${AVATAR_SIZE +

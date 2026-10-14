@@ -31,6 +31,9 @@ export interface OctokitLike {
       getByUsername: (args: {
         username: string
       } & RequestSignal) => Promise<{ data: unknown }>
+      getById: (args: {
+        account_id: number
+      } & RequestSignal) => Promise<{ data: unknown }>
     }
   }
   paginate: (method: unknown, args: unknown) => Promise<unknown[]>
@@ -315,6 +318,17 @@ export interface GetContributorsOptions {
 const withoutBots = (stats: Stat[]): Stat[] =>
   stats.filter(entry => !isExcludedContributor(entry.author))
 
+// Stable identity of a stat author: the numeric GitHub account id when known,
+// otherwise null. Comparing this first is what makes identity checks immune to
+// username reuse and account renames.
+const authorAccountId = (author: Stat['author']): number | null => {
+  if (!author) {
+    return null
+  }
+  const id = (author as { id?: unknown }).id
+  return typeof id === 'number' && Number.isFinite(id) ? id : null
+}
+
 // Always refresh from GitHub on a normal build, but never replace valid
 // historical data with a failure, empty or malformed response. The previous
 // archive (if any) is returned as a fallback, with any legacy bot rows removed.
@@ -374,29 +388,109 @@ export const getContributors = async (
     return []
   }
 
-  // GitHub can return null-author entries that hide identities which were
-  // previously attributable (e.g. account renames/deletions). If that hides a
-  // contributor we already know about, keep the entire previous human snapshot
-  // rather than mixing fresh totals heuristically. Bot disappearance is ignored
-  // so it can never freeze a genuine human refresh.
-  const knownLogins = new Set(
-    previouslyKnown.filter(stat => stat.author).map(stat => stat.author!.login),
-  )
-  const freshLogins = new Set(
-    fresh.filter(stat => stat.author).map(stat => stat.author!.login),
-  )
-  const hasNullAuthors = fresh.some(stat => !stat.author)
-  const lostIdentities = [...knownLogins].filter(login => !freshLogins.has(login))
-
-  if (hasNullAuthors && lostIdentities.length > 0) {
-    console.warn(
-      `⚠️  ${repoFullName}: fresh data hides known contributor(s) (${lostIdentities.join(
-        ', ',
-      )}); keeping previous archived stats`,
-    )
-    return previouslyKnown
+  // Reconcile per identity against the previous archive. Match by stable
+  // numeric ID whenever the previous row has one, otherwise by case-insensitive
+  // login (legacy rows without IDs only). A same-ID rename or updated stats
+  // supersede the previous row. A previous human missing from fresh data is
+  // retained. A fresh row reusing that human's login with an ID that was not
+  // previously known (including a missing ID when the previous ID is known) is a
+  // misattributed replacement and is dropped, even when the original ID also
+  // reappears under a renamed login; a previously known ID taking over the login
+  // is a legitimate rename and is allowed.
+  // Every archived login pinned to the ID(s) previously recorded for it, plus
+  // the set of all archived IDs (globally known identities).
+  const previousIds = new Set<number>()
+  const previousPinnedByLogin = new Map<string, Set<number>>()
+  for (const stat of previouslyKnown) {
+    const author = stat.author
+    if (!author) {
+      continue
+    }
+    const id = authorAccountId(author)
+    if (id === null) {
+      continue
+    }
+    previousIds.add(id)
+    const loginKey = author.login.toLowerCase()
+    const pinned = previousPinnedByLogin.get(loginKey)
+    if (pinned) {
+      pinned.add(id)
+    } else {
+      previousPinnedByLogin.set(loginKey, new Set([id]))
+    }
   }
 
+  // A fresh row is a misattributed claimant when it reuses a login previously
+  // pinned to a different identity and its own ID is neither that pinned ID nor
+  // any other previously known ID. Deciding per row (not per login) keeps the
+  // result independent of fresh row order and never drops a trusted row that
+  // shares its login with a claimant.
+  const isConflictingClaimant = (stat: Stat): boolean => {
+    const author = stat.author
+    if (!author) {
+      return false
+    }
+    const pinned = previousPinnedByLogin.get(author.login.toLowerCase())
+    if (!pinned) {
+      return false
+    }
+    const id = authorAccountId(author)
+    if (id !== null && (pinned.has(id) || previousIds.has(id))) {
+      return false
+    }
+    return true
+  }
+
+  const accepted = fresh.filter(stat => !isConflictingClaimant(stat))
+  const droppedClaimants = fresh.filter(isConflictingClaimant)
+
+  // Retain an archived identity only when no accepted fresh row accounts for it.
+  const acceptedIds = new Set<number>()
+  const acceptedLogins = new Set<string>()
+  for (const stat of accepted) {
+    const author = stat.author
+    if (!author) {
+      continue
+    }
+    const id = authorAccountId(author)
+    if (id !== null) {
+      acceptedIds.add(id)
+    }
+    acceptedLogins.add(author.login.toLowerCase())
+  }
+
+  const retained: Stat[] = []
+  for (const stat of previouslyKnown) {
+    const author = stat.author
+    if (!author) {
+      continue
+    }
+    const id = authorAccountId(author)
+    if (id !== null) {
+      if (!acceptedIds.has(id)) {
+        retained.push(stat)
+      }
+    } else if (!acceptedLogins.has(author.login.toLowerCase())) {
+      retained.push(stat)
+    }
+  }
+
+  if (droppedClaimants.length > 0) {
+    console.warn(
+      `⚠️  ${repoFullName}: fresh data reused login(s) with a different identity (${droppedClaimants
+        .map(stat => stat.author!.login)
+        .join(', ')}); dropped the fresh claimant and kept the archived identity`,
+    )
+  }
+  if (retained.length > 0) {
+    console.warn(
+      `⚠️  ${repoFullName}: retaining ${retained.length} archived contributor row(s) missing from fresh data (${retained
+        .map(stat => stat.author!.login)
+        .join(', ')})`,
+    )
+  }
+
+  const hasNullAuthors = fresh.some(stat => !stat.author)
   if (hasNullAuthors) {
     console.warn(
       `⚠️  ${repoFullName}: ${fresh.filter(stat => !stat.author).length}/${
@@ -405,9 +499,13 @@ export const getContributors = async (
     )
   }
 
-  await save(repoFullName, fresh)
-  console.info(`✅ Refreshed ${fresh.length} contributors for ${repoFullName}`)
-  return fresh
+  const reconciled = [...accepted, ...retained]
+  await save(repoFullName, reconciled)
+  console.info(
+    `✅ Refreshed ${accepted.length} contributors for ${repoFullName}` +
+      (retained.length > 0 ? ` (retained ${retained.length} archived)` : ''),
+  )
+  return reconciled
 }
 
 export const getRepos = async (octokit?: OctokitLike): Promise<Repo[]> => {
@@ -439,6 +537,34 @@ export const getUser = async (
       signal =>
         client.rest.users.getByUsername({
           username: login,
+          request: { signal },
+        }),
+    )
+    return (response.data as Record<string, unknown>) ?? null
+  } catch (error) {
+    if (getStatus(error) === 404) {
+      return null
+    }
+    throw error
+  }
+}
+
+// Look an account up by its stable numeric ID (`GET /user/{account_id}`). A 404
+// returns null: the account is not found/unavailable, which may indicate
+// deletion but is not definitive proof of it. Timeouts, rate limits and 5xx are
+// transient failures and throw, so the caller never mistakes an outage for a
+// deletion and can retry on a future build.
+export const getUserById = async (
+  accountId: number,
+  octokit?: OctokitLike,
+): Promise<Record<string, unknown> | null> => {
+  const client = await asClient(octokit)
+  try {
+    const response = await withRequestTimeout(
+      USER_REQUEST_TIMEOUT_MS,
+      signal =>
+        client.rest.users.getById({
+          account_id: accountId,
           request: { signal },
         }),
     )

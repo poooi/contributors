@@ -1,4 +1,11 @@
-import { Alias, ContributorOverwrite, ContributorSimple } from './types'
+import {
+  AccountAlias,
+  Alias,
+  ContributorOverride,
+  ContributorOverwrite,
+  ContributorOverwriteById,
+  ContributorSimple,
+} from './types'
 
 export const ORG_REPOS = 'https://api.github.com/orgs/poooi/repos?per_page=100'
 
@@ -7,9 +14,9 @@ export const MORE_REPO = [
   'ruiii/plugin-Hairstrength',
   'dkwingsmt/plugin-wheres-my-fuel-gone',
   'ruiii/poi_theme_paper_dark',
-  'Astra-RX/poi-theme-lumendark',
+  'Artoria9/poi-theme-lumendark',
   'govizlora/theme-papercyan',
-  'Astra-RX/paperblack',
+  'Artoria9/paperblack',
   'kcwikizh/poi-plugin-subtitle',
   'kcwikizh/poi-statistics',
   'Javran/poi-plugin-mo2',
@@ -36,9 +43,20 @@ export const MORE_PEOPLE: ContributorSimple[] = [
   },
 ]
 
+// Login-based alias: retained only for legacy archive rows that carry no
+// stable GitHub ID. Identified data uses ACCOUNT_ALIAS below instead, so a
+// recycled login can never inherit a curated merge.
 export const ALIAS: Alias = {
   dazzyd: 'yukixz',
   magicae: 'hanzhao',
+}
+
+// Deliberate cross-account merges pinned by stable numeric GitHub ID. These are
+// intentional policy (two accounts, same person), not same-ID renames, and the
+// target ID is explicit so it is never inferred from a fresh username lookup.
+export const ACCOUNT_ALIAS: AccountAlias = {
+  17616866: 3337921, // dazzyd -> yukixz
+  155210104: 6753092, // magicae -> hanzhao
 }
 
 export const IGNORES = ['codacy-badger', 'dependabot-preview[bot]', 'renovate[bot]', 'dependabot[bot]']
@@ -79,39 +97,59 @@ export const isExcludedLogin = (login: string): boolean =>
   isExcludedContributor({ login })
 
 
+// Curated override bodies, defined once and referenced by both the ID-pinned
+// and login-keyed maps so there is no duplicated configuration.
+const artoria9: ContributorOverride = { html_url: 'http://www.weibo.com/pheliox' }
+const chibaheit: ContributorOverride = { html_url: 'http://weibo.com/chibaheit' }
+const javran: ContributorOverride = {
+  avatar_url:
+    'https://gist.githubusercontent.com/Javran/02ac7ebefc307829d02e5dc942f8ef28/raw/250x250.png',
+}
+const jenningswu: ContributorOverride = {
+  html_url: 'http://www.weibo.com/jenningswu',
+  name: '吴钩霜雪明',
+}
+const kochiyaocean: ContributorOverride = { html_url: 'http://www.kochiyaocean.org' }
+const malichan: ContributorOverride = {
+  html_url: 'http://www.weibo.com/1791427467',
+  name: '马里酱',
+}
+const myzwillmake: ContributorOverride = { html_url: 'http://weibo.com/myzwillmake' }
+const yukixz: ContributorOverride = { html_url: 'http://dazzyd.org/' }
+const zyc434343: ContributorOverride = {
+  html_url: 'http://weibo.com/zyc43',
+  name: 'ZYC',
+}
+const hanzhao: ContributorOverride = { html_url: 'https://github.com/hanzhao' }
+
+// Login-keyed overrides, applied only to legacy rows that carry no stable
+// numeric ID. Identified contributors use OVERWRITES_BY_ID below.
 export const OVERWRITES: ContributorOverwrite = {
-  'Astra-RX': {
-    html_url: 'http://www.weibo.com/pheliox',
-  },
-  Chibaheit: {
-    html_url: 'http://weibo.com/chibaheit',
-  },
-  Javran: {
-    avatar_url:
-      'https://gist.githubusercontent.com/Javran/02ac7ebefc307829d02e5dc942f8ef28/raw/250x250.png',
-  },
-  JenningsWu: {
-    html_url: 'http://www.weibo.com/jenningswu',
-    name: '吴钩霜雪明',
-  },
-  KochiyaOcean: {
-    html_url: 'http://www.kochiyaocean.org',
-  },
-  malichan: {
-    html_url: 'http://www.weibo.com/1791427467',
-    name: '马里酱',
-  },
-  myzWILLmake: {
-    html_url: 'http://weibo.com/myzwillmake',
-  },
-  yukixz: {
-    html_url: 'http://dazzyd.org/',
-  },
-  zyc434343: {
-    html_url: 'http://weibo.com/zyc43',
-    name: 'ZYC',
-  },
-  hanzhao: {
-    html_url: 'https://github.com/hanzhao',
-  }
+  Artoria9: artoria9,
+  Chibaheit: chibaheit,
+  Javran: javran,
+  JenningsWu: jenningswu,
+  KochiyaOcean: kochiyaocean,
+  malichan,
+  myzWILLmake: myzwillmake,
+  yukixz,
+  zyc434343,
+  hanzhao,
+}
+
+// Overrides pinned to stable numeric GitHub IDs, so a curated link/name/avatar
+// follows a legitimate rename and a recycled login can never inherit it. The
+// original id 1183568 account is now `Artoria9`; the login-keyed map above only
+// covers no-ID legacy rows.
+export const OVERWRITES_BY_ID: ContributorOverwriteById = {
+  1183568: artoria9,
+  6986642: chibaheit,
+  1096354: javran,
+  6861365: jenningswu,
+  8194131: kochiyaocean,
+  10855724: malichan,
+  3362438: myzwillmake,
+  3337921: yukixz,
+  13725370: zyc434343,
+  6753092: hanzhao,
 }

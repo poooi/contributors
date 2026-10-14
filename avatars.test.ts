@@ -264,6 +264,24 @@ describe('resolveAvatarImage', () => {
     expect(await fs.pathExists(join(cacheDir, avatarFileName('id:new')))).toBe(false)
   })
 
+  it('cannot reuse a cached image across different numeric IDs', async () => {
+    const cached = await makeImage(5, 6, 7)
+    await fs.outputFile(join(cacheDir, avatarFileName('github:id:1')), cached)
+    const failing = vi.fn(async () => {
+      throw new Error('image down')
+    })
+    const result = await resolveAvatarImage(
+      'github:id:2',
+      ['https://example.com/x.png'],
+      { cacheDir, distDir },
+      failing as unknown as typeof fetch,
+    )
+    expect(result).toBeNull()
+    expect(await fs.pathExists(join(cacheDir, avatarFileName('github:id:2')))).toBe(
+      false,
+    )
+  })
+
   it('propagates cache write failures instead of swallowing them', async () => {
     const blocked = join(dir, 'blocked')
     await fs.outputFile(blocked, 'not a directory')
@@ -445,6 +463,34 @@ describe('refreshAvatars', () => {
     expect(await fs.pathExists(archivePath)).toBe(true)
     // No GitHub credentials ever forwarded to OC or image hosts.
     seenHeaders.forEach(headers => expect(headers?.Authorization).toBeUndefined())
+  })
+
+  it('keys identified contributors by numeric ID for manifest and cache', async () => {
+    const identified: ContributorSimple[] = [
+      {
+        login: 'Recycled',
+        id: 1183568,
+        name: 'Original',
+        avatar_url: 'https://img.example/id.png',
+        html_url: 'https://github.com/Artoria9',
+      } as ContributorSimple,
+    ]
+    const { fetchImpl } = routedFetch({
+      images: { 'https://img.example/id.png': await makeImage(4, 4, 4) },
+    })
+    await refreshAvatars({
+      contributors: identified,
+      fetchImpl: fetchImpl as unknown as typeof fetch,
+      cacheDir,
+      distDir,
+      archivePath,
+    })
+    const manifest = await fs.readJson(join(distDir, MANIFEST_FILENAME))
+    expect(manifest.contributors[0].id).toBe('github:id:1183568')
+    expect(manifest.avatars['github:id:1183568']).toBeTruthy()
+    expect(
+      await fs.pathExists(join(cacheDir, avatarFileName('github:id:1183568'))),
+    ).toBe(true)
   })
 
   it('excludes bots at the refresh boundary (protects build:avatars)', async () => {

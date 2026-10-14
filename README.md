@@ -12,9 +12,9 @@ All repositories under poooi organization, plus:
 | ruiii/plugin-Hairstrength | Plugin |
 | dkwingsmt/plugin-wheres-my-fuel-gone | Plugin |
 | ruiii/poi_theme_paper_dark | Theme |
-| Artoria-0x04/poi-theme-lumendark | Theme |
+| Artoria9/poi-theme-lumendark | Theme |
 | govizlora/theme-papercyan | Theme |
-| Artoria-0x04/paperblack | Theme |
+| Artoria9/paperblack | Theme |
 | kcwikizh/poi-plugin-subtitle | Plugin |
 | kcwikizh/poi-statistics | Plugin |
 | Javran/poi-plugin-mo2 | Plugin |
@@ -77,7 +77,7 @@ which is not a visible or RGBA-visible-pixel difference.
 | `cellSize` / `displaySize` / `pixelRatio` | `96` / `48` / `2` |
 | `sheets` | `{ url, width, height }`; `url` is a bare content-hashed filename relative to the manifest |
 | `avatars` | `{ [id]: { sheet, x, y, width, height } }`; people without a first-time image are omitted |
-| `contributors` | `{ id: "github:<lowercase login>", login, name, profile }`; blank name falls back to `login` |
+| `contributors` | `{ id, login, name, profile }`; `id` is `github:id:<numericID>` when the account ID is known, otherwise `github:<lowercase login>` (manual/legacy no-ID rows); blank name falls back to `login` |
 | `supporters` | `{ id, memberId, name, profile }` in source order; `id` is `oc:<normalized profile>` or `oc:member:<MemberId>`; blank name is `""` |
 
 Slots are assigned by sorting the combined contributor/supporter IDs
@@ -168,6 +168,46 @@ and a first-run OC failure publishing nothing.
   commit.
 - **Token resolution is lazy.** `GH_TOKEN` → `GITHUB_TOKEN` → `gh auth token`.
   Tests inject a fake API client and never shell out to `gh`.
+
+### Account identity
+
+GitHub logins are recycled: a new account can register a login an old account
+vacated. Identity is therefore keyed by the stable numeric GitHub ID whenever it
+is known, and only falls back to a case-insensitive login for legacy rows that
+carry no ID.
+
+- **Refresh reconciliation is per identity.** A same-ID rename or updated stats
+  supersede the archived row. A previously attributable human missing from fresh
+  data is retained. A fresh row that reuses a known login with a different ID
+  (or no ID when the previous ID is known) is a misattributed replacement: it is
+  dropped and the archived identity is kept. Unrelated humans still refresh, so
+  a deletion or rename never freezes the whole repo. Only a source
+  failure/malformed/empty/bot-only payload falls back to the whole archive.
+- **Profiles are resolved by ID.** `getUserById` (`GET /user/{account_id}`) is
+  preferred, using the archived author ID and verifying the returned numeric ID.
+  A 404 (not found/unavailable, which may indicate deletion but is not
+  definitive) or a transient failure (timeout/rate limit/5xx) keeps the
+  historical contributions, name and login; an outage is never treated as a
+  deletion and is retried on the next build. There is no persisted deletion
+  state.
+- **Deleted/unresolved links are neutral.** The website requires an HTTP profile
+  URL, so an unresolved ID links to `https://github.com/` (never the historical
+  login, which may be recycled) while keeping the historical display name and an
+  ID-addressed avatar. Curated external overrides still apply.
+- **Overrides are pinned by ID.** `OVERWRITES_BY_ID` maps numeric IDs to curated
+  links/names/avatars so they follow a legitimate rename and are never inherited
+  by a recycled login; the login-keyed `OVERWRITES` only covers no-ID legacy
+  rows. A `github.com/<user>` override never replaces the neutral link of an
+  unresolved ID.
+- **Curated cross-account merges are explicit.** `ACCOUNT_ALIAS` pins a
+  source ID to a target ID (e.g. `dazzyd`→`yukixz`); `ALIAS` remains only for
+  no-ID legacy rows. The target ID is never inferred from a fresh username
+  lookup, and different IDs that share a login are reported and kept separate.
+- **Avatar identity cannot cross accounts.** Manifest/cache keys use
+  `github:id:<numericID>` for identified contributors (login-based only for
+  manual/no-ID rows). Existing `github:<login>` caches are not migrated at
+  runtime on a failed fetch, since they cannot be proven to be the same person;
+  verified caches are seeded offline during the transition.
 
 ## Workflow
 

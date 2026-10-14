@@ -14,6 +14,8 @@ const ALICE_NEW_URL = 'https://img.example/alice-new.png'
 const ALICE_BROKEN_URL = 'https://img.example/alice-broken.png'
 const BOB_URL = 'https://img.example/bob.png'
 const DONOR_URL = 'https://example.com/donor.png'
+const ARTORIA_URL = 'https://img.example/artoria.png'
+const OTHER_URL = 'https://img.example/other.png'
 
 const week: Week = { w: 1, a: 1, d: 0, c: 1 }
 const statWithWeeks = (login: string, total: number, weeks: Week[]): Stat => ({
@@ -23,6 +25,13 @@ const statWithWeeks = (login: string, total: number, weeks: Week[]): Stat => ({
 })
 const stat = (login: string, total: number): Stat =>
   statWithWeeks(login, total, [week])
+
+const statWithId = (login: string, id: number, total: number): Stat => ({
+  total,
+  // Keep weeks.c consistent with total so reduced stats match the total.
+  weeks: [{ w: 1, a: total, d: 0, c: total }],
+  author: { login, id } as unknown as Stat['author'],
+})
 
 const botStat = (login: string, total: number): Stat => ({
   total,
@@ -36,7 +45,10 @@ const fakeOctokit = (data: Stat[]): OctokitLike => ({
       getContributorsStats: async () => ({ status: 200, data }),
       listForOrg: {},
     },
-    users: { getByUsername: async () => ({ data: {} }) },
+    users: {
+      getByUsername: async () => ({ data: {} }),
+      getById: async ({ account_id }) => ({ data: { id: account_id } }),
+    },
   },
   paginate: async () => [],
 })
@@ -161,6 +173,9 @@ const realContributorDeps = (
   fetchImpl: typeof fetch,
   cacheDir: string,
   raw: Stat[],
+  options: {
+    getUserById?: (id: number) => Promise<Record<string, unknown> | null>
+  } = {},
 ): BuildDeps =>
   createBuildDeps(buildOptions(fetchImpl), {
     getRepos: async () => [{ full_name: 'poooi/poi' }],
@@ -181,6 +196,13 @@ const realContributorDeps = (
       }),
     getUser: async login =>
       profile(login, login, `https://img.example/${login}.png`),
+    // Never let an un-injected ID lookup reach the network; real-ID tests must
+    // provide their own resolver.
+    getUserById:
+      options.getUserById ??
+      (async () => {
+        throw new Error('unexpected getUserById call')
+      }),
     log: () => {},
     warn: () => {},
   })
@@ -551,5 +573,87 @@ describe('runBuild integration (real avatar + sprite + svg pipeline)', () => {
     expect(javran.stat).toEqual({ a: 7, d: 1, c: 4 })
     expect(javran.firstCommitTime).toBe(firstCommitTime)
     expect(firstCommitTime).toBe(1000)
+  })
+
+  it('retains historical totals under a recycled login and renders a confirmed rename', async () => {
+    const cacheDir = join(dir, 'cache')
+    // The archive holds the original id 1183568 account (now Artoria9) and a
+    // contributor whose account has since been deleted (id 999).
+    await saveCachedData(
+      'poooi/poi',
+      [statWithId('Astra-RX', 1183568, 80), statWithId('Ghost', 999, 5)],
+      cacheDir,
+    )
+
+    state.images[ARTORIA_URL] = await patternPng()
+    state.images[OTHER_URL] = await patternPng()
+    const { fetchImpl } = makeFetch(state)
+
+    const deps = realContributorDeps(
+      fetchImpl,
+      cacheDir,
+      // GitHub now reports the old commits under the newly registered account
+      // that took the `Astra-RX` login, plus an unrelated new contributor.
+      [statWithId('Astra-RX', 341015699, 1), statWithId('Other', 4321, 3)],
+      {
+        getUserById: async id => {
+          if (id === 1183568) {
+            return { ...profile('Artoria9', 'Artoria', ARTORIA_URL), id }
+          }
+          if (id === 4321) {
+            return { ...profile('Other', 'Other', OTHER_URL), id }
+          }
+          return null
+        },
+      },
+    )
+    await runBuild(deps)
+
+    const contributors = JSON.parse(
+      await fs.readFile(join(dir, 'dist', 'contributors.json'), 'utf8'),
+    ) as Array<{ login: string; id: number; total: number; html_url: string }>
+
+    // Same-ID rename renders the current login with the archived totals.
+    const artoria = contributors.find(entry => entry.login === 'Artoria9')
+    expect(artoria).toMatchObject({ id: 1183568, total: 80 })
+    // The recycled-login claimant and its misattributed stats never appear.
+    expect(contributors.some(entry => entry.id === 341015699)).toBe(false)
+
+    // Deleted account keeps contributions and gets a neutral profile link.
+    const ghost = contributors.find(entry => entry.login === 'Ghost')
+    expect(ghost).toMatchObject({
+      id: 999,
+      total: 5,
+      html_url: 'https://github.com/',
+    })
+
+    // Unrelated new human is accepted normally.
+    expect(contributors.find(entry => entry.login === 'Other')).toMatchObject({
+      id: 4321,
+      total: 3,
+    })
+
+    // The saved archive excludes the recycled claimant and keeps the original
+    // and deleted identities with their historical totals.
+    const archived = (await fs.readJson(
+      join(cacheDir, 'poooi_poi.json'),
+    )) as Array<{ author: { id?: number } | null; total: number }>
+    const archivedIds = archived
+      .map(entry => entry.author?.id)
+      .filter((id): id is number => id !== undefined)
+    expect(archivedIds).toEqual(expect.arrayContaining([1183568, 999, 4321]))
+    expect(archivedIds).not.toContain(341015699)
+    expect(archived.find(entry => entry.author?.id === 4321)?.total).toBe(3)
+
+    // The manifest keys the original account by ID and keeps its resolved
+    // name/avatar.
+    const manifest = (await fs.readJson(
+      join(dir, 'dist', 'avatars', 'manifest.json'),
+    )) as AvatarManifest
+    const artoriaEntry = manifest.contributors.find(
+      entry => entry.id === 'github:id:1183568',
+    )
+    expect(artoriaEntry).toMatchObject({ login: 'Artoria9', name: 'Artoria' })
+    expect(manifest.avatars['github:id:1183568']).toBeTruthy()
   })
 })

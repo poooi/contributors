@@ -7,12 +7,14 @@ import {
   getRepos,
   getRetryDelayMs,
   getUser,
+  getUserById,
   isRetryableGithubError,
   isValidStat,
   MalformedPayloadError,
   OctokitLike,
   resolveToken,
   RetryConfig,
+  USER_REQUEST_TIMEOUT_MS,
   validateContributorsPayload,
   withBoundedRetry,
 } from './github'
@@ -39,6 +41,12 @@ const botStat = (login: string, type = 'Bot', total = 1): Stat => ({
   author: { login, type } as unknown as Stat['author'],
 })
 
+const statWithId = (login: string, id: number, total = 1): Stat => ({
+  total,
+  weeks: [week()],
+  author: { login, id } as unknown as Stat['author'],
+})
+
 interface FakeOptions {
   getContributorsStats?: (args: {
     owner: string
@@ -50,6 +58,10 @@ interface FakeOptions {
   }>
   getByUsername?: (args: {
     username: string
+    request?: { signal?: AbortSignal }
+  }) => Promise<{ data: unknown }>
+  getById?: (args: {
+    account_id: number
     request?: { signal?: AbortSignal }
   }) => Promise<{ data: unknown }>
   repos?: unknown[]
@@ -79,6 +91,11 @@ const makeClient = (options: FakeOptions = {}): OctokitLike => ({
     users: {
       getByUsername:
         options.getByUsername ?? (async () => ({ data: { login: 'Javran' } })),
+      getById:
+        options.getById ??
+        (async ({ account_id }) => ({
+          data: { login: 'Javran', id: account_id },
+        })),
     },
   },
   paginate: async () => options.repos ?? [{ full_name: 'poooi/poi' }],
@@ -362,7 +379,7 @@ describe('getContributors refresh behaviour', () => {
     ).rejects.toThrow('disk full')
   })
 
-  it('keeps the whole previous snapshot when fresh null authors hide known identities', async () => {
+  it('retains a known contributor hidden by fresh null authors without freezing the repo', async () => {
     const previous = [stat('Javran', 5), stat(null, 2)]
     const client = makeClient({
       getContributorsStats: async () => ({ status: 200, data: [stat(null, 8)] }),
@@ -374,8 +391,160 @@ describe('getContributors refresh behaviour', () => {
       retry: fastRetry(),
       save,
     })
+    // The fresh null-author row is used; the missing attributable row is
+    // retained from the archive rather than freezing unrelated updates.
+    const expected = [stat(null, 8), stat('Javran', 5)]
+    expect(result).toEqual(expected)
+    expect(save).toHaveBeenCalledWith('Javran/mo2', expected)
+  })
+
+  it('rejects a reused login carrying a new ID and keeps the archived identity', async () => {
+    const previous = [statWithId('Astra-RX', 1183568, 80)]
+    const fresh = [statWithId('Astra-RX', 341015699, 1)]
+    const client = makeClient({
+      getContributorsStats: async () => ({ status: 200, data: fresh }),
+    })
+    const save = vi.fn(async () => true)
+    const result = await getContributors('Astra-RX', 'paperblack', {
+      octokit: client,
+      previous,
+      retry: fastRetry(),
+      save,
+    })
     expect(result).toEqual(previous)
-    expect(save).not.toHaveBeenCalled()
+    expect(result.some(entry => entry.author?.id === 341015699)).toBe(false)
+    expect(save).toHaveBeenCalledWith('Astra-RX/paperblack', previous)
+  })
+
+  it('rejects a fresh same-login row with a missing ID when the previous ID is known', async () => {
+    const previous = [statWithId('Known', 444, 5)]
+    const fresh = [stat('Known', 2)]
+    const client = makeClient({
+      getContributorsStats: async () => ({ status: 200, data: fresh }),
+    })
+    const result = await getContributors('Known', 'repo', {
+      octokit: client,
+      previous,
+      retry: fastRetry(),
+      save: vi.fn(async () => true),
+    })
+    expect(result).toEqual(previous)
+  })
+
+  it('accepts a same-ID rename as the same contributor', async () => {
+    const previous = [statWithId('OldName', 333, 5)]
+    const fresh = [statWithId('NewName', 333, 6)]
+    const client = makeClient({
+      getContributorsStats: async () => ({ status: 200, data: fresh }),
+    })
+    const save = vi.fn(async () => true)
+    const result = await getContributors('OldName', 'repo', {
+      octokit: client,
+      previous,
+      retry: fastRetry(),
+      save,
+    })
+    expect(result).toEqual(fresh)
+    expect(save).toHaveBeenCalledWith('OldName/repo', fresh)
+  })
+
+  it('drops a reused-login claimant even when the original ID reappears under a rename', async () => {
+    const previous = [statWithId('oldLogin', 1, 50)]
+    const fresh = [
+      statWithId('renamedOriginal', 1, 50),
+      statWithId('oldLogin', 2, 50),
+    ]
+    const client = makeClient({
+      getContributorsStats: async () => ({ status: 200, data: fresh }),
+    })
+    const save = vi.fn(async () => true)
+    const result = await getContributors('poooi', 'repo', {
+      octokit: client,
+      previous,
+      retry: fastRetry(),
+      save,
+    })
+    expect(result).toEqual([statWithId('renamedOriginal', 1, 50)])
+    expect(result.some(entry => entry.author?.id === 2)).toBe(false)
+  })
+
+  it('drops an unknown same-login claimant regardless of fresh row order', async () => {
+    const previous = [statWithId('shared', 1, 50)]
+    const permutations = [
+      [statWithId('shared', 2, 99), statWithId('shared', 1, 50)],
+      [statWithId('shared', 1, 50), statWithId('shared', 2, 99)],
+    ]
+    for (const fresh of permutations) {
+      const client = makeClient({
+        getContributorsStats: async () => ({ status: 200, data: fresh }),
+      })
+      const result = await getContributors('poooi', 'repo', {
+        octokit: client,
+        previous,
+        retry: fastRetry(),
+        save: vi.fn(async () => true),
+      })
+      // The trusted original survives and the unknown claimant is dropped,
+      // independent of which row comes first.
+      expect(result).toEqual([statWithId('shared', 1, 50)])
+      expect(result.some(entry => entry.author?.id === 2)).toBe(false)
+    }
+  })
+
+  it('allows a previously known ID to legitimately take over a login', async () => {
+    const previous = [statWithId('oldLogin', 1, 50), statWithId('other', 2, 10)]
+    const fresh = [
+      statWithId('renamedOriginal', 1, 50),
+      statWithId('oldLogin', 2, 12),
+    ]
+    const client = makeClient({
+      getContributorsStats: async () => ({ status: 200, data: fresh }),
+    })
+    const result = await getContributors('poooi', 'repo', {
+      octokit: client,
+      previous,
+      retry: fastRetry(),
+      save: vi.fn(async () => true),
+    })
+    expect(result).toEqual(fresh)
+  })
+
+  it('retains a missing contributor while accepting unrelated human updates', async () => {
+    const previous = [statWithId('Gone', 111, 5), statWithId('Active', 222, 3)]
+    const fresh = [statWithId('Active', 222, 4)]
+    const client = makeClient({
+      getContributorsStats: async () => ({ status: 200, data: fresh }),
+    })
+    const save = vi.fn(async () => true)
+    const result = await getContributors('poooi', 'repo', {
+      octokit: client,
+      previous,
+      retry: fastRetry(),
+      save,
+    })
+    const expected = [statWithId('Active', 222, 4), statWithId('Gone', 111, 5)]
+    expect(result).toEqual(expected)
+    expect(save).toHaveBeenCalledWith('poooi/repo', expected)
+  })
+
+  it('retains a deleted-account row while other humans advance', async () => {
+    const previous = [statWithId('Deleted', 666, 9), statWithId('Alive', 777, 2)]
+    const fresh = [stat(null, 4), statWithId('Alive', 777, 5)]
+    const client = makeClient({
+      getContributorsStats: async () => ({ status: 200, data: fresh }),
+    })
+    const save = vi.fn(async () => true)
+    const result = await getContributors('poooi', 'repo', {
+      octokit: client,
+      previous,
+      retry: fastRetry(),
+      save,
+    })
+    expect(result).toEqual([
+      stat(null, 4),
+      statWithId('Alive', 777, 5),
+      statWithId('Deleted', 666, 9),
+    ])
   })
 
   it('accepts fresh data containing null authors when no identity is lost', async () => {
@@ -551,7 +720,7 @@ describe('getContributors refresh behaviour', () => {
   })
 })
 
-describe('getRepos and getUser', () => {
+describe('getRepos, getUser and getUserById', () => {
   it('paginates org repos', async () => {
     const client = makeClient({ repos: [{ full_name: 'poooi/poi' }] })
     expect(await getRepos(client)).toEqual([{ full_name: 'poooi/poi' }])
@@ -592,5 +761,43 @@ describe('getRepos and getUser', () => {
       },
     })
     await expect(getUser('ghost', broken)).rejects.toBeTruthy()
+  })
+
+  it('returns null for a deleted account and throws for transient errors', async () => {
+    const missing = makeClient({
+      getById: async () => {
+        throw { status: 404 }
+      },
+    })
+    expect(await getUserById(1183568, missing)).toBeNull()
+
+    const broken = makeClient({
+      getById: async () => {
+        throw { status: 500 }
+      },
+    })
+    await expect(getUserById(1183568, broken)).rejects.toBeTruthy()
+  })
+
+  it('passes an abort signal to ID lookups and times out an in-flight request', async () => {
+    let signal: AbortSignal | undefined
+    const client = makeClient({
+      getById: args => {
+        signal = args.request?.signal
+        return abortable(args.request?.signal)
+      },
+    })
+    vi.useFakeTimers()
+    try {
+      const assertion = expect(getUserById(1183568, client)).rejects.toThrow(
+        'timed out',
+      )
+      await vi.advanceTimersByTimeAsync(USER_REQUEST_TIMEOUT_MS)
+      await assertion
+      expect(signal).toBeInstanceOf(AbortSignal)
+      expect(signal?.aborted).toBe(true)
+    } finally {
+      vi.useRealTimers()
+    }
   })
 })
