@@ -3,6 +3,38 @@
     "total": 1,
     "weeks": [
       {
+        "w": 1437264000,
+        "a": 0,
+        "d": 9,
+        "c": 1
+      }
+    ],
+    "author": {
+      "login": "magicae",
+      "id": 155210104,
+      "node_id": "U_kgDOCUBReA",
+      "avatar_url": "https://avatars.githubusercontent.com/u/155210104?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/magicae",
+      "html_url": "https://github.com/magicae",
+      "followers_url": "https://api.github.com/users/magicae/followers",
+      "following_url": "https://api.github.com/users/magicae/following{/other_user}",
+      "gists_url": "https://api.github.com/users/magicae/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/magicae/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/magicae/subscriptions",
+      "organizations_url": "https://api.github.com/users/magicae/orgs",
+      "repos_url": "https://api.github.com/users/magicae/repos",
+      "events_url": "https://api.github.com/users/magicae/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/magicae/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    }
+  },
+  {
+    "total": 1,
+    "weeks": [
+      {
         "w": 1463875200,
         "a": 49,
         "d": 0,
@@ -67,6 +99,18 @@
     "total": 1,
     "weeks": [
       {
+        "w": 1783814400,
+        "a": 13028,
+        "d": 5127,
+        "c": 1
+      }
+    ],
+    "author": null
+  },
+  {
+    "total": 1,
+    "weeks": [
+      {
         "w": 1502582400,
         "a": 1,
         "d": 0,
@@ -96,76 +140,38 @@
     }
   },
   {
-    "total": 1,
-    "weeks": [
-      {
-        "w": 1783814400,
-        "a": 13028,
-        "d": 5127,
-        "c": 1
-      }
-    ],
-    "author": null
-  },
-  {
-    "total": 1,
-    "weeks": [
-      {
-        "w": 1437264000,
-        "a": 0,
-        "d": 9,
-        "c": 1
-      }
-    ],
-    "author": {
-      "login": "magicae",
-      "id": 155210104,
-      "node_id": "U_kgDOCUBReA",
-      "avatar_url": "https://avatars.githubusercontent.com/u/155210104?v=4",
-      "gravatar_id": "",
-      "url": "https://api.github.com/users/magicae",
-      "html_url": "https://github.com/magicae",
-      "followers_url": "https://api.github.com/users/magicae/followers",
-      "following_url": "https://api.github.com/users/magicae/following{/other_user}",
-      "gists_url": "https://api.github.com/users/magicae/gists{/gist_id}",
-      "starred_url": "https://api.github.com/users/magicae/starred{/owner}{/repo}",
-      "subscriptions_url": "https://api.github.com/users/magicae/subscriptions",
-      "organizations_url": "https://api.github.com/users/magicae/orgs",
-      "repos_url": "https://api.github.com/users/magicae/repos",
-      "events_url": "https://api.github.com/users/magicae/events{/privacy}",
-      "received_events_url": "https://api.github.com/users/magicae/received_events",
-      "type": "User",
-      "user_view_type": "public",
-      "site_admin": false
-    }
-  },
-  {
     "total": 2,
     "weeks": [
       {
-        "w": 1588464000,
-        "a": 2,
+        "w": 1443312000,
+        "a": 34,
+        "d": 0,
+        "c": 1
+      },
+      {
+        "w": 1451174400,
+        "a": 14,
         "d": 2,
-        "c": 2
+        "c": 1
       }
     ],
     "author": {
-      "login": "yshkflyer",
-      "id": 10049076,
-      "node_id": "MDQ6VXNlcjEwMDQ5MDc2",
-      "avatar_url": "https://avatars.githubusercontent.com/u/10049076?v=4",
+      "login": "NatLee",
+      "id": 10178964,
+      "node_id": "MDQ6VXNlcjEwMTc4OTY0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/10178964?v=4",
       "gravatar_id": "",
-      "url": "https://api.github.com/users/yshkflyer",
-      "html_url": "https://github.com/yshkflyer",
-      "followers_url": "https://api.github.com/users/yshkflyer/followers",
-      "following_url": "https://api.github.com/users/yshkflyer/following{/other_user}",
-      "gists_url": "https://api.github.com/users/yshkflyer/gists{/gist_id}",
-      "starred_url": "https://api.github.com/users/yshkflyer/starred{/owner}{/repo}",
-      "subscriptions_url": "https://api.github.com/users/yshkflyer/subscriptions",
-      "organizations_url": "https://api.github.com/users/yshkflyer/orgs",
-      "repos_url": "https://api.github.com/users/yshkflyer/repos",
-      "events_url": "https://api.github.com/users/yshkflyer/events{/privacy}",
-      "received_events_url": "https://api.github.com/users/yshkflyer/received_events",
+      "url": "https://api.github.com/users/NatLee",
+      "html_url": "https://github.com/NatLee",
+      "followers_url": "https://api.github.com/users/NatLee/followers",
+      "following_url": "https://api.github.com/users/NatLee/following{/other_user}",
+      "gists_url": "https://api.github.com/users/NatLee/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/NatLee/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/NatLee/subscriptions",
+      "organizations_url": "https://api.github.com/users/NatLee/orgs",
+      "repos_url": "https://api.github.com/users/NatLee/repos",
+      "events_url": "https://api.github.com/users/NatLee/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/NatLee/received_events",
       "type": "User",
       "user_view_type": "public",
       "site_admin": false
@@ -207,6 +213,38 @@
     "total": 2,
     "weeks": [
       {
+        "w": 1588464000,
+        "a": 2,
+        "d": 2,
+        "c": 2
+      }
+    ],
+    "author": {
+      "login": "yshkflyer",
+      "id": 10049076,
+      "node_id": "MDQ6VXNlcjEwMDQ5MDc2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/10049076?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yshkflyer",
+      "html_url": "https://github.com/yshkflyer",
+      "followers_url": "https://api.github.com/users/yshkflyer/followers",
+      "following_url": "https://api.github.com/users/yshkflyer/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yshkflyer/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yshkflyer/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yshkflyer/subscriptions",
+      "organizations_url": "https://api.github.com/users/yshkflyer/orgs",
+      "repos_url": "https://api.github.com/users/yshkflyer/repos",
+      "events_url": "https://api.github.com/users/yshkflyer/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yshkflyer/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    }
+  },
+  {
+    "total": 2,
+    "weeks": [
+      {
         "w": 1786838400,
         "a": 39,
         "d": 2,
@@ -236,44 +274,6 @@
       "repos_url": "https://api.github.com/users/HetmesAskalana/repos",
       "events_url": "https://api.github.com/users/HetmesAskalana/events{/privacy}",
       "received_events_url": "https://api.github.com/users/HetmesAskalana/received_events",
-      "type": "User",
-      "user_view_type": "public",
-      "site_admin": false
-    }
-  },
-  {
-    "total": 2,
-    "weeks": [
-      {
-        "w": 1443312000,
-        "a": 34,
-        "d": 0,
-        "c": 1
-      },
-      {
-        "w": 1451174400,
-        "a": 14,
-        "d": 2,
-        "c": 1
-      }
-    ],
-    "author": {
-      "login": "NatLee",
-      "id": 10178964,
-      "node_id": "MDQ6VXNlcjEwMTc4OTY0",
-      "avatar_url": "https://avatars.githubusercontent.com/u/10178964?v=4",
-      "gravatar_id": "",
-      "url": "https://api.github.com/users/NatLee",
-      "html_url": "https://github.com/NatLee",
-      "followers_url": "https://api.github.com/users/NatLee/followers",
-      "following_url": "https://api.github.com/users/NatLee/following{/other_user}",
-      "gists_url": "https://api.github.com/users/NatLee/gists{/gist_id}",
-      "starred_url": "https://api.github.com/users/NatLee/starred{/owner}{/repo}",
-      "subscriptions_url": "https://api.github.com/users/NatLee/subscriptions",
-      "organizations_url": "https://api.github.com/users/NatLee/orgs",
-      "repos_url": "https://api.github.com/users/NatLee/repos",
-      "events_url": "https://api.github.com/users/NatLee/events{/privacy}",
-      "received_events_url": "https://api.github.com/users/NatLee/received_events",
       "type": "User",
       "user_view_type": "public",
       "site_admin": false
@@ -368,56 +368,6 @@
       "repos_url": "https://api.github.com/users/taroxd/repos",
       "events_url": "https://api.github.com/users/taroxd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/taroxd/received_events",
-      "type": "User",
-      "user_view_type": "public",
-      "site_admin": false
-    }
-  },
-  {
-    "total": 7,
-    "weeks": [
-      {
-        "w": 1436659200,
-        "a": 9,
-        "d": 0,
-        "c": 1
-      },
-      {
-        "w": 1439078400,
-        "a": 6,
-        "d": 6,
-        "c": 1
-      },
-      {
-        "w": 1443312000,
-        "a": 1,
-        "d": 1,
-        "c": 1
-      },
-      {
-        "w": 1443916800,
-        "a": 57,
-        "d": 56,
-        "c": 4
-      }
-    ],
-    "author": {
-      "login": "Astra-RX",
-      "id": 1183568,
-      "node_id": "MDQ6VXNlcjExODM1Njg=",
-      "avatar_url": "https://avatars.githubusercontent.com/u/1183568?v=4",
-      "gravatar_id": "",
-      "url": "https://api.github.com/users/Astra-RX",
-      "html_url": "https://github.com/Astra-RX",
-      "followers_url": "https://api.github.com/users/Astra-RX/followers",
-      "following_url": "https://api.github.com/users/Astra-RX/following{/other_user}",
-      "gists_url": "https://api.github.com/users/Astra-RX/gists{/gist_id}",
-      "starred_url": "https://api.github.com/users/Astra-RX/starred{/owner}{/repo}",
-      "subscriptions_url": "https://api.github.com/users/Astra-RX/subscriptions",
-      "organizations_url": "https://api.github.com/users/Astra-RX/orgs",
-      "repos_url": "https://api.github.com/users/Astra-RX/repos",
-      "events_url": "https://api.github.com/users/Astra-RX/events{/privacy}",
-      "received_events_url": "https://api.github.com/users/Astra-RX/received_events",
       "type": "User",
       "user_view_type": "public",
       "site_admin": false
@@ -1642,6 +1592,56 @@
       "repos_url": "https://api.github.com/users/KagamiChan/repos",
       "events_url": "https://api.github.com/users/KagamiChan/events{/privacy}",
       "received_events_url": "https://api.github.com/users/KagamiChan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    }
+  },
+  {
+    "total": 7,
+    "weeks": [
+      {
+        "w": 1436659200,
+        "a": 9,
+        "d": 0,
+        "c": 1
+      },
+      {
+        "w": 1439078400,
+        "a": 6,
+        "d": 6,
+        "c": 1
+      },
+      {
+        "w": 1443312000,
+        "a": 1,
+        "d": 1,
+        "c": 1
+      },
+      {
+        "w": 1443916800,
+        "a": 57,
+        "d": 56,
+        "c": 4
+      }
+    ],
+    "author": {
+      "login": "Astra-RX",
+      "id": 1183568,
+      "node_id": "MDQ6VXNlcjExODM1Njg=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1183568?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Astra-RX",
+      "html_url": "https://github.com/Astra-RX",
+      "followers_url": "https://api.github.com/users/Astra-RX/followers",
+      "following_url": "https://api.github.com/users/Astra-RX/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Astra-RX/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Astra-RX/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Astra-RX/subscriptions",
+      "organizations_url": "https://api.github.com/users/Astra-RX/orgs",
+      "repos_url": "https://api.github.com/users/Astra-RX/repos",
+      "events_url": "https://api.github.com/users/Astra-RX/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Astra-RX/received_events",
       "type": "User",
       "user_view_type": "public",
       "site_admin": false

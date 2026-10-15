@@ -164,7 +164,7 @@
       "poooi/plugin-ship-info": 50,
       "poooi/plugin-ship-panel-patcher": 19,
       "poooi/plugin-translator": 37,
-      "poooi/poi": 2920,
+      "poooi/poi": 2925,
       "poooi/poi-asset-themes": 30,
       "poooi/poi-compact-info": 12,
       "poooi/poi-plugin-ezexped": 9,
@@ -177,11 +177,11 @@
       "ruiii/poi_theme_paper_dark": 2
     },
     "stat": {
-      "a": 601793,
-      "c": 4047,
-      "d": 511433
+      "a": 602156,
+      "c": 4052,
+      "d": 512199
     },
-    "total": 4047
+    "total": 4052
   },
   {
     "avatar_url": "https://avatars.githubusercontent.com/u/10855724?v=4",
@@ -552,7 +552,7 @@
     "login": "KagamiChan",
     "name": "かがみ",
     "perRepo": {
-      "poooi/contributors": 65,
+      "poooi/contributors": 66,
       "poooi/dev.poi.moe": 43,
       "poooi/eslint-config-poi-plugin": 16,
       "poooi/fixtures": 1,
@@ -596,11 +596,11 @@
       "poooi/website-kai": 127
     },
     "stat": {
-      "a": 2962697,
-      "c": 4190,
-      "d": 2083762
+      "a": 2964475,
+      "c": 4191,
+      "d": 2084324
     },
-    "total": 4190
+    "total": 4191
   },
   {
     "avatar_url": "https://avatars.githubusercontent.com/u/1854100?v=4",

@@ -35,29 +35,29 @@
     "total": 1,
     "weeks": [
       {
-        "w": 1448755200,
-        "a": 13,
-        "d": 21,
+        "w": 1457222400,
+        "a": 5,
+        "d": 4,
         "c": 1
       }
     ],
     "author": {
-      "login": "Astra-RX",
-      "id": 1183568,
-      "node_id": "MDQ6VXNlcjExODM1Njg=",
-      "avatar_url": "https://avatars.githubusercontent.com/u/1183568?v=4",
+      "login": "dkwingsmt",
+      "id": 1596656,
+      "node_id": "MDQ6VXNlcjE1OTY2NTY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1596656?v=4",
       "gravatar_id": "",
-      "url": "https://api.github.com/users/Astra-RX",
-      "html_url": "https://github.com/Astra-RX",
-      "followers_url": "https://api.github.com/users/Astra-RX/followers",
-      "following_url": "https://api.github.com/users/Astra-RX/following{/other_user}",
-      "gists_url": "https://api.github.com/users/Astra-RX/gists{/gist_id}",
-      "starred_url": "https://api.github.com/users/Astra-RX/starred{/owner}{/repo}",
-      "subscriptions_url": "https://api.github.com/users/Astra-RX/subscriptions",
-      "organizations_url": "https://api.github.com/users/Astra-RX/orgs",
-      "repos_url": "https://api.github.com/users/Astra-RX/repos",
-      "events_url": "https://api.github.com/users/Astra-RX/events{/privacy}",
-      "received_events_url": "https://api.github.com/users/Astra-RX/received_events",
+      "url": "https://api.github.com/users/dkwingsmt",
+      "html_url": "https://github.com/dkwingsmt",
+      "followers_url": "https://api.github.com/users/dkwingsmt/followers",
+      "following_url": "https://api.github.com/users/dkwingsmt/following{/other_user}",
+      "gists_url": "https://api.github.com/users/dkwingsmt/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/dkwingsmt/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/dkwingsmt/subscriptions",
+      "organizations_url": "https://api.github.com/users/dkwingsmt/orgs",
+      "repos_url": "https://api.github.com/users/dkwingsmt/repos",
+      "events_url": "https://api.github.com/users/dkwingsmt/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/dkwingsmt/received_events",
       "type": "User",
       "user_view_type": "public",
       "site_admin": false
@@ -90,38 +90,6 @@
       "repos_url": "https://api.github.com/users/jayjayzju/repos",
       "events_url": "https://api.github.com/users/jayjayzju/events{/privacy}",
       "received_events_url": "https://api.github.com/users/jayjayzju/received_events",
-      "type": "User",
-      "user_view_type": "public",
-      "site_admin": false
-    }
-  },
-  {
-    "total": 1,
-    "weeks": [
-      {
-        "w": 1457222400,
-        "a": 5,
-        "d": 4,
-        "c": 1
-      }
-    ],
-    "author": {
-      "login": "dkwingsmt",
-      "id": 1596656,
-      "node_id": "MDQ6VXNlcjE1OTY2NTY=",
-      "avatar_url": "https://avatars.githubusercontent.com/u/1596656?v=4",
-      "gravatar_id": "",
-      "url": "https://api.github.com/users/dkwingsmt",
-      "html_url": "https://github.com/dkwingsmt",
-      "followers_url": "https://api.github.com/users/dkwingsmt/followers",
-      "following_url": "https://api.github.com/users/dkwingsmt/following{/other_user}",
-      "gists_url": "https://api.github.com/users/dkwingsmt/gists{/gist_id}",
-      "starred_url": "https://api.github.com/users/dkwingsmt/starred{/owner}{/repo}",
-      "subscriptions_url": "https://api.github.com/users/dkwingsmt/subscriptions",
-      "organizations_url": "https://api.github.com/users/dkwingsmt/orgs",
-      "repos_url": "https://api.github.com/users/dkwingsmt/repos",
-      "events_url": "https://api.github.com/users/dkwingsmt/events{/privacy}",
-      "received_events_url": "https://api.github.com/users/dkwingsmt/received_events",
       "type": "User",
       "user_view_type": "public",
       "site_admin": false
@@ -1282,6 +1250,38 @@
       "repos_url": "https://api.github.com/users/KagamiChan/repos",
       "events_url": "https://api.github.com/users/KagamiChan/events{/privacy}",
       "received_events_url": "https://api.github.com/users/KagamiChan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    }
+  },
+  {
+    "total": 1,
+    "weeks": [
+      {
+        "w": 1448755200,
+        "a": 13,
+        "d": 21,
+        "c": 1
+      }
+    ],
+    "author": {
+      "login": "Astra-RX",
+      "id": 1183568,
+      "node_id": "MDQ6VXNlcjExODM1Njg=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1183568?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Astra-RX",
+      "html_url": "https://github.com/Astra-RX",
+      "followers_url": "https://api.github.com/users/Astra-RX/followers",
+      "following_url": "https://api.github.com/users/Astra-RX/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Astra-RX/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Astra-RX/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Astra-RX/subscriptions",
+      "organizations_url": "https://api.github.com/users/Astra-RX/orgs",
+      "repos_url": "https://api.github.com/users/Astra-RX/repos",
+      "events_url": "https://api.github.com/users/Astra-RX/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Astra-RX/received_events",
       "type": "User",
       "user_view_type": "public",
       "site_admin": false
