@@ -794,14 +794,14 @@
       "poooi/plugin-map-hp": 1,
       "poooi/plugin-prophet": 8,
       "poooi/plugin-quest": 6,
-      "poooi/poi": 34
+      "poooi/poi": 38
     },
     "stat": {
-      "a": 15926,
-      "c": 92,
-      "d": 60435
+      "a": 16148,
+      "c": 96,
+      "d": 60615
     },
-    "total": 92
+    "total": 96
   },
   {
     "avatar_url": "https://avatars.githubusercontent.com/u/1846356?v=4",

@@ -483,29 +483,29 @@
     "total": 1,
     "weeks": [
       {
-        "w": 1787443200,
-        "a": 1,
-        "d": 1,
+        "w": 1789257600,
+        "a": 4,
+        "d": 4,
         "c": 1
       }
     ],
     "author": {
-      "login": "connorzhangyu",
-      "id": 88358827,
-      "node_id": "MDQ6VXNlcjg4MzU4ODI3",
-      "avatar_url": "https://avatars.githubusercontent.com/u/88358827?v=4",
+      "login": "momocow",
+      "id": 17778751,
+      "node_id": "MDQ6VXNlcjE3Nzc4NzUx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/17778751?v=4",
       "gravatar_id": "",
-      "url": "https://api.github.com/users/connorzhangyu",
-      "html_url": "https://github.com/connorzhangyu",
-      "followers_url": "https://api.github.com/users/connorzhangyu/followers",
-      "following_url": "https://api.github.com/users/connorzhangyu/following{/other_user}",
-      "gists_url": "https://api.github.com/users/connorzhangyu/gists{/gist_id}",
-      "starred_url": "https://api.github.com/users/connorzhangyu/starred{/owner}{/repo}",
-      "subscriptions_url": "https://api.github.com/users/connorzhangyu/subscriptions",
-      "organizations_url": "https://api.github.com/users/connorzhangyu/orgs",
-      "repos_url": "https://api.github.com/users/connorzhangyu/repos",
-      "events_url": "https://api.github.com/users/connorzhangyu/events{/privacy}",
-      "received_events_url": "https://api.github.com/users/connorzhangyu/received_events",
+      "url": "https://api.github.com/users/momocow",
+      "html_url": "https://github.com/momocow",
+      "followers_url": "https://api.github.com/users/momocow/followers",
+      "following_url": "https://api.github.com/users/momocow/following{/other_user}",
+      "gists_url": "https://api.github.com/users/momocow/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/momocow/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/momocow/subscriptions",
+      "organizations_url": "https://api.github.com/users/momocow/orgs",
+      "repos_url": "https://api.github.com/users/momocow/repos",
+      "events_url": "https://api.github.com/users/momocow/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/momocow/received_events",
       "type": "User",
       "user_view_type": "public",
       "site_admin": false
@@ -547,70 +547,6 @@
     "total": 1,
     "weeks": [
       {
-        "w": 1784419200,
-        "a": 114,
-        "d": 22,
-        "c": 1
-      }
-    ],
-    "author": {
-      "login": "huihuimoe",
-      "id": 1707683,
-      "node_id": "MDQ6VXNlcjE3MDc2ODM=",
-      "avatar_url": "https://avatars.githubusercontent.com/u/1707683?v=4",
-      "gravatar_id": "",
-      "url": "https://api.github.com/users/huihuimoe",
-      "html_url": "https://github.com/huihuimoe",
-      "followers_url": "https://api.github.com/users/huihuimoe/followers",
-      "following_url": "https://api.github.com/users/huihuimoe/following{/other_user}",
-      "gists_url": "https://api.github.com/users/huihuimoe/gists{/gist_id}",
-      "starred_url": "https://api.github.com/users/huihuimoe/starred{/owner}{/repo}",
-      "subscriptions_url": "https://api.github.com/users/huihuimoe/subscriptions",
-      "organizations_url": "https://api.github.com/users/huihuimoe/orgs",
-      "repos_url": "https://api.github.com/users/huihuimoe/repos",
-      "events_url": "https://api.github.com/users/huihuimoe/events{/privacy}",
-      "received_events_url": "https://api.github.com/users/huihuimoe/received_events",
-      "type": "User",
-      "user_view_type": "public",
-      "site_admin": false
-    }
-  },
-  {
-    "total": 1,
-    "weeks": [
-      {
-        "w": 1789257600,
-        "a": 4,
-        "d": 4,
-        "c": 1
-      }
-    ],
-    "author": {
-      "login": "momocow",
-      "id": 17778751,
-      "node_id": "MDQ6VXNlcjE3Nzc4NzUx",
-      "avatar_url": "https://avatars.githubusercontent.com/u/17778751?v=4",
-      "gravatar_id": "",
-      "url": "https://api.github.com/users/momocow",
-      "html_url": "https://github.com/momocow",
-      "followers_url": "https://api.github.com/users/momocow/followers",
-      "following_url": "https://api.github.com/users/momocow/following{/other_user}",
-      "gists_url": "https://api.github.com/users/momocow/gists{/gist_id}",
-      "starred_url": "https://api.github.com/users/momocow/starred{/owner}{/repo}",
-      "subscriptions_url": "https://api.github.com/users/momocow/subscriptions",
-      "organizations_url": "https://api.github.com/users/momocow/orgs",
-      "repos_url": "https://api.github.com/users/momocow/repos",
-      "events_url": "https://api.github.com/users/momocow/events{/privacy}",
-      "received_events_url": "https://api.github.com/users/momocow/received_events",
-      "type": "User",
-      "user_view_type": "public",
-      "site_admin": false
-    }
-  },
-  {
-    "total": 1,
-    "weeks": [
-      {
         "w": 1759017600,
         "a": 1,
         "d": 1,
@@ -634,6 +570,70 @@
       "repos_url": "https://api.github.com/users/RainmistMarisa/repos",
       "events_url": "https://api.github.com/users/RainmistMarisa/events{/privacy}",
       "received_events_url": "https://api.github.com/users/RainmistMarisa/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    }
+  },
+  {
+    "total": 1,
+    "weeks": [
+      {
+        "w": 1787443200,
+        "a": 1,
+        "d": 1,
+        "c": 1
+      }
+    ],
+    "author": {
+      "login": "connorzhangyu",
+      "id": 88358827,
+      "node_id": "MDQ6VXNlcjg4MzU4ODI3",
+      "avatar_url": "https://avatars.githubusercontent.com/u/88358827?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/connorzhangyu",
+      "html_url": "https://github.com/connorzhangyu",
+      "followers_url": "https://api.github.com/users/connorzhangyu/followers",
+      "following_url": "https://api.github.com/users/connorzhangyu/following{/other_user}",
+      "gists_url": "https://api.github.com/users/connorzhangyu/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/connorzhangyu/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/connorzhangyu/subscriptions",
+      "organizations_url": "https://api.github.com/users/connorzhangyu/orgs",
+      "repos_url": "https://api.github.com/users/connorzhangyu/repos",
+      "events_url": "https://api.github.com/users/connorzhangyu/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/connorzhangyu/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    }
+  },
+  {
+    "total": 1,
+    "weeks": [
+      {
+        "w": 1784419200,
+        "a": 114,
+        "d": 22,
+        "c": 1
+      }
+    ],
+    "author": {
+      "login": "huihuimoe",
+      "id": 1707683,
+      "node_id": "MDQ6VXNlcjE3MDc2ODM=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1707683?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/huihuimoe",
+      "html_url": "https://github.com/huihuimoe",
+      "followers_url": "https://api.github.com/users/huihuimoe/followers",
+      "following_url": "https://api.github.com/users/huihuimoe/following{/other_user}",
+      "gists_url": "https://api.github.com/users/huihuimoe/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/huihuimoe/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/huihuimoe/subscriptions",
+      "organizations_url": "https://api.github.com/users/huihuimoe/orgs",
+      "repos_url": "https://api.github.com/users/huihuimoe/repos",
+      "events_url": "https://api.github.com/users/huihuimoe/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/huihuimoe/received_events",
       "type": "User",
       "user_view_type": "public",
       "site_admin": false
@@ -807,6 +807,38 @@
     "total": 2,
     "weeks": [
       {
+        "w": 1697932800,
+        "a": 34,
+        "d": 15,
+        "c": 2
+      }
+    ],
+    "author": {
+      "login": "liu-ziyang",
+      "id": 41968256,
+      "node_id": "MDQ6VXNlcjQxOTY4MjU2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/41968256?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/liu-ziyang",
+      "html_url": "https://github.com/liu-ziyang",
+      "followers_url": "https://api.github.com/users/liu-ziyang/followers",
+      "following_url": "https://api.github.com/users/liu-ziyang/following{/other_user}",
+      "gists_url": "https://api.github.com/users/liu-ziyang/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/liu-ziyang/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/liu-ziyang/subscriptions",
+      "organizations_url": "https://api.github.com/users/liu-ziyang/orgs",
+      "repos_url": "https://api.github.com/users/liu-ziyang/repos",
+      "events_url": "https://api.github.com/users/liu-ziyang/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/liu-ziyang/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    }
+  },
+  {
+    "total": 2,
+    "weeks": [
+      {
         "w": 1633219200,
         "a": 2,
         "d": 3,
@@ -874,38 +906,6 @@
     }
   },
   {
-    "total": 2,
-    "weeks": [
-      {
-        "w": 1697932800,
-        "a": 34,
-        "d": 15,
-        "c": 2
-      }
-    ],
-    "author": {
-      "login": "liu-ziyang",
-      "id": 41968256,
-      "node_id": "MDQ6VXNlcjQxOTY4MjU2",
-      "avatar_url": "https://avatars.githubusercontent.com/u/41968256?v=4",
-      "gravatar_id": "",
-      "url": "https://api.github.com/users/liu-ziyang",
-      "html_url": "https://github.com/liu-ziyang",
-      "followers_url": "https://api.github.com/users/liu-ziyang/followers",
-      "following_url": "https://api.github.com/users/liu-ziyang/following{/other_user}",
-      "gists_url": "https://api.github.com/users/liu-ziyang/gists{/gist_id}",
-      "starred_url": "https://api.github.com/users/liu-ziyang/starred{/owner}{/repo}",
-      "subscriptions_url": "https://api.github.com/users/liu-ziyang/subscriptions",
-      "organizations_url": "https://api.github.com/users/liu-ziyang/orgs",
-      "repos_url": "https://api.github.com/users/liu-ziyang/repos",
-      "events_url": "https://api.github.com/users/liu-ziyang/events{/privacy}",
-      "received_events_url": "https://api.github.com/users/liu-ziyang/received_events",
-      "type": "User",
-      "user_view_type": "public",
-      "site_admin": false
-    }
-  },
-  {
     "total": 3,
     "weeks": [
       {
@@ -947,38 +947,6 @@
     "total": 3,
     "weeks": [
       {
-        "w": 1485043200,
-        "a": 9,
-        "d": 9,
-        "c": 3
-      }
-    ],
-    "author": {
-      "login": "aflyhorse",
-      "id": 1755431,
-      "node_id": "MDQ6VXNlcjE3NTU0MzE=",
-      "avatar_url": "https://avatars.githubusercontent.com/u/1755431?v=4",
-      "gravatar_id": "",
-      "url": "https://api.github.com/users/aflyhorse",
-      "html_url": "https://github.com/aflyhorse",
-      "followers_url": "https://api.github.com/users/aflyhorse/followers",
-      "following_url": "https://api.github.com/users/aflyhorse/following{/other_user}",
-      "gists_url": "https://api.github.com/users/aflyhorse/gists{/gist_id}",
-      "starred_url": "https://api.github.com/users/aflyhorse/starred{/owner}{/repo}",
-      "subscriptions_url": "https://api.github.com/users/aflyhorse/subscriptions",
-      "organizations_url": "https://api.github.com/users/aflyhorse/orgs",
-      "repos_url": "https://api.github.com/users/aflyhorse/repos",
-      "events_url": "https://api.github.com/users/aflyhorse/events{/privacy}",
-      "received_events_url": "https://api.github.com/users/aflyhorse/received_events",
-      "type": "User",
-      "user_view_type": "public",
-      "site_admin": false
-    }
-  },
-  {
-    "total": 3,
-    "weeks": [
-      {
         "w": 1698537600,
         "a": 17,
         "d": 17,
@@ -1002,6 +970,38 @@
       "repos_url": "https://api.github.com/users/isso0424/repos",
       "events_url": "https://api.github.com/users/isso0424/events{/privacy}",
       "received_events_url": "https://api.github.com/users/isso0424/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    }
+  },
+  {
+    "total": 3,
+    "weeks": [
+      {
+        "w": 1485043200,
+        "a": 9,
+        "d": 9,
+        "c": 3
+      }
+    ],
+    "author": {
+      "login": "aflyhorse",
+      "id": 1755431,
+      "node_id": "MDQ6VXNlcjE3NTU0MzE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1755431?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/aflyhorse",
+      "html_url": "https://github.com/aflyhorse",
+      "followers_url": "https://api.github.com/users/aflyhorse/followers",
+      "following_url": "https://api.github.com/users/aflyhorse/following{/other_user}",
+      "gists_url": "https://api.github.com/users/aflyhorse/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/aflyhorse/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/aflyhorse/subscriptions",
+      "organizations_url": "https://api.github.com/users/aflyhorse/orgs",
+      "repos_url": "https://api.github.com/users/aflyhorse/repos",
+      "events_url": "https://api.github.com/users/aflyhorse/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/aflyhorse/received_events",
       "type": "User",
       "user_view_type": "public",
       "site_admin": false
@@ -1081,38 +1081,6 @@
     "total": 4,
     "weeks": [
       {
-        "w": 1488672000,
-        "a": 82,
-        "d": 71,
-        "c": 4
-      }
-    ],
-    "author": {
-      "login": "LostXine",
-      "id": 10805205,
-      "node_id": "MDQ6VXNlcjEwODA1MjA1",
-      "avatar_url": "https://avatars.githubusercontent.com/u/10805205?v=4",
-      "gravatar_id": "",
-      "url": "https://api.github.com/users/LostXine",
-      "html_url": "https://github.com/LostXine",
-      "followers_url": "https://api.github.com/users/LostXine/followers",
-      "following_url": "https://api.github.com/users/LostXine/following{/other_user}",
-      "gists_url": "https://api.github.com/users/LostXine/gists{/gist_id}",
-      "starred_url": "https://api.github.com/users/LostXine/starred{/owner}{/repo}",
-      "subscriptions_url": "https://api.github.com/users/LostXine/subscriptions",
-      "organizations_url": "https://api.github.com/users/LostXine/orgs",
-      "repos_url": "https://api.github.com/users/LostXine/repos",
-      "events_url": "https://api.github.com/users/LostXine/events{/privacy}",
-      "received_events_url": "https://api.github.com/users/LostXine/received_events",
-      "type": "User",
-      "user_view_type": "public",
-      "site_admin": false
-    }
-  },
-  {
-    "total": 4,
-    "weeks": [
-      {
         "w": 1459036800,
         "a": 15,
         "d": 15,
@@ -1148,6 +1116,38 @@
       "repos_url": "https://api.github.com/users/wudifeixue/repos",
       "events_url": "https://api.github.com/users/wudifeixue/events{/privacy}",
       "received_events_url": "https://api.github.com/users/wudifeixue/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    }
+  },
+  {
+    "total": 4,
+    "weeks": [
+      {
+        "w": 1488672000,
+        "a": 82,
+        "d": 71,
+        "c": 4
+      }
+    ],
+    "author": {
+      "login": "LostXine",
+      "id": 10805205,
+      "node_id": "MDQ6VXNlcjEwODA1MjA1",
+      "avatar_url": "https://avatars.githubusercontent.com/u/10805205?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/LostXine",
+      "html_url": "https://github.com/LostXine",
+      "followers_url": "https://api.github.com/users/LostXine/followers",
+      "following_url": "https://api.github.com/users/LostXine/following{/other_user}",
+      "gists_url": "https://api.github.com/users/LostXine/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/LostXine/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/LostXine/subscriptions",
+      "organizations_url": "https://api.github.com/users/LostXine/orgs",
+      "repos_url": "https://api.github.com/users/LostXine/repos",
+      "events_url": "https://api.github.com/users/LostXine/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/LostXine/received_events",
       "type": "User",
       "user_view_type": "public",
       "site_admin": false
@@ -1365,47 +1365,47 @@
     "total": 8,
     "weeks": [
       {
-        "w": 1433635200,
-        "a": 124,
-        "d": 62,
+        "w": 1434844800,
+        "a": 18,
+        "d": 8,
         "c": 4
       },
       {
-        "w": 1434240000,
-        "a": 41,
+        "w": 1438473600,
+        "a": 2,
         "d": 1,
         "c": 2
       },
       {
-        "w": 1434844800,
-        "a": 1,
-        "d": 0,
+        "w": 1471132800,
+        "a": 4,
+        "d": 4,
         "c": 1
       },
       {
-        "w": 1436659200,
-        "a": 4,
+        "w": 1485648000,
+        "a": 1,
         "d": 1,
         "c": 1
       }
     ],
     "author": {
-      "login": "malichan",
-      "id": 10855724,
-      "node_id": "MDQ6VXNlcjEwODU1NzI0",
-      "avatar_url": "https://avatars.githubusercontent.com/u/10855724?v=4",
+      "login": "wafer-li",
+      "id": 12459199,
+      "node_id": "MDQ6VXNlcjEyNDU5MTk5",
+      "avatar_url": "https://avatars.githubusercontent.com/u/12459199?v=4",
       "gravatar_id": "",
-      "url": "https://api.github.com/users/malichan",
-      "html_url": "https://github.com/malichan",
-      "followers_url": "https://api.github.com/users/malichan/followers",
-      "following_url": "https://api.github.com/users/malichan/following{/other_user}",
-      "gists_url": "https://api.github.com/users/malichan/gists{/gist_id}",
-      "starred_url": "https://api.github.com/users/malichan/starred{/owner}{/repo}",
-      "subscriptions_url": "https://api.github.com/users/malichan/subscriptions",
-      "organizations_url": "https://api.github.com/users/malichan/orgs",
-      "repos_url": "https://api.github.com/users/malichan/repos",
-      "events_url": "https://api.github.com/users/malichan/events{/privacy}",
-      "received_events_url": "https://api.github.com/users/malichan/received_events",
+      "url": "https://api.github.com/users/wafer-li",
+      "html_url": "https://github.com/wafer-li",
+      "followers_url": "https://api.github.com/users/wafer-li/followers",
+      "following_url": "https://api.github.com/users/wafer-li/following{/other_user}",
+      "gists_url": "https://api.github.com/users/wafer-li/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/wafer-li/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/wafer-li/subscriptions",
+      "organizations_url": "https://api.github.com/users/wafer-li/orgs",
+      "repos_url": "https://api.github.com/users/wafer-li/repos",
+      "events_url": "https://api.github.com/users/wafer-li/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/wafer-li/received_events",
       "type": "User",
       "user_view_type": "public",
       "site_admin": false
@@ -1465,47 +1465,47 @@
     "total": 8,
     "weeks": [
       {
-        "w": 1434844800,
-        "a": 18,
-        "d": 8,
+        "w": 1433635200,
+        "a": 124,
+        "d": 62,
         "c": 4
       },
       {
-        "w": 1438473600,
-        "a": 2,
+        "w": 1434240000,
+        "a": 41,
         "d": 1,
         "c": 2
       },
       {
-        "w": 1471132800,
-        "a": 4,
-        "d": 4,
+        "w": 1434844800,
+        "a": 1,
+        "d": 0,
         "c": 1
       },
       {
-        "w": 1485648000,
-        "a": 1,
+        "w": 1436659200,
+        "a": 4,
         "d": 1,
         "c": 1
       }
     ],
     "author": {
-      "login": "wafer-li",
-      "id": 12459199,
-      "node_id": "MDQ6VXNlcjEyNDU5MTk5",
-      "avatar_url": "https://avatars.githubusercontent.com/u/12459199?v=4",
+      "login": "malichan",
+      "id": 10855724,
+      "node_id": "MDQ6VXNlcjEwODU1NzI0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/10855724?v=4",
       "gravatar_id": "",
-      "url": "https://api.github.com/users/wafer-li",
-      "html_url": "https://github.com/wafer-li",
-      "followers_url": "https://api.github.com/users/wafer-li/followers",
-      "following_url": "https://api.github.com/users/wafer-li/following{/other_user}",
-      "gists_url": "https://api.github.com/users/wafer-li/gists{/gist_id}",
-      "starred_url": "https://api.github.com/users/wafer-li/starred{/owner}{/repo}",
-      "subscriptions_url": "https://api.github.com/users/wafer-li/subscriptions",
-      "organizations_url": "https://api.github.com/users/wafer-li/orgs",
-      "repos_url": "https://api.github.com/users/wafer-li/repos",
-      "events_url": "https://api.github.com/users/wafer-li/events{/privacy}",
-      "received_events_url": "https://api.github.com/users/wafer-li/received_events",
+      "url": "https://api.github.com/users/malichan",
+      "html_url": "https://github.com/malichan",
+      "followers_url": "https://api.github.com/users/malichan/followers",
+      "following_url": "https://api.github.com/users/malichan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/malichan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/malichan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/malichan/subscriptions",
+      "organizations_url": "https://api.github.com/users/malichan/orgs",
+      "repos_url": "https://api.github.com/users/malichan/repos",
+      "events_url": "https://api.github.com/users/malichan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/malichan/received_events",
       "type": "User",
       "user_view_type": "public",
       "site_admin": false
@@ -1858,7 +1858,7 @@
     }
   },
   {
-    "total": 34,
+    "total": 38,
     "weeks": [
       {
         "w": 1471132800,
@@ -1985,6 +1985,12 @@
         "a": 333,
         "d": 309,
         "c": 1
+      },
+      {
+        "w": 1792281600,
+        "a": 222,
+        "d": 180,
+        "c": 4
       }
     ],
     "author": {
