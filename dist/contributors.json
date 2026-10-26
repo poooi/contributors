@@ -164,7 +164,7 @@
       "poooi/plugin-ship-info": 50,
       "poooi/plugin-ship-panel-patcher": 19,
       "poooi/plugin-translator": 37,
-      "poooi/poi": 2925,
+      "poooi/poi": 2927,
       "poooi/poi-asset-themes": 30,
       "poooi/poi-compact-info": 12,
       "poooi/poi-plugin-ezexped": 9,
@@ -177,11 +177,11 @@
       "ruiii/poi_theme_paper_dark": 2
     },
     "stat": {
-      "a": 602156,
-      "c": 4052,
-      "d": 512199
+      "a": 602429,
+      "c": 4054,
+      "d": 512249
     },
-    "total": 4052
+    "total": 4054
   },
   {
     "avatar_url": "https://avatars.githubusercontent.com/u/10855724?v=4",
