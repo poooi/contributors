@@ -483,38 +483,6 @@
     "total": 1,
     "weeks": [
       {
-        "w": 1789257600,
-        "a": 4,
-        "d": 4,
-        "c": 1
-      }
-    ],
-    "author": {
-      "login": "momocow",
-      "id": 17778751,
-      "node_id": "MDQ6VXNlcjE3Nzc4NzUx",
-      "avatar_url": "https://avatars.githubusercontent.com/u/17778751?v=4",
-      "gravatar_id": "",
-      "url": "https://api.github.com/users/momocow",
-      "html_url": "https://github.com/momocow",
-      "followers_url": "https://api.github.com/users/momocow/followers",
-      "following_url": "https://api.github.com/users/momocow/following{/other_user}",
-      "gists_url": "https://api.github.com/users/momocow/gists{/gist_id}",
-      "starred_url": "https://api.github.com/users/momocow/starred{/owner}{/repo}",
-      "subscriptions_url": "https://api.github.com/users/momocow/subscriptions",
-      "organizations_url": "https://api.github.com/users/momocow/orgs",
-      "repos_url": "https://api.github.com/users/momocow/repos",
-      "events_url": "https://api.github.com/users/momocow/events{/privacy}",
-      "received_events_url": "https://api.github.com/users/momocow/received_events",
-      "type": "User",
-      "user_view_type": "public",
-      "site_admin": false
-    }
-  },
-  {
-    "total": 1,
-    "weeks": [
-      {
         "w": 1703980800,
         "a": 1,
         "d": 1,
@@ -538,6 +506,38 @@
       "repos_url": "https://api.github.com/users/fengmk2/repos",
       "events_url": "https://api.github.com/users/fengmk2/events{/privacy}",
       "received_events_url": "https://api.github.com/users/fengmk2/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    }
+  },
+  {
+    "total": 1,
+    "weeks": [
+      {
+        "w": 1789257600,
+        "a": 4,
+        "d": 4,
+        "c": 1
+      }
+    ],
+    "author": {
+      "login": "momocow",
+      "id": 17778751,
+      "node_id": "MDQ6VXNlcjE3Nzc4NzUx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/17778751?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/momocow",
+      "html_url": "https://github.com/momocow",
+      "followers_url": "https://api.github.com/users/momocow/followers",
+      "following_url": "https://api.github.com/users/momocow/following{/other_user}",
+      "gists_url": "https://api.github.com/users/momocow/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/momocow/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/momocow/subscriptions",
+      "organizations_url": "https://api.github.com/users/momocow/orgs",
+      "repos_url": "https://api.github.com/users/momocow/repos",
+      "events_url": "https://api.github.com/users/momocow/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/momocow/received_events",
       "type": "User",
       "user_view_type": "public",
       "site_admin": false
@@ -4214,7 +4214,7 @@
     }
   },
   {
-    "total": 1111,
+    "total": 1113,
     "weeks": [
       {
         "w": 1449360000,
@@ -5420,6 +5420,12 @@
         "w": 1789257600,
         "a": 65,
         "d": 65,
+        "c": 2
+      },
+      {
+        "w": 1794700800,
+        "a": 20,
+        "d": 86,
         "c": 2
       }
     ],

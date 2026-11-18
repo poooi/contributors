@@ -581,7 +581,7 @@
       "poooi/plugin-server": 6,
       "poooi/plugin-ship-info": 621,
       "poooi/plugin-translator": 179,
-      "poooi/poi": 1111,
+      "poooi/poi": 1113,
       "poooi/poi-asset-themes": 16,
       "poooi/poi-release": 11,
       "poooi/poi-server": 203,
@@ -596,11 +596,11 @@
       "poooi/website-kai": 127
     },
     "stat": {
-      "a": 3052136,
-      "c": 4259,
-      "d": 2289968
+      "a": 3052156,
+      "c": 4261,
+      "d": 2290054
     },
-    "total": 4259
+    "total": 4261
   },
   {
     "avatar_url": "https://avatars.githubusercontent.com/u/1854100?v=4",
