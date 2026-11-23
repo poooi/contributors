@@ -3,29 +3,29 @@
     "total": 1,
     "weeks": [
       {
-        "w": 1562457600,
-        "a": 2,
-        "d": 2,
+        "w": 1795305600,
+        "a": 370,
+        "d": 10,
         "c": 1
       }
     ],
     "author": {
-      "login": "yshkflyer",
-      "id": 10049076,
-      "node_id": "MDQ6VXNlcjEwMDQ5MDc2",
-      "avatar_url": "https://avatars.githubusercontent.com/u/10049076?v=4",
+      "login": "gakada",
+      "id": 13043588,
+      "node_id": "MDQ6VXNlcjEzMDQzNTg4",
+      "avatar_url": "https://avatars.githubusercontent.com/u/13043588?v=4",
       "gravatar_id": "",
-      "url": "https://api.github.com/users/yshkflyer",
-      "html_url": "https://github.com/yshkflyer",
-      "followers_url": "https://api.github.com/users/yshkflyer/followers",
-      "following_url": "https://api.github.com/users/yshkflyer/following{/other_user}",
-      "gists_url": "https://api.github.com/users/yshkflyer/gists{/gist_id}",
-      "starred_url": "https://api.github.com/users/yshkflyer/starred{/owner}{/repo}",
-      "subscriptions_url": "https://api.github.com/users/yshkflyer/subscriptions",
-      "organizations_url": "https://api.github.com/users/yshkflyer/orgs",
-      "repos_url": "https://api.github.com/users/yshkflyer/repos",
-      "events_url": "https://api.github.com/users/yshkflyer/events{/privacy}",
-      "received_events_url": "https://api.github.com/users/yshkflyer/received_events",
+      "url": "https://api.github.com/users/gakada",
+      "html_url": "https://github.com/gakada",
+      "followers_url": "https://api.github.com/users/gakada/followers",
+      "following_url": "https://api.github.com/users/gakada/following{/other_user}",
+      "gists_url": "https://api.github.com/users/gakada/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/gakada/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/gakada/subscriptions",
+      "organizations_url": "https://api.github.com/users/gakada/orgs",
+      "repos_url": "https://api.github.com/users/gakada/repos",
+      "events_url": "https://api.github.com/users/gakada/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/gakada/received_events",
       "type": "User",
       "user_view_type": "public",
       "site_admin": false
@@ -90,6 +90,38 @@
       "repos_url": "https://api.github.com/users/jayjayzju/repos",
       "events_url": "https://api.github.com/users/jayjayzju/events{/privacy}",
       "received_events_url": "https://api.github.com/users/jayjayzju/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    }
+  },
+  {
+    "total": 1,
+    "weeks": [
+      {
+        "w": 1562457600,
+        "a": 2,
+        "d": 2,
+        "c": 1
+      }
+    ],
+    "author": {
+      "login": "yshkflyer",
+      "id": 10049076,
+      "node_id": "MDQ6VXNlcjEwMDQ5MDc2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/10049076?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yshkflyer",
+      "html_url": "https://github.com/yshkflyer",
+      "followers_url": "https://api.github.com/users/yshkflyer/followers",
+      "following_url": "https://api.github.com/users/yshkflyer/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yshkflyer/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yshkflyer/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yshkflyer/subscriptions",
+      "organizations_url": "https://api.github.com/users/yshkflyer/orgs",
+      "repos_url": "https://api.github.com/users/yshkflyer/repos",
+      "events_url": "https://api.github.com/users/yshkflyer/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yshkflyer/received_events",
       "type": "User",
       "user_view_type": "public",
       "site_admin": false
@@ -828,7 +860,7 @@
     }
   },
   {
-    "total": 621,
+    "total": 632,
     "weeks": [
       {
         "w": 1477785600,
@@ -1242,6 +1274,12 @@
         "w": 1792281600,
         "a": 2155,
         "d": 420,
+        "c": 11
+      },
+      {
+        "w": 1795305600,
+        "a": 3678,
+        "d": 471,
         "c": 11
       }
     ],
